@@ -11,6 +11,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.TextArea?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.github.ursteiner.todofx.ToDoFxController">
     <padding>
@@ -20,18 +22,26 @@
     <HBox>
         <VBox maxWidth="250">
             <Label>Name</Label>
-            <TextField fx:id="taskNameInput"/>
-            <padding>
-                <Insets top="10.0"/>
-            </padding>
-            <Button text="Add task" onAction="#onAddTaskButtonClick"/>
-        </VBox>
-        <VBox minWidth="10">
+            <TextArea prefColumnCount="3" fx:id="taskNameInput"/>
 
+            <HBox>
+                <padding>
+                    <Insets top="10.0" bottom="10.0"/>
+                </padding>
+                <Button text="Add task" onAction="#onAddTaskButtonClick"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button text="Delete task" onAction="#onDeleteTaskButtonClick"/>
+            </HBox>
+            <Label fx:id="taskPreview" wrapText="true"/>
         </VBox>
+        <VBox minWidth="10"/>
         <VBox>
-            <TableView fx:id="tableView" minWidth="400">
+            <TableView fx:id="tableView" minWidth="400" onMouseClicked="#onTaskSelected">
                 <columns>
+                    <TableColumn text="Id" minWidth="50">
+                        <cellValueFactory><PropertyValueFactory property="idProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
                     <TableColumn text="Name" minWidth="250">
                         <cellValueFactory><PropertyValueFactory property="nameProperty" />
                         </cellValueFactory>

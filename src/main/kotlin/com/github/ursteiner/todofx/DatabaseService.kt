@@ -2,10 +2,12 @@ package com.github.ursteiner.todofx
 
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -25,29 +27,37 @@ class DatabaseService {
         val name: Column<String> = varchar("name", length = 500)
         val date: Column<String> = varchar("date", length = 500)
 
-        override val primaryKey = PrimaryKey(id, name = "PK_Task_ID") // name is optional here
+        override val primaryKey = PrimaryKey(id, name = "PK_Task_ID")
     }
 
     fun addTask(newTask: Task){
         transaction {
-            Tasks.insert {
+            addLogger(StdOutSqlLogger)
+            val taskId = Tasks.insert {
                 it[name] = newTask.getNameProperty()
                 it[date] = newTask.getDateProperty()
-            }
+            } get Tasks.id
+
+            newTask.setIdProperty(taskId)
         }
     }
 
     fun getTasks() : MutableList<Task> {
-
         val tasks = mutableListOf<Task>()
         transaction {
+            addLogger(StdOutSqlLogger)
             for(task in Tasks.selectAll()){
-                tasks.add(Task(task[Tasks.name], task[Tasks.date]))
+                //println("${task[Tasks.name]} ${task[Tasks.date]} ${task[Tasks.id]}")
+                tasks.add(Task(task[Tasks.name], task[Tasks.date], task[Tasks.id]))
             }
         }
 
         return tasks;
-
     }
 
+    fun deleteTask(taskId: Int){
+        transaction {
+            Tasks.deleteWhere { Tasks.id eq taskId }
+        }
+    }
 }
