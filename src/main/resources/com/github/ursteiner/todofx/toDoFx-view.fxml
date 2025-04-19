@@ -30,10 +30,14 @@
 
         </VBox>
         <VBox>
-            <TableView fx:id="tableView">
+            <TableView fx:id="tableView" minWidth="400">
                 <columns>
-                    <TableColumn text="Name">
-                        <cellValueFactory><PropertyValueFactory property="name" />
+                    <TableColumn text="Name" minWidth="250">
+                        <cellValueFactory><PropertyValueFactory property="nameProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Date" minWidth="100">
+                        <cellValueFactory><PropertyValueFactory property="dateProperty" />
                         </cellValueFactory>
                     </TableColumn>
                 </columns>
