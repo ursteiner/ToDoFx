@@ -63,6 +63,8 @@ class DatabaseServiceImplTest {
     @Test
     fun testUpdateTask() {
         val testTask = Task("Task1", "2025-04-20 10:00", 0)
+        testCandidate.addTask(testTask)
+
         testTask.setIsDoneProperty(true)
         val updatedTasks : Int = testCandidate.updateTask(testTask)
 
