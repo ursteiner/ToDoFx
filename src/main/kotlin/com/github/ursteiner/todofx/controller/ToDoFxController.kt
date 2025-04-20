@@ -2,6 +2,7 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.service.DatabaseServiceImpl
+import com.github.ursteiner.todofx.view.FxMessageDialog
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -25,9 +26,9 @@ class ToDoFxController : Initializable {
     @FXML
     private lateinit var tableView: TableView<Task>
 
-    private var DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    private val DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-    var databaseServiceImpl : DatabaseServiceImpl = DatabaseServiceImpl("~/tasks")
+    private val databaseServiceImpl : DatabaseServiceImpl = DatabaseServiceImpl("~/tasks")
 
     @FXML
     private fun onAddTaskButtonClick() {
@@ -40,10 +41,8 @@ class ToDoFxController : Initializable {
         }else {
             showDialogMessage("Task", "Please first fill in a name of the task!")
         }
+
         taskNameInput.text = ""
-
-        TableView.CONSTRAINED_RESIZE_POLICY
-
     }
 
     @FXML
@@ -56,7 +55,6 @@ class ToDoFxController : Initializable {
         }else {
             showDialogMessage("Task", "Please first select a task in the table!")
         }
-
     }
 
     @FXML
@@ -74,9 +72,6 @@ class ToDoFxController : Initializable {
     }
 
     fun showDialogMessage(title: String, content: String){
-        val alert = Alert(Alert.AlertType.INFORMATION)
-        alert.title = title
-        alert.contentText = content
-        alert.showAndWait()
+        FxMessageDialog.createMessageDialog(title, content);
     }
 }

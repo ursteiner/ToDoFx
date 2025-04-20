@@ -47,19 +47,8 @@ class DatabaseServiceImplTest {
         val testTask = Task("This is a Test Task", "2025-04-20 10:00", 0)
         testCandidate.addTask(testTask)
 
-        val databaseTasks = testCandidate.getTasks()
-        Assertions.assertEquals(1,
-            databaseTasks.size,
-            "There should be one task"
-        )
-
-        testCandidate.deleteTask(databaseTasks.get(0).getIdProperty())
-
-        val remainingDatabaseTasks = testCandidate.getTasks()
-        Assertions.assertEquals(0,
-            remainingDatabaseTasks.size,
-            "There should be no tasks"
-        )
+        val numberOfDeletedTasks = testCandidate.deleteTask(testTask.getIdProperty())
+        Assertions.assertEquals(1, numberOfDeletedTasks, "One task should have been deleted")
     }
 
     @Test

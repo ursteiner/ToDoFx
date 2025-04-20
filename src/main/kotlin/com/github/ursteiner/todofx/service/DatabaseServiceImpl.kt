@@ -55,9 +55,7 @@ class DatabaseServiceImpl : DatabaseService {
         return tasks;
     }
 
-    override fun deleteTask(taskId: Int){
-        transaction {
-            Tasks.deleteWhere { Tasks.id eq taskId }
-        }
+    override fun deleteTask(taskId: Int) : Int = transaction {
+        return@transaction Tasks.deleteWhere { Tasks.id eq taskId }
     }
 }
