@@ -1,12 +1,12 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.model.Task
+import com.github.ursteiner.todofx.service.DatabaseService
 import com.github.ursteiner.todofx.service.DatabaseServiceImpl
 import com.github.ursteiner.todofx.view.FxMessageDialog
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.Alert
 import javafx.scene.control.Label
 import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
@@ -28,7 +28,7 @@ class ToDoFxController : Initializable {
 
     private val DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-    private val databaseServiceImpl : DatabaseServiceImpl = DatabaseServiceImpl("~/tasks")
+    private val databaseService : DatabaseService = DatabaseServiceImpl("~/tasks")
 
     @FXML
     private fun onAddTaskButtonClick() {
@@ -37,7 +37,7 @@ class ToDoFxController : Initializable {
         if(taskNameInput.text.isNotEmpty()) {
             val newTask : Task = Task(taskNameInput.text, LocalDateTime.now().format(DATE_TIME_FORMAT), -1)
             data.add(newTask)
-            databaseServiceImpl.addTask(newTask)
+            databaseService.addTask(newTask)
         }else {
             showDialogMessage("Task", "Please first fill in a name of the task!")
         }
@@ -49,11 +49,23 @@ class ToDoFxController : Initializable {
     private fun onDeleteTaskButtonClick() {
         val selectedTask = tableView.selectionModel.selectedItem
         if(selectedTask != null) {
-            databaseServiceImpl.deleteTask(selectedTask.getIdProperty())
+            databaseService.deleteTask(selectedTask.getIdProperty())
             tableView.items.remove(selectedTask)
             taskPreview.text = ""
         }else {
-            showDialogMessage("Task", "Please first select a task in the table!")
+            showDialogMessageFirstSelectATask()
+        }
+    }
+
+    @FXML
+    private fun onCompletedTaskButtonClick(){
+        val selectedTask = tableView.selectionModel.selectedItem
+        if(selectedTask != null && !selectedTask.getIsDoneProperty()) {
+            selectedTask.setIsDoneProperty(true)
+            databaseService.updateTask(selectedTask)
+            tableView.refresh()
+        }else if(selectedTask == null) {
+            showDialogMessageFirstSelectATask()
         }
     }
 
@@ -66,9 +78,13 @@ class ToDoFxController : Initializable {
     }
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        for(task in databaseServiceImpl.getTasks()){
+        for(task in databaseService.getTasks()){
             tableView.items.add(task)
         }
+    }
+
+    fun showDialogMessageFirstSelectATask(){
+        showDialogMessage("Task", "Please first select a task in the table!")
     }
 
     fun showDialogMessage(title: String, content: String){

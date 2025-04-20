@@ -1,6 +1,7 @@
 package com.github.ursteiner.todofx
 
 import com.github.ursteiner.todofx.model.Task
+import com.github.ursteiner.todofx.service.DatabaseService
 import com.github.ursteiner.todofx.service.DatabaseServiceImpl
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 class DatabaseServiceImplTest {
 
-    val testCandidate: DatabaseServiceImpl = DatabaseServiceImpl("./testTasks")
+    val testCandidate: DatabaseService = DatabaseServiceImpl("./testTasks")
 
     @BeforeEach
     fun cleanupTestDatabase() {
@@ -57,5 +58,14 @@ class DatabaseServiceImplTest {
             testCandidate.getTasks().size,
             "There should be no tasks"
         )
+    }
+
+    @Test
+    fun testUpdateTask() {
+        val testTask = Task("Task1", "2025-04-20 10:00", 0)
+        testTask.setIsDoneProperty(true)
+        val updatedTasks : Int = testCandidate.updateTask(testTask)
+
+        Assertions.assertEquals(1, updatedTasks, "1 task should be updated")
     }
 }

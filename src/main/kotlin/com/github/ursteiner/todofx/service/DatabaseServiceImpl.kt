@@ -13,6 +13,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 
 class DatabaseServiceImpl : DatabaseService {
 
@@ -28,6 +29,7 @@ class DatabaseServiceImpl : DatabaseService {
         val id: Column<Int> = integer("id").autoIncrement()
         val name: Column<String> = varchar("name", length = 500)
         val date: Column<String> = varchar("date", length = 500)
+        var isDone : Column<Boolean> = bool("isDone")
 
         override val primaryKey = PrimaryKey(id, name = "PK_Task_ID")
     }
@@ -37,6 +39,7 @@ class DatabaseServiceImpl : DatabaseService {
         val taskId = Tasks.insert {
             it[name] = newTask.getNameProperty()
             it[date] = newTask.getDateProperty()
+            it[isDone] = newTask.getIsDoneProperty()
         } get Tasks.id
 
         newTask.setIdProperty(taskId)
@@ -48,8 +51,8 @@ class DatabaseServiceImpl : DatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             for (task in Tasks.selectAll()) {
-                //println("${task[Tasks.name]} ${task[Tasks.date]} ${task[Tasks.id]}")
-                tasks.add(Task(task[Tasks.name], task[Tasks.date], task[Tasks.id]))
+                println("${task[Tasks.name]} ${task[Tasks.date]} ${task[Tasks.id]} ${task[Tasks.isDone]}")
+                tasks.add(Task(task[Tasks.name], task[Tasks.date], task[Tasks.id], task[Tasks.isDone]))
             }
         }
         return tasks;
@@ -57,5 +60,14 @@ class DatabaseServiceImpl : DatabaseService {
 
     override fun deleteTask(taskId: Int) : Int = transaction {
         return@transaction Tasks.deleteWhere { Tasks.id eq taskId }
+    }
+
+    override fun updateTask(task: Task) : Int = transaction {
+        addLogger(StdOutSqlLogger)
+
+        Tasks.update({Tasks.id eq task.getIdProperty()}) {
+            it[isDone] = task.getIsDoneProperty()
+            it[name] = task.getNameProperty()
+        }
     }
 }

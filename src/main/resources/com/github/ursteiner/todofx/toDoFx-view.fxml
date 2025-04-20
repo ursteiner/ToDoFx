@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TableView?>
@@ -20,23 +19,18 @@
     </padding>
 
     <HBox>
-        <VBox maxWidth="250">
+        <VBox minWidth="200">
             <Label>Name</Label>
             <TextArea prefColumnCount="3" fx:id="taskNameInput"/>
-
-            <HBox>
-                <padding>
-                    <Insets top="10.0" bottom="10.0"/>
-                </padding>
-                <Button text="Add task" onAction="#onAddTaskButtonClick"/>
-                <Pane HBox.hgrow="ALWAYS" />
-                <Button text="Delete task" onAction="#onDeleteTaskButtonClick"/>
-            </HBox>
+            <padding>
+                <Insets top="10.0" bottom="10.0"/>
+            </padding>
+            <Button text="Add task" onAction="#onAddTaskButtonClick"/>
             <Label fx:id="taskPreview" wrapText="true"/>
         </VBox>
         <VBox minWidth="10"/>
         <VBox>
-            <TableView fx:id="tableView" minWidth="400" onMouseClicked="#onTaskSelected">
+            <TableView fx:id="tableView" minWidth="410" onMouseClicked="#onTaskSelected">
                 <columns>
                     <TableColumn text="Id" minWidth="50">
                         <cellValueFactory><PropertyValueFactory property="idProperty" />
@@ -50,8 +44,18 @@
                         <cellValueFactory><PropertyValueFactory property="dateProperty" />
                         </cellValueFactory>
                     </TableColumn>
+                    <TableColumn text="Done" minWidth="50">
+                        <cellValueFactory><PropertyValueFactory property="isDoneProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
                 </columns>
             </TableView>
+
+            <HBox>
+                <Button text="Complete task" onAction="#onCompletedTaskButtonClick"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button text="Delete task" onAction="#onDeleteTaskButtonClick"/>
+            </HBox>
         </VBox>
     </HBox>
 
