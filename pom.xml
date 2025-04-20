@@ -14,18 +14,20 @@
         <junit.version>5.10.2</junit.version>
         <kotlin.version>2.1.0</kotlin.version>
         <exposed.version>0.60.0</exposed.version>
+        <javafx.version>21.0.7</javafx.version>
+        <h2.version>2.2.220</h2.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
@@ -63,7 +65,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.197</version>
+            <version>${h2.version}</version>
         </dependency>
     </dependencies>
 

@@ -1,5 +1,7 @@
-package com.github.ursteiner.todofx
+package com.github.ursteiner.todofx.controller
 
+import com.github.ursteiner.todofx.model.Task
+import com.github.ursteiner.todofx.service.DatabaseServiceImpl
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -10,8 +12,7 @@ import javafx.scene.control.TextArea
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
-
+import java.util.ResourceBundle
 
 class ToDoFxController : Initializable {
 
@@ -26,7 +27,7 @@ class ToDoFxController : Initializable {
 
     private var DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-    var databaseService : DatabaseService = DatabaseService()
+    var databaseServiceImpl : DatabaseServiceImpl = DatabaseServiceImpl("~/tasks")
 
     @FXML
     private fun onAddTaskButtonClick() {
@@ -35,7 +36,7 @@ class ToDoFxController : Initializable {
         if(taskNameInput.text.isNotEmpty()) {
             val newTask : Task = Task(taskNameInput.text, LocalDateTime.now().format(DATE_TIME_FORMAT), -1)
             data.add(newTask)
-            databaseService.addTask(newTask)
+            databaseServiceImpl.addTask(newTask)
         }else {
             showDialogMessage("Task", "Please first fill in a name of the task!")
         }
@@ -49,7 +50,7 @@ class ToDoFxController : Initializable {
     private fun onDeleteTaskButtonClick() {
         val selectedTask = tableView.selectionModel.selectedItem
         if(selectedTask != null) {
-            databaseService.deleteTask(selectedTask.getIdProperty())
+            databaseServiceImpl.deleteTask(selectedTask.getIdProperty())
             tableView.items.remove(selectedTask)
             taskPreview.text = ""
         }else {
@@ -67,7 +68,7 @@ class ToDoFxController : Initializable {
     }
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        for(task in databaseService.getTasks()){
+        for(task in databaseServiceImpl.getTasks()){
             tableView.items.add(task)
         }
     }
