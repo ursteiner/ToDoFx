@@ -11,6 +11,7 @@ class ToDoFxApplication : Application() {
         val scene = Scene(fxmlLoader.load(), 700.0, 400.0)
         stage.title = "ToDoFX"
         stage.scene = scene
+        stage.resizableProperty().set(false)
         stage.show()
     }
 }

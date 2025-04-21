@@ -9,6 +9,7 @@ class Task {
     val date: SimpleStringProperty = SimpleStringProperty("")
     val id: SimpleIntegerProperty = SimpleIntegerProperty()
     val isDone: SimpleBooleanProperty = SimpleBooleanProperty(false)
+    val isDoneIcon: SimpleStringProperty = SimpleStringProperty("")
 
     constructor(name: String, date: String, id: Int, isDone: Boolean = false){
         setNameProperty(name)
@@ -47,5 +48,13 @@ class Task {
 
     fun getIsDoneProperty(): Boolean{
         return isDone.get()
+    }
+
+    fun setIsDoneIconProperty(isTaskDoneIcon: String){
+        isDoneIcon.set(isTaskDoneIcon)
+    }
+
+    fun getIsDoneIconProperty(): String{
+        return isDoneIcon.get()
     }
 }

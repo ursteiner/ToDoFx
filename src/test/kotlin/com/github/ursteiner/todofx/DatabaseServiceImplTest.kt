@@ -33,12 +33,12 @@ class DatabaseServiceImplTest {
         )
         Assertions.assertEquals(
             testTask.getNameProperty(),
-            databaseTasks.get(0).getNameProperty(),
+            databaseTasks[0].getNameProperty(),
             "Task description should be the same"
         )
         Assertions.assertEquals(
             testTask.getDateProperty(),
-            databaseTasks.get(0).getDateProperty(),
+            databaseTasks[0].getDateProperty(),
             "Task date should be the same"
         )
     }

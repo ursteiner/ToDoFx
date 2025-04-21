@@ -55,19 +55,29 @@ class DatabaseServiceImpl : DatabaseService {
                 tasks.add(Task(task[Tasks.name], task[Tasks.date], task[Tasks.id], task[Tasks.isDone]))
             }
         }
-        return tasks;
+        return tasks
     }
 
-    override fun deleteTask(taskId: Int) : Int = transaction {
-        return@transaction Tasks.deleteWhere { Tasks.id eq taskId }
-    }
+    override fun deleteTask(taskId: Int) : Int {
+        var deletedTasks = 0
 
-    override fun updateTask(task: Task) : Int = transaction {
-        addLogger(StdOutSqlLogger)
-
-        Tasks.update({Tasks.id eq task.getIdProperty()}) {
-            it[isDone] = task.getIsDoneProperty()
-            it[name] = task.getNameProperty()
+        transaction {
+            addLogger(StdOutSqlLogger)
+            deletedTasks = Tasks.deleteWhere { Tasks.id eq taskId }
         }
+        return deletedTasks
+    }
+
+    override fun updateTask(task: Task) : Int {
+        var updatedTasks = 0
+
+        transaction {
+            addLogger(StdOutSqlLogger)
+            updatedTasks = Tasks.update({ Tasks.id eq task.getIdProperty() }) {
+                it[isDone] = task.getIsDoneProperty()
+                it[name] = task.getNameProperty()
+            }
+        }
+        return updatedTasks
     }
 }

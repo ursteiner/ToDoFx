@@ -26,16 +26,15 @@ class ToDoFxController : Initializable {
     @FXML
     private lateinit var tableView: TableView<Task>
 
-    private val DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-
+    private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val databaseService : DatabaseService = DatabaseServiceImpl("~/tasks")
+    private val isDoneTextIcon = "✔"
 
     @FXML
     private fun onAddTaskButtonClick() {
-
         val data: ObservableList<Task> = tableView.getItems()
         if(taskNameInput.text.isNotEmpty()) {
-            val newTask : Task = Task(taskNameInput.text, LocalDateTime.now().format(DATE_TIME_FORMAT), -1)
+            val newTask : Task = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1)
             data.add(newTask)
             databaseService.addTask(newTask)
         }else {
@@ -62,6 +61,7 @@ class ToDoFxController : Initializable {
         val selectedTask = tableView.selectionModel.selectedItem
         if(selectedTask != null && !selectedTask.getIsDoneProperty()) {
             selectedTask.setIsDoneProperty(true)
+            selectedTask.setIsDoneIconProperty(isDoneTextIcon)
             databaseService.updateTask(selectedTask)
             tableView.refresh()
         }else if(selectedTask == null) {
@@ -80,6 +80,9 @@ class ToDoFxController : Initializable {
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         for(task in databaseService.getTasks()){
             tableView.items.add(task)
+            if(task.getIsDoneProperty()){
+                task.setIsDoneIconProperty(isDoneTextIcon)
+            }
         }
     }
 
@@ -88,6 +91,6 @@ class ToDoFxController : Initializable {
     }
 
     fun showDialogMessage(title: String, content: String){
-        FxMessageDialog.createMessageDialog(title, content);
+        FxMessageDialog.createMessageDialog(title, content)
     }
 }

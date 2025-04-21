@@ -19,18 +19,15 @@
     </padding>
 
     <HBox>
-        <VBox minWidth="200">
+        <VBox minWidth="200" maxWidth="200">
             <Label>Name</Label>
-            <TextArea prefColumnCount="3" fx:id="taskNameInput"/>
-            <padding>
-                <Insets top="10.0" bottom="10.0"/>
-            </padding>
+            <TextArea prefColumnCount="3" wrapText="true" fx:id="taskNameInput"/>
             <Button text="Add task" onAction="#onAddTaskButtonClick"/>
             <Label fx:id="taskPreview" wrapText="true"/>
         </VBox>
         <VBox minWidth="10"/>
         <VBox>
-            <TableView fx:id="tableView" minWidth="410" onMouseClicked="#onTaskSelected">
+            <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
                 <columns>
                     <TableColumn text="Id" minWidth="50">
                         <cellValueFactory><PropertyValueFactory property="idProperty" />
@@ -44,8 +41,8 @@
                         <cellValueFactory><PropertyValueFactory property="dateProperty" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Done" minWidth="50">
-                        <cellValueFactory><PropertyValueFactory property="isDoneProperty" />
+                    <TableColumn text="Done" minWidth="50" style="-fx-alignment:center;">
+                        <cellValueFactory><PropertyValueFactory property="isDoneIconProperty" />
                         </cellValueFactory>
                     </TableColumn>
                 </columns>
@@ -58,6 +55,4 @@
             </HBox>
         </VBox>
     </HBox>
-
-
 </VBox>
