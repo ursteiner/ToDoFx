@@ -4,9 +4,11 @@ import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.service.DatabaseService
 import com.github.ursteiner.todofx.service.DatabaseServiceImpl
 import com.github.ursteiner.todofx.view.FxMessageDialog
+import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.CheckBox
 import javafx.scene.control.Label
 import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
@@ -26,64 +28,92 @@ class ToDoFxController : Initializable {
     @FXML
     private lateinit var tableView: TableView<Task>
 
+    @FXML
+    private lateinit var hideDoneTasksCheckBox: CheckBox
+
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val databaseService : DatabaseService = DatabaseServiceImpl("~/tasks")
     private val isDoneTextIcon = "✔"
+    private val tasks = mutableListOf<Task>()
 
-    @FXML
-    private fun onAddTaskButtonClick() {
-        val data: ObservableList<Task> = tableView.getItems()
-        if(taskNameInput.text.isNotEmpty()) {
-            val newTask : Task = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1)
-            data.add(newTask)
-            databaseService.addTask(newTask)
-        }else {
-            showDialogMessage("Task", "Please first fill in a name of the task!")
+    override fun initialize(p0: URL?, p1: ResourceBundle?){
+        for(task in databaseService.getTasks()){
+            tasks.add(task)
+            if(task.getIsDoneProperty()){
+                task.setIsDoneIconProperty(isDoneTextIcon)
+            }
         }
 
+        onHideDoneTaskCheckBoxChanged()
+    }
+
+    @FXML
+    private fun onAddTaskButtonClick(){
+        if(taskNameInput.text.isEmpty()){
+            showDialogMessage("Task", "Please first fill in a name of the task!")
+            return
+        }
+
+        val newTask = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1)
+        tasks.add(newTask)
+        databaseService.addTask(newTask)
+        onHideDoneTaskCheckBoxChanged()
         taskNameInput.text = ""
     }
 
     @FXML
-    private fun onDeleteTaskButtonClick() {
+    private fun onDeleteTaskButtonClick(){
         val selectedTask = tableView.selectionModel.selectedItem
-        if(selectedTask != null) {
-            databaseService.deleteTask(selectedTask.getIdProperty())
-            tableView.items.remove(selectedTask)
-            taskPreview.text = ""
-        }else {
+        if(selectedTask == null){
             showDialogMessageFirstSelectATask()
+            return
         }
+
+        databaseService.deleteTask(selectedTask.getIdProperty())
+        tasks.remove(selectedTask)
+        onHideDoneTaskCheckBoxChanged()
+        taskPreview.text = ""
     }
 
     @FXML
     private fun onCompletedTaskButtonClick(){
         val selectedTask = tableView.selectionModel.selectedItem
-        if(selectedTask != null && !selectedTask.getIsDoneProperty()) {
-            selectedTask.setIsDoneProperty(true)
-            selectedTask.setIsDoneIconProperty(isDoneTextIcon)
-            databaseService.updateTask(selectedTask)
-            tableView.refresh()
-        }else if(selectedTask == null) {
+        if(selectedTask == null) {
             showDialogMessageFirstSelectATask()
+            return
+        }
+
+        selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
+        setTaskDoneIcon(selectedTask)
+        databaseService.updateTask(selectedTask)
+
+        onHideDoneTaskCheckBoxChanged()
+    }
+
+    private fun setTaskDoneIcon(task: Task){
+        if(task.getIsDoneProperty()){
+            task.setIsDoneIconProperty(isDoneTextIcon)
+        }else{
+            task.setIsDoneIconProperty("")
         }
     }
 
     @FXML
-    private fun onTaskSelected() {
+    private fun onTaskSelected(){
         val selectedTask = tableView.selectionModel.selectedItem
         if(selectedTask != null) {
             taskPreview.text = selectedTask.getNameProperty()
         }
     }
 
-    override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        for(task in databaseService.getTasks()){
-            tableView.items.add(task)
-            if(task.getIsDoneProperty()){
-                task.setIsDoneIconProperty(isDoneTextIcon)
-            }
+    @FXML
+    private fun onHideDoneTaskCheckBoxChanged(){
+        if(hideDoneTasksCheckBox.isSelected){
+            tableView.items = FXCollections.observableList(tasks.filter { !it.getIsDoneProperty() })
+        }else{
+            tableView.items = FXCollections.observableList(tasks)
         }
+        tableView.refresh()
     }
 
     fun showDialogMessageFirstSelectATask(){

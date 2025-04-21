@@ -11,7 +11,7 @@ class Task {
     val isDone: SimpleBooleanProperty = SimpleBooleanProperty(false)
     val isDoneIcon: SimpleStringProperty = SimpleStringProperty("")
 
-    constructor(name: String, date: String, id: Int, isDone: Boolean = false){
+    constructor(name: String, date: String, id: Int = 0, isDone: Boolean = false){
         setNameProperty(name)
         setDateProperty(date)
         setIdProperty(id)
