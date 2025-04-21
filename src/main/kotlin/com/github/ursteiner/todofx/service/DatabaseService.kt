@@ -7,5 +7,5 @@ interface DatabaseService {
     fun addTask(newTask: Task)
     fun getTasks() : MutableList<Task>
     fun deleteTask(taskId: Int) : Int
-    fun updateTask(task: Task) : Int
+    fun updateTask(task: Task, newName:String) : Int
 }
