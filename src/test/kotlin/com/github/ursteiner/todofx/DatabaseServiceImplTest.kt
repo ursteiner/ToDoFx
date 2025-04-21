@@ -52,14 +52,25 @@ class DatabaseServiceImplTest {
         testCandidate.addTask(testTask2)
 
         val numberOfDeletedTasks = testCandidate.deleteTask(testTask1.getIdProperty())
-        Assertions.assertEquals(1, numberOfDeletedTasks, "One task should have been deleted")
+        Assertions.assertEquals(1,
+            numberOfDeletedTasks,
+            "One task should have been deleted"
+        )
+    }
+
+    @Test
+    fun testDeleteNoneExistingTask(){
+        val tasksDeleted = testCandidate.deleteTask(-1)
+        Assertions.assertEquals(0,
+            tasksDeleted,
+            "There shouldn't be a task with id -1 to delete")
     }
 
     @Test
     fun testGetTasksNoneAvailable() {
         Assertions.assertEquals(0,
             testCandidate.getTasks().size,
-            "There should be no tasks"
+            "There should be no tasks in the test database"
         )
     }
 
@@ -74,6 +85,9 @@ class DatabaseServiceImplTest {
         testTask.setIsDoneProperty(true)
         val updatedTasks : Int = testCandidate.updateTask(testTask2)
 
-        Assertions.assertEquals(1, updatedTasks, "1 task should be updated")
+        Assertions.assertEquals(1,
+            updatedTasks,
+            "1 task should be updated"
+        )
     }
 }

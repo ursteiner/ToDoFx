@@ -3,7 +3,6 @@ package com.github.ursteiner.todofx.service
 import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Database
-
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.StdOutSqlLogger
@@ -51,7 +50,7 @@ class DatabaseServiceImpl : DatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             for (task in Tasks.selectAll()) {
-                println("${task[Tasks.name]} ${task[Tasks.date]} ${task[Tasks.id]} ${task[Tasks.isDone]}")
+                //println("${task[Tasks.name]} ${task[Tasks.date]} ${task[Tasks.id]} ${task[Tasks.isDone]}")
                 tasks.add(Task(task[Tasks.name], task[Tasks.date], task[Tasks.id], task[Tasks.isDone]))
             }
         }

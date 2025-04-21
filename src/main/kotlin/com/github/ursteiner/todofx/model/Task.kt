@@ -5,11 +5,11 @@ import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 
 class Task {
-    val name: SimpleStringProperty = SimpleStringProperty("")
-    val date: SimpleStringProperty = SimpleStringProperty("")
-    val id: SimpleIntegerProperty = SimpleIntegerProperty()
-    val isDone: SimpleBooleanProperty = SimpleBooleanProperty(false)
-    val isDoneIcon: SimpleStringProperty = SimpleStringProperty("")
+    private val name: SimpleStringProperty = SimpleStringProperty("")
+    private val date: SimpleStringProperty = SimpleStringProperty("")
+    private val id: SimpleIntegerProperty = SimpleIntegerProperty()
+    private val isDone: SimpleBooleanProperty = SimpleBooleanProperty(false)
+    private val isDoneIcon: SimpleStringProperty = SimpleStringProperty("")
 
     constructor(name: String, date: String, id: Int = 0, isDone: Boolean = false){
         setNameProperty(name)
