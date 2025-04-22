@@ -84,7 +84,7 @@ class ToDoFxController : Initializable {
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
         setTaskDoneIcon(selectedTask)
-        databaseService.updateTask(selectedTask, selectedTask.getNameProperty())
+        databaseService.updateTask(selectedTask)
 
         onHideDoneTaskCheckBoxChanged()
     }
@@ -95,15 +95,9 @@ class ToDoFxController : Initializable {
             showDialogMessageFirstSelectATask()
             return
         }
-        System.out.println(selectedTask.getIdProperty());
-        System.out.println(taskUpdateArea.text);
-        databaseService.updateTask(selectedTask, taskUpdateArea.text);
-        refreshTableView();
-    }
-    @FXML
-    private fun refreshTableView() {
-        val updatedTaskList = databaseService.getTasks();
-        tableView.items.setAll(updatedTaskList);
+        selectedTask.setNameProperty(taskUpdateArea.text)
+        databaseService.updateTask(selectedTask)
+        onHideDoneTaskCheckBoxChanged()
     }
 
     private fun setTaskDoneIcon(task: Task){
@@ -119,9 +113,9 @@ class ToDoFxController : Initializable {
         val selectedTask = tableView.selectionModel.selectedItem
         if(selectedTask != null) {
             taskUpdateArea.text = selectedTask.getNameProperty()
-            taskUpdateArea.isVisible = true;
+            taskUpdateArea.isVisible = true
             taskUpdateArea.isManaged = true
-            updateTaskButton.isVisible = true;
+            updateTaskButton.isVisible = true
             updateTaskButton.isManaged = true
         }
     }
