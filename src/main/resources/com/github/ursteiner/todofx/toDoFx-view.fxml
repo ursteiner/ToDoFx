@@ -18,10 +18,12 @@
     </padding>
     <HBox>
         <VBox minWidth="200" maxWidth="200">
-            <Label>Description</Label>
-            <TextArea prefColumnCount="3" wrapText="true" fx:id="taskNameInput"/>
+            <Label>New task description:</Label>
+            <TextArea fx:id="taskNameInput" wrapText="true" />
             <Button text="Add task" onAction="#onAddTaskButtonClick"/>
-            <TextArea fx:id="taskUpdateArea" maxHeight="100" wrapText="true" visible="false" managed="false"/>
+            <VBox VBox.vgrow="ALWAYS"/>
+            <Label fx:id="editTaskLabel" visible="false">Edit task description:</Label>
+            <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false" managed="false"/>
             <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false" managed="false"/>
         </VBox>
         <VBox minWidth="10"/>
@@ -32,7 +34,7 @@
                         <cellValueFactory><PropertyValueFactory property="idProperty" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Description" minWidth="250">
+                    <TableColumn text="Description" minWidth="230">
                         <cellValueFactory><PropertyValueFactory property="nameProperty" />
                         </cellValueFactory>
                     </TableColumn>

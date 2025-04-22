@@ -30,6 +30,9 @@ class ToDoFxController : Initializable {
     @FXML
     private lateinit var updateTaskButton: Button
 
+    @FXML
+    private lateinit var editTaskLabel: Label
+
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val databaseService : DatabaseService = DatabaseServiceImpl("~/tasks")
     private val isDoneTextIcon = "✔"
@@ -117,6 +120,7 @@ class ToDoFxController : Initializable {
         taskUpdateArea.isManaged = isVisible
         updateTaskButton.isVisible = isVisible
         updateTaskButton.isManaged = isVisible
+        editTaskLabel.isVisible = isVisible
     }
 
     @FXML
