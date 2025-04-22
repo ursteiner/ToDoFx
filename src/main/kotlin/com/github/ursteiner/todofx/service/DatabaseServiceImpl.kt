@@ -74,7 +74,7 @@ class DatabaseServiceImpl : DatabaseService {
             addLogger(StdOutSqlLogger)
             updatedTasks = Tasks.update({ Tasks.id eq task.getIdProperty() }) {
                 it[isDone] = task.getIsDoneProperty()
-                it[name] = task.getNameProperty();
+                it[name] = task.getNameProperty()
             }
         }
         return updatedTasks
