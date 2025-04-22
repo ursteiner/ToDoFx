@@ -95,8 +95,12 @@ class ToDoFxController : Initializable {
             showDialogMessageFirstSelectATask()
             return
         }
-        selectedTask.setNameProperty(taskUpdateArea.text)
-        databaseService.updateTask(selectedTask)
+        if(selectedTask.getNameProperty() != taskUpdateArea.text){
+            selectedTask.setNameProperty(taskUpdateArea.text)
+            databaseService.updateTask(selectedTask)
+        }
+
+        setVisibilityUpdateTask(false)
         onHideDoneTaskCheckBoxChanged()
     }
 
@@ -108,15 +112,19 @@ class ToDoFxController : Initializable {
         }
     }
 
+    private fun setVisibilityUpdateTask(isVisible: Boolean){
+        taskUpdateArea.isVisible = isVisible
+        taskUpdateArea.isManaged = isVisible
+        updateTaskButton.isVisible = isVisible
+        updateTaskButton.isManaged = isVisible
+    }
+
     @FXML
     private fun onTaskSelected(){
         val selectedTask = tableView.selectionModel.selectedItem
         if(selectedTask != null) {
             taskUpdateArea.text = selectedTask.getNameProperty()
-            taskUpdateArea.isVisible = true
-            taskUpdateArea.isManaged = true
-            updateTaskButton.isVisible = true
-            updateTaskButton.isManaged = true
+            setVisibilityUpdateTask(true)
         }
     }
 
