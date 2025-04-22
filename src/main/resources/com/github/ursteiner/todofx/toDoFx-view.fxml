@@ -23,8 +23,8 @@
             <Button text="Add task" onAction="#onAddTaskButtonClick"/>
             <VBox VBox.vgrow="ALWAYS"/>
             <Label fx:id="editTaskLabel" visible="false">Edit task description:</Label>
-            <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false" managed="false"/>
-            <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false" managed="false"/>
+            <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false"/>
+            <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false"/>
         </VBox>
         <VBox minWidth="10"/>
         <VBox>

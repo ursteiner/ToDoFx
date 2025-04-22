@@ -117,9 +117,7 @@ class ToDoFxController : Initializable {
 
     private fun setVisibilityUpdateTask(isVisible: Boolean){
         taskUpdateArea.isVisible = isVisible
-        taskUpdateArea.isManaged = isVisible
         updateTaskButton.isVisible = isVisible
-        updateTaskButton.isManaged = isVisible
         editTaskLabel.isVisible = isVisible
     }
 
