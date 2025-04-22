@@ -67,14 +67,14 @@ class DatabaseServiceImpl : DatabaseService {
         return deletedTasks
     }
 
-    override fun updateTask(task: Task) : Int {
+    override fun updateTask(task: Task, newName:String) : Int {
         var updatedTasks = 0
 
         transaction {
             addLogger(StdOutSqlLogger)
             updatedTasks = Tasks.update({ Tasks.id eq task.getIdProperty() }) {
                 it[isDone] = task.getIsDoneProperty()
-                it[name] = task.getNameProperty()
+                it[name] = newName;
             }
         }
         return updatedTasks

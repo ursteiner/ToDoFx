@@ -21,7 +21,8 @@
             <Label>Description</Label>
             <TextArea prefColumnCount="3" wrapText="true" fx:id="taskNameInput"/>
             <Button text="Add task" onAction="#onAddTaskButtonClick"/>
-            <Label fx:id="taskPreview" wrapText="true"/>
+            <TextArea fx:id="taskUpdateArea" maxHeight="100" wrapText="true" visible="false" managed="false"/>
+            <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false" managed="false"/>
         </VBox>
         <VBox minWidth="10"/>
         <VBox>

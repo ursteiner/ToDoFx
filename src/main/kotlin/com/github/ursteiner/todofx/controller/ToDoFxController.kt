@@ -7,10 +7,7 @@ import com.github.ursteiner.todofx.view.FxMessageDialog
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.CheckBox
-import javafx.scene.control.Label
-import javafx.scene.control.TableView
-import javafx.scene.control.TextArea
+import javafx.scene.control.*
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,13 +19,16 @@ class ToDoFxController : Initializable {
     private lateinit var taskNameInput: TextArea
 
     @FXML
-    private lateinit var taskPreview: Label
+    private lateinit var taskUpdateArea: TextArea
 
     @FXML
     private lateinit var tableView: TableView<Task>
 
     @FXML
     private lateinit var hideDoneTasksCheckBox: CheckBox
+
+    @FXML
+    private lateinit var updateTaskButton: Button
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val databaseService : DatabaseService = DatabaseServiceImpl("~/tasks")
@@ -71,7 +71,7 @@ class ToDoFxController : Initializable {
         databaseService.deleteTask(selectedTask.getIdProperty())
         tasks.remove(selectedTask)
         onHideDoneTaskCheckBoxChanged()
-        taskPreview.text = ""
+        taskUpdateArea.text = ""
     }
 
     @FXML
@@ -84,9 +84,26 @@ class ToDoFxController : Initializable {
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
         setTaskDoneIcon(selectedTask)
-        databaseService.updateTask(selectedTask)
+        databaseService.updateTask(selectedTask, selectedTask.getNameProperty())
 
         onHideDoneTaskCheckBoxChanged()
+    }
+    @FXML
+    private fun onUpdateTaskButtonClick(){
+        val selectedTask = tableView.selectionModel.selectedItem
+        if(selectedTask == null) {
+            showDialogMessageFirstSelectATask()
+            return
+        }
+        System.out.println(selectedTask.getIdProperty());
+        System.out.println(taskUpdateArea.text);
+        databaseService.updateTask(selectedTask, taskUpdateArea.text);
+        refreshTableView();
+    }
+    @FXML
+    private fun refreshTableView() {
+        val updatedTaskList = databaseService.getTasks();
+        tableView.items.setAll(updatedTaskList);
     }
 
     private fun setTaskDoneIcon(task: Task){
@@ -101,7 +118,11 @@ class ToDoFxController : Initializable {
     private fun onTaskSelected(){
         val selectedTask = tableView.selectionModel.selectedItem
         if(selectedTask != null) {
-            taskPreview.text = selectedTask.getNameProperty()
+            taskUpdateArea.text = selectedTask.getNameProperty()
+            taskUpdateArea.isVisible = true;
+            taskUpdateArea.isManaged = true
+            updateTaskButton.isVisible = true;
+            updateTaskButton.isManaged = true
         }
     }
 
