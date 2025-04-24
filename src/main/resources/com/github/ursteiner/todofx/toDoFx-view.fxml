@@ -50,7 +50,7 @@
             </TableView>
 
             <HBox alignment="CENTER">
-                <Button text="Un/Done task" onAction="#onCompletedTaskButtonClick"/>
+                <Button text="Un/resolve task" onAction="#onCompletedTaskButtonClick"/>
                 <Pane HBox.hgrow="ALWAYS" />
                 <CheckBox selected="true" text="hide done tasks" onAction="#onHideDoneTaskCheckBoxChanged" fx:id="hideDoneTasksCheckBox"/>
                 <Pane HBox.hgrow="ALWAYS" />
