@@ -90,4 +90,20 @@ class DatabaseServiceImplTest {
             "1 task should be updated"
         )
     }
+
+    @Test
+    fun testGetAmountOfTasks() {
+        val testTask1 = Task("Task1", "2025-04-20 10:00", 0, false)
+        testCandidate.addTask(testTask1)
+
+        val testTask2 = Task("This is second Test Task", "2025-04-21 10:00", 0, true)
+        testCandidate.addTask(testTask2)
+
+        val amountOfResolvedTasks : Long = testCandidate.getAmountOfResolvedTasks()
+
+        Assertions.assertEquals(1,
+            amountOfResolvedTasks,
+            "1 task should be resolved"
+        )
+    }
 }

@@ -79,4 +79,21 @@ class DatabaseServiceImpl : DatabaseService {
         }
         return updatedTasks
     }
+
+    override fun getAmountOfResolvedTasks(): Long {
+        return getAmountOfTasks(true)
+    }
+
+    override fun getAmountOfOpenTasks(): Long {
+        return getAmountOfTasks(false)
+    }
+
+    private fun getAmountOfTasks(resolved: Boolean): Long {
+        var amoundOfTasks: Long = 0;
+        transaction {
+            addLogger(StdOutSqlLogger)
+            amoundOfTasks = Tasks.selectAll().where { Tasks.isDone eq resolved }.count()
+        }
+        return amoundOfTasks
+    }
 }

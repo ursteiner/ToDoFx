@@ -8,4 +8,6 @@ interface DatabaseService {
     fun getTasks() : MutableList<Task>
     fun deleteTask(taskId: Int) : Int
     fun updateTask(task: Task) : Int
+    fun getAmountOfResolvedTasks() : Long
+    fun getAmountOfOpenTasks() : Long
 }

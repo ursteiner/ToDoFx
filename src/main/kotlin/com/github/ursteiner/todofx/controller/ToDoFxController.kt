@@ -124,8 +124,8 @@ class ToDoFxController : Initializable {
 
     private fun buildPieChart(){
         val pieChartData = FXCollections.observableArrayList(
-            PieChart.Data("Open tasks", tasks.filter { !it.getIsDoneProperty() }.size.toDouble()),
-            PieChart.Data("Resolved tasks", tasks.filter { it.getIsDoneProperty() }.size.toDouble())
+            PieChart.Data("Open tasks", databaseService.getAmountOfOpenTasks().toDouble()),
+            PieChart.Data("Resolved tasks", databaseService.getAmountOfResolvedTasks().toDouble())
         )
         pieChart.data = pieChartData
         pieChart.data.forEach {
