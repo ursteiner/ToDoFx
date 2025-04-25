@@ -7,6 +7,7 @@ import com.github.ursteiner.todofx.view.FxMessageDialog
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.chart.PieChart
 import javafx.scene.control.*
 import java.net.URL
 import java.time.LocalDateTime
@@ -32,6 +33,12 @@ class ToDoFxController : Initializable {
 
     @FXML
     private lateinit var editTaskLabel: Label
+
+    @FXML
+    private lateinit var tabs : TabPane
+
+    @FXML
+    private lateinit var pieChart: PieChart
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val databaseService : DatabaseService = DatabaseServiceImpl("~/tasks")
@@ -105,6 +112,26 @@ class ToDoFxController : Initializable {
 
         setVisibilityUpdateTask(false)
         onHideDoneTaskCheckBoxChanged()
+    }
+
+    @FXML
+    private fun onTabClicked(){
+        //Tab1 = Statistics
+        if(tabs.selectionModel.isSelected(1)){
+            buildPieChart()
+        }
+    }
+
+    private fun buildPieChart(){
+        val pieChartData = FXCollections.observableArrayList(
+            PieChart.Data("Open tasks", tasks.filter { !it.getIsDoneProperty() }.size.toDouble()),
+            PieChart.Data("Resolved tasks", tasks.filter { it.getIsDoneProperty() }.size.toDouble())
+        )
+        pieChart.data = pieChartData
+        pieChart.data.forEach {
+            val tooltip = Tooltip(it.name + ": " + String.format("%.0f", it.pieValue))
+            Tooltip.install(it.node, tooltip)
+        }
     }
 
     private fun setTaskDoneIcon(task: Task){

@@ -11,51 +11,68 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.chart.PieChart?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.github.ursteiner.todofx.controller.ToDoFxController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-    <HBox>
-        <VBox minWidth="200" maxWidth="200">
-            <Label>New task description:</Label>
-            <TextArea fx:id="taskNameInput" wrapText="true" />
-            <Button text="Add task" onAction="#onAddTaskButtonClick"/>
-            <VBox VBox.vgrow="ALWAYS"/>
-            <Label fx:id="editTaskLabel" visible="false">Edit task description:</Label>
-            <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false"/>
-            <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false"/>
-        </VBox>
-        <VBox minWidth="10"/>
-        <VBox>
-            <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
-                <columns>
-                    <TableColumn text="Id" minWidth="50">
-                        <cellValueFactory><PropertyValueFactory property="idProperty" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Description" minWidth="230">
-                        <cellValueFactory><PropertyValueFactory property="nameProperty" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Date" minWidth="100">
-                        <cellValueFactory><PropertyValueFactory property="dateProperty" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Done" minWidth="50" style="-fx-alignment:center;">
-                        <cellValueFactory><PropertyValueFactory property="isDoneIconProperty" />
-                        </cellValueFactory>
-                    </TableColumn>
-                </columns>
-            </TableView>
 
-            <HBox alignment="CENTER">
-                <Button text="Un/resolve task" onAction="#onCompletedTaskButtonClick"/>
-                <Pane HBox.hgrow="ALWAYS" />
-                <CheckBox selected="true" text="hide done tasks" onAction="#onHideDoneTaskCheckBoxChanged" fx:id="hideDoneTasksCheckBox"/>
-                <Pane HBox.hgrow="ALWAYS" />
-                <Button text="Delete task" onAction="#onDeleteTaskButtonClick"/>
+    <TabPane fx:id="tabs" onMouseClicked="#onTabClicked">
+        <Tab text="Tasks">
+            <HBox>
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+                <VBox minWidth="200" maxWidth="200">
+                    <Label>New task description:</Label>
+                    <TextArea fx:id="taskNameInput" wrapText="true" />
+                    <Button text="Add task" onAction="#onAddTaskButtonClick"/>
+                    <VBox VBox.vgrow="ALWAYS"/>
+                    <Label fx:id="editTaskLabel" visible="false">Edit task description:</Label>
+                    <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false"/>
+                    <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false"/>
+                </VBox>
+                <VBox minWidth="10"/>
+                <VBox>
+                    <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
+                        <columns>
+                            <TableColumn text="Id" minWidth="50">
+                                <cellValueFactory><PropertyValueFactory property="idProperty" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Description" minWidth="230">
+                                <cellValueFactory><PropertyValueFactory property="nameProperty" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Date" minWidth="100">
+                                <cellValueFactory><PropertyValueFactory property="dateProperty" />
+                                </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Done" minWidth="50" style="-fx-alignment:center;">
+                                <cellValueFactory><PropertyValueFactory property="isDoneIconProperty" />
+                                </cellValueFactory>
+                            </TableColumn>
+                        </columns>
+                    </TableView>
+
+                    <HBox alignment="CENTER">
+                        <Button text="Un/resolve task" onAction="#onCompletedTaskButtonClick"/>
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <CheckBox selected="true" text="hide done tasks" onAction="#onHideDoneTaskCheckBoxChanged" fx:id="hideDoneTasksCheckBox"/>
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Button text="Delete task" onAction="#onDeleteTaskButtonClick"/>
+                    </HBox>
+                </VBox>
             </HBox>
-        </VBox>
-    </HBox>
+        </Tab>
+        <Tab text="Statistic">
+            <HBox alignment="CENTER">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+                <PieChart fx:id="pieChart" title="Statistic"/>
+            </HBox>
+        </Tab>
+    </TabPane>
+
 </VBox>
