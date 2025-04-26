@@ -7,6 +7,7 @@ import com.github.ursteiner.todofx.view.FxMessageDialog
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.Node
 import javafx.scene.chart.PieChart
 import javafx.scene.control.*
 import java.net.URL
@@ -78,10 +79,21 @@ class ToDoFxController : Initializable {
             return
         }
 
-        databaseService.deleteTask(selectedTask.getIdProperty())
-        tasks.remove(selectedTask)
-        onHideDoneTaskCheckBoxChanged()
-        taskUpdateArea.text = ""
+        val dialogResult = FxMessageDialog.createMessageDialog(
+            "Confirm deleting task",
+            """
+                #Do you want to delete task:
+                #'${selectedTask.getNameProperty()}'?
+                """.trimMargin("#"),
+            Alert.AlertType.CONFIRMATION
+        )
+
+        if(dialogResult.isPresent && dialogResult.get() == ButtonType.OK) {
+            databaseService.deleteTask(selectedTask.getIdProperty())
+            tasks.remove(selectedTask)
+            onHideDoneTaskCheckBoxChanged()
+            taskUpdateArea.text = ""
+        }
     }
 
     @FXML
@@ -98,6 +110,7 @@ class ToDoFxController : Initializable {
 
         onHideDoneTaskCheckBoxChanged()
     }
+
     @FXML
     private fun onUpdateTaskButtonClick(){
         val selectedTask = tableView.selectionModel.selectedItem
@@ -129,9 +142,13 @@ class ToDoFxController : Initializable {
         )
         pieChart.data = pieChartData
         pieChart.data.forEach {
-            val tooltip = Tooltip(it.name + ": " + String.format("%.0f", it.pieValue))
-            Tooltip.install(it.node, tooltip)
+            addToolTipToNode(it.node, it.name + ": " + String.format("%.0f", it.pieValue))
         }
+    }
+
+    private fun addToolTipToNode(node: Node, tooltipText: String){
+        val tooltip = Tooltip(tooltipText)
+        Tooltip.install(node, tooltip)
     }
 
     private fun setTaskDoneIcon(task: Task){
