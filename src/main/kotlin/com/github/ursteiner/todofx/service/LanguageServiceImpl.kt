@@ -15,7 +15,7 @@ class LanguageServiceImpl : LanguageService {
 
     constructor(language: AvailableLanguages){
         currentLanguage = language
-        val translationFileContent = object {}.javaClass.getResourceAsStream("${language.language.lowercase(getDefault())}.json")?.bufferedReader()?.readText() ?: ""
+        val translationFileContent = object {}.javaClass.getResourceAsStream("${language.language}.json")?.bufferedReader()?.readText() ?: ""
         translations = Json.decodeFromString(translationFileContent)
     }
 
