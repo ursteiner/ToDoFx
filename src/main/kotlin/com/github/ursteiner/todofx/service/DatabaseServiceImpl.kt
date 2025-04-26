@@ -57,7 +57,7 @@ class DatabaseServiceImpl : DatabaseService {
         return tasks
     }
 
-    override fun deleteTask(taskId: Int) : Int {
+    override fun deleteTask(taskId: Int): Int {
         var deletedTasks = 0
 
         transaction {
@@ -67,7 +67,7 @@ class DatabaseServiceImpl : DatabaseService {
         return deletedTasks
     }
 
-    override fun updateTask(task: Task) : Int {
+    override fun updateTask(task: Task): Int {
         var updatedTasks = 0
 
         transaction {

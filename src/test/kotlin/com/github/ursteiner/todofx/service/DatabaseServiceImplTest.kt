@@ -1,8 +1,6 @@
-package com.github.ursteiner.todofx
+package com.github.ursteiner.todofx.service
 
 import com.github.ursteiner.todofx.model.Task
-import com.github.ursteiner.todofx.service.DatabaseService
-import com.github.ursteiner.todofx.service.DatabaseServiceImpl
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 

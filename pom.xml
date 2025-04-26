@@ -20,6 +20,7 @@
         <shade.version>3.6.0</shade.version>
         <mavenCompilerPlugin.version>3.13.0</mavenCompilerPlugin.version>
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
+        <kotlinxJson.version>1.8.1</kotlinxJson.version>
     </properties>
 
     <dependencies>
@@ -65,6 +66,17 @@
             <groupId>org.jetbrains.exposed</groupId>
             <artifactId>exposed-jdbc</artifactId>
             <version>${exposed.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-serialization-json-jvm</artifactId>
+            <version>${kotlinxJson.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-serialization</artifactId>
+            <version>2.1.10</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -130,6 +142,9 @@
                 </executions>
                 <configuration>
                     <jvmTarget>11</jvmTarget>
+                    <compilerPlugins>
+                        <plugin>kotlinx-serialization</plugin>
+                    </compilerPlugins>
                 </configuration>
             </plugin>
             <plugin>

@@ -1,0 +1,21 @@
+{
+  "FIRST_SELECT_TASK_IN_TABLE": "Bitte zuerst einen Task in der Tabelle auswählen!",
+  "HIDE_DONE_TASKS": "erledigte Tasks ausblenden",
+  "UPDATE_TASK": "Task aktualisieren",
+  "EDIT_TASK_DESCRIPTION": "Task bearbeiten:",
+  "STATISTIC": "Statistik",
+  "ADD_TASK": "Task hinzufügen",
+  "RESOLVE_TASK": "Task nicht/erledigen",
+  "DELETE_TASK": "Task löschen",
+  "ID": "Id",
+  "DESCRIPTION": "Beschreibung",
+  "DATE": "Datum",
+  "DONE": "Erledigt",
+  "OPEN_TASKS": "Offene Tasks",
+  "RESOLVED_TASKS": "Erledigte Tasks",
+  "CONFIRM_DELETING_TASK": "Löschen des Tasks bestätigen",
+  "DO_YOU_WANT_TO_DELETE_THE_TASK": "Möchten Sie den Task löschen:",
+  "FIRST_FILL_IN_A_DESCRIPTION": "Bitte zuerst die Beschreibung des Tasks ausfüllen!",
+  "NEW_TASK_DESCRIPTION": "Neuer Task:",
+  "TASK": "Task"
+}

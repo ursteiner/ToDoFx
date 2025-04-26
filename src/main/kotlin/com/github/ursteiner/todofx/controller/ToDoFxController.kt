@@ -1,8 +1,12 @@
 package com.github.ursteiner.todofx.controller
 
+import com.github.ursteiner.todofx.constants.AvailableLanguages
+import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.service.DatabaseService
 import com.github.ursteiner.todofx.service.DatabaseServiceImpl
+import com.github.ursteiner.todofx.service.LanguageService
+import com.github.ursteiner.todofx.service.LanguageServiceImpl
 import com.github.ursteiner.todofx.view.FxMessageDialog
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
@@ -33,7 +37,31 @@ class ToDoFxController : Initializable {
     private lateinit var updateTaskButton: Button
 
     @FXML
+    private lateinit var addTaskButton: Button
+
+    @FXML
+    private lateinit var resolveTaskButton: Button
+
+    @FXML
+    private lateinit var deleteTaskButton: Button
+
+    @FXML
+    private lateinit var idColumn: TableColumn<String, String>
+
+    @FXML
+    private lateinit var descriptionColumn: TableColumn<String, String>
+
+    @FXML
+    private lateinit var dateColumn: TableColumn<String, String>
+
+    @FXML
+    private lateinit var doneColumn: TableColumn<String, String>
+
+    @FXML
     private lateinit var editTaskLabel: Label
+
+    @FXML
+    private lateinit var newTaskLabel: Label
 
     @FXML
     private lateinit var tabs : TabPane
@@ -43,10 +71,19 @@ class ToDoFxController : Initializable {
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val databaseService : DatabaseService = DatabaseServiceImpl("~/tasks")
+    private lateinit var languageService : LanguageService
     private val isDoneTextIcon = "✔"
     private val tasks = mutableListOf<Task>()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?){
+
+        languageService = when(System.getProperty("user.language")){
+            "de" -> LanguageServiceImpl(AvailableLanguages.GERMAN)
+            else -> LanguageServiceImpl(AvailableLanguages.ENGLISH)
+        }
+
+        initializeFieldNames()
+
         for(task in databaseService.getTasks()){
             tasks.add(task)
             if(task.getIsDoneProperty()){
@@ -57,10 +94,32 @@ class ToDoFxController : Initializable {
         onHideDoneTaskCheckBoxChanged()
     }
 
+    fun initializeFieldNames(){
+        tabs.tabs.get(1).text = getTranslation(TranslationKeys.STATISTIC)
+
+        hideDoneTasksCheckBox.text = getTranslation(TranslationKeys.HIDE_DONE_TASKS)
+
+        editTaskLabel.text = getTranslation(TranslationKeys.EDIT_TASK_DESCRIPTION)
+        newTaskLabel.text = getTranslation(TranslationKeys.NEW_TASK_DESCRIPTION)
+
+        addTaskButton.text = getTranslation(TranslationKeys.ADD_TASK)
+        resolveTaskButton.text = getTranslation(TranslationKeys.RESOLVE_TASK)
+        deleteTaskButton.text = getTranslation(TranslationKeys.DELETE_TASK)
+        updateTaskButton.text = getTranslation(TranslationKeys.UPDATE_TASK)
+
+        idColumn.text = getTranslation(TranslationKeys.ID)
+        descriptionColumn.text = getTranslation(TranslationKeys.DESCRIPTION)
+        dateColumn.text = getTranslation(TranslationKeys.DATE)
+        doneColumn.text = getTranslation(TranslationKeys.DONE)
+
+        pieChart.title = getTranslation(TranslationKeys.STATISTIC)
+    }
+
     @FXML
     private fun onAddTaskButtonClick(){
         if(taskNameInput.text.isEmpty()){
-            showDialogMessage("Task", "Please first fill in a name of the task!")
+            showDialogMessage(getTranslation(TranslationKeys.TASK),
+                getTranslation(TranslationKeys.FIRST_FILL_IN_A_DESCRIPTION))
             return
         }
 
@@ -80,9 +139,9 @@ class ToDoFxController : Initializable {
         }
 
         val dialogResult = FxMessageDialog.createMessageDialog(
-            "Confirm deleting task",
+            getTranslation(TranslationKeys.CONFIRM_DELETING_TASK),
             """
-                #Do you want to delete task:
+                #${getTranslation(TranslationKeys.DO_YOU_WANT_TO_DELETE_THE_TASK)}
                 #'${selectedTask.getNameProperty()}'?
                 """.trimMargin("#"),
             Alert.AlertType.CONFIRMATION
@@ -137,8 +196,10 @@ class ToDoFxController : Initializable {
 
     private fun buildPieChart(){
         val pieChartData = FXCollections.observableArrayList(
-            PieChart.Data("Open tasks", databaseService.getAmountOfOpenTasks().toDouble()),
-            PieChart.Data("Resolved tasks", databaseService.getAmountOfResolvedTasks().toDouble())
+            PieChart.Data(getTranslation(TranslationKeys.OPEN_TASKS),
+                databaseService.getAmountOfOpenTasks().toDouble()),
+            PieChart.Data(getTranslation(TranslationKeys.RESOLVED_TASKS),
+                databaseService.getAmountOfResolvedTasks().toDouble())
         )
         pieChart.data = pieChartData
         pieChart.data.forEach {
@@ -185,10 +246,15 @@ class ToDoFxController : Initializable {
     }
 
     fun showDialogMessageFirstSelectATask(){
-        showDialogMessage("Task", "Please first select a task in the table!")
+        showDialogMessage(getTranslation(TranslationKeys.TASK),
+            getTranslation(TranslationKeys.FIRST_SELECT_TASK_IN_TABLE))
     }
 
     fun showDialogMessage(title: String, content: String){
         FxMessageDialog.createMessageDialog(title, content)
+    }
+
+    fun getTranslation(key: TranslationKeys): String{
+        return languageService.getTranslationForKey(key)
     }
 }

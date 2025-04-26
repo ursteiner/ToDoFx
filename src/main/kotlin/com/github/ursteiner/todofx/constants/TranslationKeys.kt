@@ -1,0 +1,23 @@
+package com.github.ursteiner.todofx.constants
+
+enum class TranslationKeys() {
+    FIRST_SELECT_TASK_IN_TABLE,
+    HIDE_DONE_TASKS,
+    UPDATE_TASK,
+    EDIT_TASK_DESCRIPTION,
+    STATISTIC,
+    ADD_TASK,
+    RESOLVE_TASK,
+    DELETE_TASK,
+    ID,
+    DESCRIPTION,
+    DATE,
+    DONE,
+    OPEN_TASKS,
+    RESOLVED_TASKS,
+    CONFIRM_DELETING_TASK,
+    DO_YOU_WANT_TO_DELETE_THE_TASK,
+    FIRST_FILL_IN_A_DESCRIPTION,
+    NEW_TASK_DESCRIPTION,
+    TASK
+}

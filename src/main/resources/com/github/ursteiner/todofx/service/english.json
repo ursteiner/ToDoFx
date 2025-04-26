@@ -1,0 +1,21 @@
+{
+  "FIRST_SELECT_TASK_IN_TABLE": "Please first select a task in the table!",
+  "HIDE_DONE_TASKS": "hide done tasks",
+  "UPDATE_TASK": "Update task",
+  "EDIT_TASK_DESCRIPTION": "Edit task description:",
+  "STATISTIC": "Statistic",
+  "ADD_TASK": "Add task",
+  "RESOLVE_TASK": "Un/resolve Task",
+  "DELETE_TASK": "Delete task",
+  "ID": "Id",
+  "DESCRIPTION": "Description",
+  "DATE": "Date",
+  "DONE": "Done",
+  "OPEN_TASKS": "Open tasks",
+  "RESOLVED_TASKS": "Resolved tasks",
+  "CONFIRM_DELETING_TASK": "Confirm deleting task",
+  "DO_YOU_WANT_TO_DELETE_THE_TASK": "Do you want to delete the task:",
+  "FIRST_FILL_IN_A_DESCRIPTION": "Please first fill in a description of the task!",
+  "NEW_TASK_DESCRIPTION": "New task description:",
+  "TASK": "Task"
+}
