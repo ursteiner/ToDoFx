@@ -151,7 +151,7 @@ class ToDoFxController : Initializable {
             databaseService.deleteTask(selectedTask.getIdProperty())
             tasks.remove(selectedTask)
             onHideDoneTaskCheckBoxChanged()
-            taskUpdateArea.text = ""
+            setVisibilityUpdateTask(false)
         }
     }
 
@@ -166,6 +166,9 @@ class ToDoFxController : Initializable {
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
         setTaskDoneIcon(selectedTask)
         databaseService.updateTask(selectedTask)
+        if(hideDoneTasksCheckBox.isSelected){
+            setVisibilityUpdateTask(false)
+        }
 
         onHideDoneTaskCheckBoxChanged()
     }
@@ -239,6 +242,7 @@ class ToDoFxController : Initializable {
     private fun onHideDoneTaskCheckBoxChanged(){
         if(hideDoneTasksCheckBox.isSelected){
             tableView.items = FXCollections.observableList(tasks.filter { !it.getIsDoneProperty() })
+            setVisibilityUpdateTask(false)
         }else{
             tableView.items = FXCollections.observableList(tasks)
         }
