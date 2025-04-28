@@ -89,7 +89,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     private fun getAmountOfTasks(resolved: Boolean): Long {
-        var amoundOfTasks: Long = 0;
+        var amoundOfTasks: Long = 0
         transaction {
             addLogger(StdOutSqlLogger)
             amoundOfTasks = Tasks.selectAll().where { Tasks.isDone eq resolved }.count()

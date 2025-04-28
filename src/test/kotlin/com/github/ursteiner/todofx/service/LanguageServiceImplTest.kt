@@ -23,7 +23,14 @@ class LanguageServiceImplTest {
         //In case there is no translation, the key is returned.
         //So if the key is returned we are missing a translation.
         enumEntries<TranslationKeys>().forEach {
-            Assertions.assertNotEquals(it.name, testCandidate.getTranslationForKey(it))
+            Assertions.assertNotEquals(it.name,
+                testCandidate.getTranslationForKey(it))
         }
+    }
+
+    @Test
+    fun testEnumAndJsonFileHaveSameAmountOfProperties(){
+        Assertions.assertEquals(enumEntries<TranslationKeys>().size,
+            testCandidate.getAmountOfTranslations())
     }
 }

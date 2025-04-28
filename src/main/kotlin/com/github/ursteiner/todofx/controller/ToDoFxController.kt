@@ -95,7 +95,7 @@ class ToDoFxController : Initializable {
     }
 
     fun initializeFieldNames(){
-        tabs.tabs.get(1).text = getTranslation(TranslationKeys.STATISTIC)
+        tabs.tabs[1].text = getTranslation(TranslationKeys.STATISTIC)
 
         hideDoneTasksCheckBox.text = getTranslation(TranslationKeys.HIDE_DONE_TASKS)
 
