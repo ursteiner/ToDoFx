@@ -83,15 +83,7 @@ class ToDoFxController : Initializable {
         }
 
         initializeFieldNames()
-
-        for(task in databaseService.getTasks()){
-            tasks.add(task)
-            if(task.getIsDoneProperty()){
-                task.setIsDoneIconProperty(isDoneTextIcon)
-            }
-        }
-
-        onHideDoneTaskCheckBoxChanged()
+        getTasksBasedOnFilters()
     }
 
     fun initializeFieldNames(){
@@ -126,7 +118,7 @@ class ToDoFxController : Initializable {
         val newTask = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1)
         tasks.add(newTask)
         databaseService.addTask(newTask)
-        onHideDoneTaskCheckBoxChanged()
+        getTasksBasedOnFilters()
         taskNameInput.text = ""
     }
 
@@ -149,8 +141,8 @@ class ToDoFxController : Initializable {
 
         if(dialogResult.isPresent && dialogResult.get() == ButtonType.OK) {
             databaseService.deleteTask(selectedTask.getIdProperty())
-            tasks.remove(selectedTask)
-            onHideDoneTaskCheckBoxChanged()
+
+            getTasksBasedOnFilters()
             setVisibilityUpdateTask(false)
         }
     }
@@ -164,13 +156,13 @@ class ToDoFxController : Initializable {
         }
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
-        setTaskDoneIcon(selectedTask)
         databaseService.updateTask(selectedTask)
+
         if(hideDoneTasksCheckBox.isSelected){
             setVisibilityUpdateTask(false)
         }
 
-        onHideDoneTaskCheckBoxChanged()
+        getTasksBasedOnFilters()
     }
 
     @FXML
@@ -186,7 +178,7 @@ class ToDoFxController : Initializable {
         }
 
         setVisibilityUpdateTask(false)
-        onHideDoneTaskCheckBoxChanged()
+        tableView.refresh()
     }
 
     @FXML
@@ -215,14 +207,6 @@ class ToDoFxController : Initializable {
         Tooltip.install(node, tooltip)
     }
 
-    private fun setTaskDoneIcon(task: Task){
-        if(task.getIsDoneProperty()){
-            task.setIsDoneIconProperty(isDoneTextIcon)
-        }else{
-            task.setIsDoneIconProperty("")
-        }
-    }
-
     private fun setVisibilityUpdateTask(isVisible: Boolean){
         taskUpdateArea.isVisible = isVisible
         updateTaskButton.isVisible = isVisible
@@ -239,13 +223,19 @@ class ToDoFxController : Initializable {
     }
 
     @FXML
-    private fun onHideDoneTaskCheckBoxChanged(){
+    private fun getTasksBasedOnFilters(){
+        tasks.clear()
+
         if(hideDoneTasksCheckBox.isSelected){
-            tableView.items = FXCollections.observableList(tasks.filter { !it.getIsDoneProperty() })
+            tasks.addAll(databaseService.getOpenTasks())
             setVisibilityUpdateTask(false)
         }else{
-            tableView.items = FXCollections.observableList(tasks)
+            tasks.addAll(databaseService.getTasks())
+            tasks.filter { it.getIsDoneProperty() }
+                .map { it.setIsDoneIconProperty(isDoneTextIcon) }
         }
+
+        tableView.items = FXCollections.observableList(tasks)
         tableView.refresh()
     }
 

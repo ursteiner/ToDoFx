@@ -44,14 +44,25 @@ class DatabaseServiceImpl : DatabaseService {
         newTask.setIdProperty(taskId)
     }
 
-    override fun getTasks() : MutableList<Task> {
+    override fun getResolvedTasks(): MutableList<Task> {
+        return getTasks(true)
+    }
+
+    override fun getOpenTasks(): MutableList<Task> {
+        return getTasks(false)
+    }
+
+    override fun getTasks(resolved: Boolean?): MutableList<Task>{
         val tasks = mutableListOf<Task>()
 
         transaction {
             addLogger(StdOutSqlLogger)
-            for (task in Tasks.selectAll()) {
-                //println("${task[Tasks.name]} ${task[Tasks.date]} ${task[Tasks.id]} ${task[Tasks.isDone]}")
-                tasks.add(Task(task[Tasks.name], task[Tasks.date], task[Tasks.id], task[Tasks.isDone]))
+            val databaseTasks = when(resolved){
+                null -> Tasks.selectAll()
+                else -> Tasks.selectAll().where { Tasks.isDone eq resolved }
+            }
+            databaseTasks.forEach {
+                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Tasks.id], it[Tasks.isDone]))
             }
         }
         return tasks

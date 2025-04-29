@@ -12,9 +12,9 @@ class DatabaseServiceImplTest {
 
     @BeforeEach
     fun cleanupTestDatabase() {
-        for (task in testCandidate.getTasks()) {
-            testCandidate.deleteTask(task.getIdProperty())
-            println("Deleted task: ${task.getIdProperty()}")
+        testCandidate.getTasks().forEach {
+            testCandidate.deleteTask(it.getIdProperty())
+            println("Deleted task: ${it.getIdProperty()}")
         }
     }
 
