@@ -14,6 +14,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.TextField?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.github.ursteiner.todofx.controller.ToDoFxController">
 
@@ -34,6 +35,11 @@
                 </VBox>
                 <VBox minWidth="10"/>
                 <VBox>
+                    <HBox>
+                        <TextField fx:id="searchTextField" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="searchButton" text="🔍 suchen" onAction="#onSearchButtonClick"/>
+                        <Button text="🗑" onAction="#onClearSearchButton"/>
+                    </HBox>
                     <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
                         <columns>
                             <TableColumn fx:id="idColumn" text="Id" minWidth="50">

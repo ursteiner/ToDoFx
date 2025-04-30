@@ -7,6 +7,7 @@ interface DatabaseService {
     fun getResolvedTasks(): MutableList<Task>
     fun getOpenTasks(): MutableList<Task>
     fun getTasks(resolved: Boolean? = null): MutableList<Task>
+    fun getSearchedTasks(search: String): MutableList<Task>
     fun deleteTask(taskId: Int): Int
     fun updateTask(task: Task): Int
     fun getAmountOfResolvedTasks(): Long

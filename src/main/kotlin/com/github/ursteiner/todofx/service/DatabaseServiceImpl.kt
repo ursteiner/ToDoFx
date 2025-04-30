@@ -3,6 +3,7 @@ package com.github.ursteiner.todofx.service
 import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.LowerCase
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.StdOutSqlLogger
@@ -61,6 +62,20 @@ class DatabaseServiceImpl : DatabaseService {
                 null -> Tasks.selectAll()
                 else -> Tasks.selectAll().where { Tasks.isDone eq resolved }
             }
+            databaseTasks.forEach {
+                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Tasks.id], it[Tasks.isDone]))
+            }
+        }
+        return tasks
+    }
+
+    override fun getSearchedTasks(search: String): MutableList<Task> {
+        val tasks = mutableListOf<Task>()
+
+        transaction {
+            addLogger(StdOutSqlLogger)
+            val databaseTasks = Tasks.selectAll().where { LowerCase(Tasks.name) like search }
+
             databaseTasks.forEach {
                 tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Tasks.id], it[Tasks.isDone]))
             }

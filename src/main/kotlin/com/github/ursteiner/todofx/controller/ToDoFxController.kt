@@ -46,6 +46,12 @@ class ToDoFxController : Initializable {
     private lateinit var deleteTaskButton: Button
 
     @FXML
+    private lateinit var searchButton: Button
+
+    @FXML
+    private lateinit var searchTextField: TextField
+
+    @FXML
     private lateinit var idColumn: TableColumn<String, String>
 
     @FXML
@@ -98,6 +104,7 @@ class ToDoFxController : Initializable {
         resolveTaskButton.text = getTranslation(TranslationKeys.RESOLVE_TASK)
         deleteTaskButton.text = getTranslation(TranslationKeys.DELETE_TASK)
         updateTaskButton.text = getTranslation(TranslationKeys.UPDATE_TASK)
+        searchButton.text = getTranslation(TranslationKeys.SEARCH)
 
         idColumn.text = getTranslation(TranslationKeys.ID)
         descriptionColumn.text = getTranslation(TranslationKeys.DESCRIPTION)
@@ -120,6 +127,32 @@ class ToDoFxController : Initializable {
         databaseService.addTask(newTask)
         getTasksBasedOnFilters()
         taskNameInput.text = ""
+    }
+
+    @FXML
+    private fun onSearchButtonClick(){
+        if(searchTextField.text.isEmpty()){
+            FxMessageDialog.createMessageDialog(getTranslation(TranslationKeys.MISSING_SEARCH_TERM),
+                getTranslation(TranslationKeys.PLEASE_FILL_IN_SEARCH_TERM))
+            return
+        }
+
+        tasks.clear()
+        tasks.addAll(databaseService.getSearchedTasks(("%${searchTextField.text}%".lowercase())))
+
+        tasks.filter { it.getIsDoneProperty() }
+            .map { it.setIsDoneIconProperty(isDoneTextIcon) }
+
+        tableView.items = FXCollections.observableList(tasks)
+        tableView.refresh()
+    }
+
+    @FXML
+    private fun onClearSearchButton(){
+        if(searchTextField.text.isNotEmpty()) {
+            searchTextField.text = ""
+            getTasksBasedOnFilters()
+        }
     }
 
     @FXML
