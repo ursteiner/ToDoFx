@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.ursteiner.todofx.controller.TasksTabController"
+            prefHeight="700.0" prefWidth="500.0">
+    <HBox>
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        </padding>
+        <VBox minWidth="200" maxWidth="200">
+            <Label fx:id="newTaskLabel">New task description:</Label>
+            <TextArea fx:id="taskNameInput" wrapText="true" />
+            <Button fx:id="addTaskButton" text="Add task" onAction="#onAddTaskButtonClick"/>
+            <VBox VBox.vgrow="ALWAYS"/>
+            <Label fx:id="editTaskLabel" visible="false">Edit task description:</Label>
+            <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false"/>
+            <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false"/>
+        </VBox>
+        <VBox minWidth="10"/>
+        <VBox>
+            <HBox>
+                <TextField fx:id="searchTextField" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="searchButton" text="🔍 suchen" onAction="#onSearchButtonClick"/>
+                <Button text="🗑" onAction="#onClearSearchButton"/>
+            </HBox>
+            <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="Id" minWidth="50">
+                        <cellValueFactory><PropertyValueFactory property="idProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="descriptionColumn" text="Description" minWidth="230">
+                        <cellValueFactory><PropertyValueFactory property="nameProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="dateColumn" text="Date" minWidth="100">
+                        <cellValueFactory><PropertyValueFactory property="dateProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="doneColumn" text="Done" minWidth="50" style="-fx-alignment:center;">
+                        <cellValueFactory><PropertyValueFactory property="isDoneIconProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+
+            <HBox alignment="CENTER">
+                <Button fx:id="resolveTaskButton" text="Un/resolve task" onAction="#onCompletedTaskButtonClick"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <CheckBox selected="true" text="hide done tasks" onAction="#getTasksBasedOnFilters" fx:id="hideDoneTasksCheckBox"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button fx:id="deleteTaskButton" text="Delete task" onAction="#onDeleteTaskButtonClick"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</AnchorPane>

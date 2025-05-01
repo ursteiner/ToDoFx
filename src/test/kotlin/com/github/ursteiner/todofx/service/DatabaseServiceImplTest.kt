@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 
 class DatabaseServiceImplTest {
 
-    val testCandidate: DatabaseService = DatabaseServiceImpl("./testTasks")
+    val testCandidate: DatabaseService = DatabaseServiceImpl.getInstance("~/testTasks")
 
     @BeforeEach
     fun cleanupTestDatabase() {

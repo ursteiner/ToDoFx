@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.ursteiner.todofx.controller.StatisticTabController"
+            prefHeight="700.0" prefWidth="500.0">
+    <HBox alignment="CENTER">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        </padding>
+        <PieChart fx:id="pieChart" title="Statistic"/>
+    </HBox>
+</AnchorPane>

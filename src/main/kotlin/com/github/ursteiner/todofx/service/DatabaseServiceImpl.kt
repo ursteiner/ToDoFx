@@ -17,12 +17,23 @@ import org.jetbrains.exposed.sql.update
 
 class DatabaseServiceImpl : DatabaseService {
 
-    constructor(databasePathName: String){
+    private constructor(databasePathName: String){
         Database.connect("jdbc:h2:file:${databasePathName}", driver = "org.h2.Driver", user = "root", password = "")
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Tasks)
         }
+    }
+
+    companion object {
+
+        @Volatile
+        private var instance: DatabaseServiceImpl? = null
+
+        fun getInstance(databasePathName: String) =
+            instance ?: synchronized(this) {
+                instance ?: DatabaseServiceImpl(databasePathName).also { instance = it }
+            }
     }
 
     object Tasks : Table() {

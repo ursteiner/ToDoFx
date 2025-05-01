@@ -1,83 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.TextField?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.github.ursteiner.todofx.controller.ToDoFxController">
 
     <TabPane fx:id="tabs" onMouseClicked="#onTabClicked">
         <Tab text="Tasks">
-            <HBox>
-                <padding>
-                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                </padding>
-                <VBox minWidth="200" maxWidth="200">
-                    <Label fx:id="newTaskLabel">New task description:</Label>
-                    <TextArea fx:id="taskNameInput" wrapText="true" />
-                    <Button fx:id="addTaskButton" text="Add task" onAction="#onAddTaskButtonClick"/>
-                    <VBox VBox.vgrow="ALWAYS"/>
-                    <Label fx:id="editTaskLabel" visible="false">Edit task description:</Label>
-                    <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false"/>
-                    <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false"/>
-                </VBox>
-                <VBox minWidth="10"/>
-                <VBox>
-                    <HBox>
-                        <TextField fx:id="searchTextField" HBox.hgrow="ALWAYS"/>
-                        <Button fx:id="searchButton" text="🔍 suchen" onAction="#onSearchButtonClick"/>
-                        <Button text="🗑" onAction="#onClearSearchButton"/>
-                    </HBox>
-                    <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
-                        <columns>
-                            <TableColumn fx:id="idColumn" text="Id" minWidth="50">
-                                <cellValueFactory><PropertyValueFactory property="idProperty" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn fx:id="descriptionColumn" text="Description" minWidth="230">
-                                <cellValueFactory><PropertyValueFactory property="nameProperty" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn fx:id="dateColumn" text="Date" minWidth="100">
-                                <cellValueFactory><PropertyValueFactory property="dateProperty" />
-                                </cellValueFactory>
-                            </TableColumn>
-                            <TableColumn fx:id="doneColumn" text="Done" minWidth="50" style="-fx-alignment:center;">
-                                <cellValueFactory><PropertyValueFactory property="isDoneIconProperty" />
-                                </cellValueFactory>
-                            </TableColumn>
-                        </columns>
-                    </TableView>
-
-                    <HBox alignment="CENTER">
-                        <Button fx:id="resolveTaskButton" text="Un/resolve task" onAction="#onCompletedTaskButtonClick"/>
-                        <Pane HBox.hgrow="ALWAYS" />
-                        <CheckBox selected="true" text="hide done tasks" onAction="#getTasksBasedOnFilters" fx:id="hideDoneTasksCheckBox"/>
-                        <Pane HBox.hgrow="ALWAYS" />
-                        <Button fx:id="deleteTaskButton" text="Delete task" onAction="#onDeleteTaskButtonClick"/>
-                    </HBox>
-                </VBox>
-            </HBox>
+            <fx:include source="tasks-tab-view.fxml"/>
         </Tab>
         <Tab text="Statistic">
-            <HBox alignment="CENTER">
-                <padding>
-                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                </padding>
-                <PieChart fx:id="pieChart" title="Statistic"/>
-            </HBox>
+            <fx:include fx:id="statisticsTabPage" source="statistic-tab-view.fxml"/>
         </Tab>
     </TabPane>
 

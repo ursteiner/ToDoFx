@@ -11,10 +11,24 @@ class LanguageServiceImpl : LanguageService {
     private val currentLanguage: AvailableLanguages
     private var translations: JsonObject
 
-    constructor(selectedLanguage: AvailableLanguages){
+    private constructor(selectedLanguage: AvailableLanguages){
         currentLanguage = selectedLanguage
         val translationFileContent = object {}.javaClass.getResourceAsStream("${selectedLanguage.language}.json")?.bufferedReader()?.readText() ?: ""
         translations = Json.decodeFromString(translationFileContent)
+    }
+
+    companion object {
+
+        @Volatile
+        private var instance: LanguageServiceImpl? = null
+
+        fun getInstance(language: String) =
+            instance ?: synchronized(this) {
+                instance ?: when(language){
+                    "de" -> LanguageServiceImpl(AvailableLanguages.GERMAN)
+                    else -> LanguageServiceImpl(AvailableLanguages.ENGLISH)
+                }.also { instance = it }
+            }
     }
 
     override fun getTranslationForKey(key: TranslationKeys): String {

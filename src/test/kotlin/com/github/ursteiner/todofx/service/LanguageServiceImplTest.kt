@@ -1,6 +1,5 @@
 package com.github.ursteiner.todofx.service
 
-import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -8,7 +7,7 @@ import kotlin.enums.enumEntries
 
 class LanguageServiceImplTest {
 
-    val testCandidate = LanguageServiceImpl(AvailableLanguages.ENGLISH)
+    val testCandidate = LanguageServiceImpl.getInstance("en")
 
     @Test
     fun testGetFirstSelectTaskInTableEnglish(){
