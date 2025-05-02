@@ -40,5 +40,8 @@ build/
 ### Test ###
 testTasks.mv.db
 
+### Export ###
+tasks.csv
+
 ### Build ###
 dependency-reduced-pom.xml

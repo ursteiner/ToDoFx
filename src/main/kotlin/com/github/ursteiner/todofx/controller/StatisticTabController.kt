@@ -22,7 +22,7 @@ class StatisticTabController: Initializable {
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         languageService = LanguageServiceImpl.getInstance(System.getProperty("user.language"))
-        databaseService = DatabaseServiceImpl.getInstance("~/tasks")
+        databaseService = DatabaseServiceImpl.getInstance()
 
         pieChart.title = getTranslation(TranslationKeys.STATISTIC)
     }

@@ -30,7 +30,7 @@ class DatabaseServiceImpl : DatabaseService {
         @Volatile
         private var instance: DatabaseServiceImpl? = null
 
-        fun getInstance(databasePathName: String) =
+        fun getInstance(databasePathName: String = "~/tasks") =
             instance ?: synchronized(this) {
                 instance ?: DatabaseServiceImpl(databasePathName).also { instance = it }
             }

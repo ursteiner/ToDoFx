@@ -13,6 +13,9 @@
         <Tab text="Statistic">
             <fx:include fx:id="statisticsTabPage" source="statistic-tab-view.fxml"/>
         </Tab>
+        <Tab text="Export">
+            <fx:include source="export-tab-view.fxml"/>
+        </Tab>
     </TabPane>
 
 </VBox>
