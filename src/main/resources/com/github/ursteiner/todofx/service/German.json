@@ -20,5 +20,6 @@
   "TASK": "Task",
   "SEARCH": "\uD83D\uDD0D suchen",
   "MISSING_SEARCH_TERM": "Fehlender Suchbegriff",
-  "PLEASE_FILL_IN_SEARCH_TERM": "Bitte zuerst einen Suchbegriff eingeben"
+  "PLEASE_FILL_IN_SEARCH_TERM": "Bitte zuerst einen Suchbegriff eingeben",
+  "EXPORT_IS_STORED_TO_APPLICATION_FOLDER": "Export wird als 'tasks.csv' im Verzeichnis der Anwendung gespeichert."
 }
