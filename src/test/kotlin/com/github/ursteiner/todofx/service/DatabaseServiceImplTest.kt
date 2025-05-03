@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DatabaseServiceImplTest {
 
@@ -103,5 +105,26 @@ class DatabaseServiceImplTest {
             amountOfResolvedTasks,
             "1 task should be resolved"
         )
+    }
+
+    @Test
+    fun testGetTasksPerMonth(){
+        val testTask1 = Task("Task1",
+            "2024-04-20 10:00",
+            0,
+            false)
+        testCandidate.addTask(testTask1)
+
+        val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM")
+        val currentYearMonth = LocalDateTime.now().format(dateTimeFormat)
+        val testTask2 = Task("This is second Test Task",
+            currentYearMonth,
+            0,
+            true)
+        testCandidate.addTask(testTask2)
+
+        val databaseResult = testCandidate.getTasksPerMonth(1)
+        Assertions.assertEquals(1, databaseResult.size, "There should be one entry in the map")
+        Assertions.assertEquals(true, databaseResult.contains(currentYearMonth))
     }
 }

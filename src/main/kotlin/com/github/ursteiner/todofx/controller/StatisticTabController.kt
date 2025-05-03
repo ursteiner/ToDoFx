@@ -7,15 +7,26 @@ import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
-import javafx.scene.chart.PieChart
+import javafx.scene.chart.*
+import javafx.scene.chart.XYChart.Series
 import javafx.scene.control.Tooltip
 import java.net.URL
-import java.util.ResourceBundle
+import java.util.*
+
 
 class StatisticTabController: Initializable {
 
     @FXML
     private lateinit var pieChart: PieChart
+
+    @FXML
+    private lateinit var barChart: BarChart<String,Int>
+
+    @FXML
+    private lateinit var yAxis: NumberAxis
+
+    @FXML
+    private lateinit var xAxis: CategoryAxis
 
     private lateinit var databaseService : DatabaseServiceImpl
     private lateinit var languageService : LanguageServiceImpl
@@ -25,6 +36,12 @@ class StatisticTabController: Initializable {
         databaseService = DatabaseServiceImpl.getInstance()
 
         pieChart.title = getTranslation(TranslationKeys.STATISTIC)
+
+        barChart.title = getTranslation(TranslationKeys.TASKS_PER_MONTH)
+        xAxis.label = getTranslation(TranslationKeys.MONTH)
+        //workaround for bad label positioning
+        xAxis.animated = false
+        yAxis.label = "#Tasks"
     }
 
     fun buildPieChart(){
@@ -38,6 +55,20 @@ class StatisticTabController: Initializable {
         pieChart.data.forEach {
             addToolTipToNode(it.node, it.name + ": " + String.format("%.0f", it.pieValue))
         }
+    }
+
+    fun buildBarChart(){
+        barChart.data.clear()
+
+        val series = Series<String?, Int?>()
+        series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
+
+        databaseService.getTasksPerMonth(12).forEach {
+            entry ->
+            series.data.add(XYChart.Data<String?, Int?>(entry.key, entry.value))
+        }
+
+        barChart.data.addAll(series)
     }
 
     private fun addToolTipToNode(node: Node, tooltipText: String){

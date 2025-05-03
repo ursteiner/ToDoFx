@@ -12,4 +12,5 @@ interface DatabaseService {
     fun updateTask(task: Task): Int
     fun getAmountOfResolvedTasks(): Long
     fun getAmountOfOpenTasks(): Long
+    fun getTasksPerMonth(lastXMonths: Int): MutableMap<String, Int>
 }

@@ -18,6 +18,8 @@ class ToDoFxController : Initializable {
 
     private lateinit var languageService : LanguageServiceImpl
 
+    private var selectedTab: Int = 0
+
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         languageService = LanguageServiceImpl.getInstance(System.getProperty("user.language"))
 
@@ -26,9 +28,11 @@ class ToDoFxController : Initializable {
 
     @FXML
     fun onTabClicked(){
-        if(tabs.selectionModel.isSelected(1)){
+        if(tabs.selectionModel.isSelected(1) && tabs.selectionModel.selectedIndex != selectedTab){
             statisticsTabPageController.buildPieChart()
+            statisticsTabPageController.buildBarChart()
         }
+        selectedTab = tabs.selectionModel.selectedIndex
     }
 
     fun getTranslation(key: TranslationKeys): String{

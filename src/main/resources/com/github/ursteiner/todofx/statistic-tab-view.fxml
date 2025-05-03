@@ -4,14 +4,25 @@
 
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.ursteiner.todofx.controller.StatisticTabController"
             prefHeight="700.0" prefWidth="500.0">
-    <HBox alignment="CENTER">
+    <HBox alignment="CENTER" maxWidth="700">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
         <PieChart fx:id="pieChart" title="Statistic"/>
+        <BarChart fx:id="barChart" title="Tasks/Month">
+            <xAxis>
+                <CategoryAxis fx:id="xAxis"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="yAxis"/>
+            </yAxis>
+        </BarChart>
     </HBox>
 </AnchorPane>

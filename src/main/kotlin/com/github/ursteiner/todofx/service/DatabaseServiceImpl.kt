@@ -1,19 +1,15 @@
 package com.github.ursteiner.todofx.service
 
 import com.github.ursteiner.todofx.model.Task
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.LowerCase
-import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import java.sql.DriverManager.println
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.GregorianCalendar
+
 
 class DatabaseServiceImpl : DatabaseService {
 
@@ -132,5 +128,31 @@ class DatabaseServiceImpl : DatabaseService {
             amoundOfTasks = Tasks.selectAll().where { Tasks.isDone eq resolved }.count()
         }
         return amoundOfTasks
+    }
+
+    override fun getTasksPerMonth(lastXMonths: Int): MutableMap<String, Int> {
+        val resultMap = mutableMapOf<String, Int>()
+
+        transaction {
+            addLogger(StdOutSqlLogger)
+            val yearMonth = Tasks.date.substring(0,7)
+            Tasks.select(yearMonth, yearMonth.count())
+                .groupBy(yearMonth)
+                .where {yearMonth greaterEq getYearMonth(lastXMonths)}
+                .forEach {
+                    resultMap.put(it[yearMonth], it[yearMonth.count()].toInt())
+                }
+        }
+
+        return resultMap
+    }
+
+    private fun getYearMonth(beforeXMonths: Int): String{
+        val c: Calendar = GregorianCalendar()
+        c.setTime(Date())
+        val sdf = SimpleDateFormat("yyyy-MM")
+        c.add(Calendar.MONTH, -beforeXMonths)
+
+        return sdf.format(c.getTime())
     }
 }
