@@ -1,9 +1,11 @@
 package com.github.ursteiner.todofx.service
 
+import com.github.ursteiner.todofx.controller.ExportTabController
 import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.slf4j.LoggerFactory
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -11,8 +13,10 @@ import java.util.GregorianCalendar
 
 
 class DatabaseServiceImpl : DatabaseService {
+    private val logger = LoggerFactory.getLogger(DatabaseServiceImpl::class.java)
 
     private constructor(databasePathName: String){
+        logger.info("Database connect to $databasePathName")
         Database.connect("jdbc:h2:file:${databasePathName}", driver = "org.h2.Driver", user = "root", password = "")
         transaction {
             addLogger(StdOutSqlLogger)
@@ -41,6 +45,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     override fun addTask(newTask: Task) = transaction {
+        logger.info("Task added: ${newTask.getNameProperty()}")
         addLogger(StdOutSqlLogger)
         val taskId = Tasks.insert {
             it[name] = newTask.getNameProperty()
@@ -60,6 +65,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     override fun getTasks(resolved: Boolean?): MutableList<Task>{
+        logger.info("Get Tasks resolved: $resolved")
         val tasks = mutableListOf<Task>()
 
         transaction {
@@ -76,6 +82,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     override fun getSearchedTasks(search: String): MutableList<Task> {
+        logger.info("Search tasks: $search")
         val tasks = mutableListOf<Task>()
 
         transaction {
@@ -90,6 +97,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     override fun deleteTask(taskId: Int): Int {
+        logger.info("Delete Task: $taskId")
         var deletedTasks = 0
 
         transaction {
@@ -100,6 +108,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     override fun updateTask(task: Task): Int {
+        logger.info("Update Task: ${task.getIdProperty()}")
         var updatedTasks = 0
 
         transaction {
@@ -121,6 +130,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     private fun getAmountOfTasks(resolved: Boolean): Long {
+        logger.info("Get amount of Tasks: $resolved")
         var amoundOfTasks: Long = 0
         transaction {
             addLogger(StdOutSqlLogger)
@@ -130,6 +140,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     override fun getTasksPerMonth(lastXMonths: Int): MutableMap<String, Int> {
+        logger.info("Get Tasks for last $lastXMonths month.")
         val resultMap = mutableMapOf<String, Int>()
 
         transaction {

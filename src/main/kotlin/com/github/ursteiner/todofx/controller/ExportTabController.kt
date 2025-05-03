@@ -6,14 +6,16 @@ import com.github.ursteiner.todofx.service.DatabaseServiceImpl
 import com.github.ursteiner.todofx.service.LanguageServiceImpl
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.Label
 import javafx.scene.control.TitledPane
 import javafx.stage.FileChooser
+import org.slf4j.LoggerFactory
 import java.net.URL
 import java.util.*
 
 
 class ExportTabController: Initializable {
+
+    private val logger = LoggerFactory.getLogger(ExportTabController::class.java)
 
     @FXML
     private lateinit var exportPane: TitledPane
@@ -32,7 +34,7 @@ class ExportTabController: Initializable {
         fileChooser.initialFileName = "tasks.csv"
 
         when(val file = fileChooser.showSaveDialog(exportPane.scene.window)){
-            null -> println("CSV export: no file selected")
+            null -> logger.info("CSV Exporter: no file selected")
             else -> CsvExportServiceImpl(file).exportTasks(DatabaseServiceImpl.getInstance().getTasks())
         }
     }
