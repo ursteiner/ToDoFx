@@ -7,8 +7,10 @@ import com.github.ursteiner.todofx.service.LanguageServiceImpl
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Label
+import javafx.stage.FileChooser
 import java.net.URL
-import java.util.ResourceBundle
+import java.util.*
+
 
 class ExportTabController: Initializable {
 
@@ -19,11 +21,18 @@ class ExportTabController: Initializable {
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         languageService = LanguageServiceImpl.getInstance(System.getProperty("user.language"))
-        exportLabel.text = languageService.getTranslationForKey(TranslationKeys.EXPORT_IS_STORED_TO_APPLICATION_FOLDER)
+        exportLabel.text = languageService.getTranslationForKey(TranslationKeys.EXPORT_CAN_BE_STORED_ANYWHERE)
     }
 
     @FXML
     fun onExportTaskButtonClick(){
-        CsvExportServiceImpl("tasks.csv").exportTasks(DatabaseServiceImpl.getInstance().getTasks())
+        val fileChooser = FileChooser()
+        fileChooser.title = "Save"
+        fileChooser.initialFileName = "tasks.csv"
+
+        when(val file = fileChooser.showSaveDialog(exportLabel.scene.window)){
+            null -> println("CSV export: no file selected")
+            else -> CsvExportServiceImpl(file).exportTasks(DatabaseServiceImpl.getInstance().getTasks())
+        }
     }
 }

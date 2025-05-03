@@ -2,6 +2,7 @@ package com.github.ursteiner.todofx.service
 
 import com.github.ursteiner.todofx.model.Task
 import java.io.BufferedWriter
+import java.io.File
 import java.io.FileWriter
 
 class CsvExportServiceImpl : ExportService {
@@ -12,7 +13,7 @@ class CsvExportServiceImpl : ExportService {
         writer = bufferedWriter
     }
 
-    constructor(filePath: String){
+    constructor(filePath: File){
         writer = BufferedWriter(FileWriter(filePath))
     }
 

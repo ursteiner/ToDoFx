@@ -13,6 +13,6 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
         <Label fx:id="exportLabel" text="Export is stored as 'tasks.csv' to the application folder."/>
-        <Button text="Export" onAction="#onExportTaskButtonClick"/>
+        <Button text="💾 Export" onAction="#onExportTaskButtonClick"/>
     </VBox>
 </AnchorPane>

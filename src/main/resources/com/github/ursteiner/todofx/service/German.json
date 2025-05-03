@@ -21,7 +21,7 @@
   "SEARCH": "\uD83D\uDD0D suchen",
   "MISSING_SEARCH_TERM": "Fehlender Suchbegriff",
   "PLEASE_FILL_IN_SEARCH_TERM": "Bitte zuerst einen Suchbegriff eingeben",
-  "EXPORT_IS_STORED_TO_APPLICATION_FOLDER": "Export wird als 'tasks.csv' im Verzeichnis der Anwendung gespeichert.",
+  "EXPORT_CAN_BE_STORED_ANYWHERE": "Die CSV Datei kann an einem beliebigen Ort gespeichert werden.",
   "TASKS_PER_MONTH": "Tasks/Monat",
   "MONTH": "Monat"
 }
