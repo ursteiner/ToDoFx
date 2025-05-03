@@ -7,12 +7,13 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.ursteiner.todofx.controller.ExportTabController"
-            prefHeight="400.0" prefWidth="600.0">
-    <VBox>
+            prefHeight="750.0" prefWidth="520.0">
+    <VBox minWidth="500" minHeight="700">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
-        <Label fx:id="exportLabel" text="Export is stored as 'tasks.csv' to the application folder."/>
-        <Button text="💾 Export" onAction="#onExportTaskButtonClick"/>
+        <TitledPane fx:id="exportPane" collapsible="false" text="Export is stored as 'tasks.csv' to the application folder." minWidth="710" minHeight="450">
+            <Button text="💾 Export" onAction="#onExportTaskButtonClick"/>
+        </TitledPane>
     </VBox>
 </AnchorPane>

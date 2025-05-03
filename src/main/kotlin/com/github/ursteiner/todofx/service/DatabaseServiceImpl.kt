@@ -4,7 +4,6 @@ import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.sql.DriverManager.println
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

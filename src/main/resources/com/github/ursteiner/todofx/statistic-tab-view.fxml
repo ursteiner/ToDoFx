@@ -7,22 +7,28 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.TitledPane?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.ursteiner.todofx.controller.StatisticTabController"
-            prefHeight="700.0" prefWidth="500.0">
-    <HBox alignment="CENTER" maxWidth="700">
+            prefHeight="520.0" prefWidth="750.0">
+    <HBox alignment="CENTER" maxWidth="750">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
-        <PieChart fx:id="pieChart" title="Statistic"/>
-        <BarChart fx:id="barChart" title="Tasks/Month">
-            <xAxis>
-                <CategoryAxis fx:id="xAxis"/>
-            </xAxis>
-            <yAxis>
-                <NumberAxis fx:id="yAxis"/>
-            </yAxis>
-        </BarChart>
+        <TitledPane collapsible="false">
+            <PieChart fx:id="pieChart" title="Statistic"/>
+        </TitledPane>
+        <VBox minWidth="20"/>
+        <TitledPane collapsible="false">
+            <BarChart fx:id="barChart" title="Tasks/Month">
+                <xAxis>
+                    <CategoryAxis fx:id="xAxis"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxis"/>
+                </yAxis>
+            </BarChart>
+        </TitledPane>
     </HBox>
 </AnchorPane>

@@ -12,11 +12,11 @@ import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonType
 import javafx.scene.control.CheckBox
-import javafx.scene.control.Label
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
+import javafx.scene.control.TitledPane
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -66,10 +66,10 @@ class TasksTabController : Initializable {
     private lateinit var doneColumn: TableColumn<String, String>
 
     @FXML
-    private lateinit var editTaskLabel: Label
+    private lateinit var editTaskPane: TitledPane
 
     @FXML
-    private lateinit var newTaskLabel: Label
+    private lateinit var newTaskPane: TitledPane
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private lateinit var databaseService : DatabaseServiceImpl
@@ -88,8 +88,8 @@ class TasksTabController : Initializable {
     fun initializeFieldNames(){
         hideDoneTasksCheckBox.text = getTranslation(TranslationKeys.HIDE_DONE_TASKS)
 
-        editTaskLabel.text = getTranslation(TranslationKeys.EDIT_TASK_DESCRIPTION)
-        newTaskLabel.text = getTranslation(TranslationKeys.NEW_TASK_DESCRIPTION)
+        editTaskPane.text = getTranslation(TranslationKeys.EDIT_TASK_DESCRIPTION)
+        newTaskPane.text = getTranslation(TranslationKeys.NEW_TASK_DESCRIPTION)
 
         addTaskButton.text = getTranslation(TranslationKeys.ADD_TASK)
         resolveTaskButton.text = getTranslation(TranslationKeys.RESOLVE_TASK)
@@ -206,7 +206,7 @@ class TasksTabController : Initializable {
     private fun setVisibilityUpdateTask(isVisible: Boolean){
         taskUpdateArea.isVisible = isVisible
         updateTaskButton.isVisible = isVisible
-        editTaskLabel.isVisible = isVisible
+        editTaskPane.isVisible = isVisible
     }
 
     @FXML
