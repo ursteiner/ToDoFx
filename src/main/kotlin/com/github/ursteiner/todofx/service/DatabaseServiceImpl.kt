@@ -1,6 +1,5 @@
 package com.github.ursteiner.todofx.service
 
-import com.github.ursteiner.todofx.controller.ExportTabController
 import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

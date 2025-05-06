@@ -3,10 +3,13 @@ package com.github.ursteiner.todofx.controller
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import javafx.fxml.FXML
 import javafx.scene.control.TabPane
+import javafx.scene.layout.AnchorPane
 import java.net.URL
 import java.util.ResourceBundle
 
 class ToDoFxController: CommonController() {
+
+    lateinit var statisticsTabPage: AnchorPane
 
     @FXML
     private lateinit var tabs : TabPane

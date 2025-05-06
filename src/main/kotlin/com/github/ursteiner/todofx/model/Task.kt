@@ -54,6 +54,7 @@ class Task {
         isDoneIcon.set(isTaskDoneIcon)
     }
 
+    @Suppress("unused")
     fun getIsDoneIconProperty(): String{
         return isDoneIcon.get()
     }

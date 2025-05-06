@@ -95,6 +95,7 @@ class TasksTabController : CommonController() {
         doneColumn.text = getTranslation(TranslationKeys.DONE)
     }
 
+    @Suppress("unused")
     @FXML
     private fun onAddTaskButtonClick(){
         if(taskNameInput.text.isEmpty()){
@@ -110,6 +111,7 @@ class TasksTabController : CommonController() {
         taskNameInput.text = ""
     }
 
+    @Suppress("unused")
     @FXML
     private fun onSearchButtonClick(){
         if(searchTextField.text.isEmpty()){
@@ -128,6 +130,7 @@ class TasksTabController : CommonController() {
         tableView.refresh()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onClearSearchButton(){
         if(searchTextField.text.isNotEmpty()) {
@@ -136,6 +139,7 @@ class TasksTabController : CommonController() {
         }
     }
 
+    @Suppress("unused")
     @FXML
     private fun onDeleteTaskButtonClick(){
         val selectedTask = tableView.selectionModel.selectedItem
@@ -161,6 +165,7 @@ class TasksTabController : CommonController() {
         }
     }
 
+    @Suppress("unused")
     @FXML
     private fun onCompletedTaskButtonClick(){
         val selectedTask = tableView.selectionModel.selectedItem
@@ -179,6 +184,7 @@ class TasksTabController : CommonController() {
         getTasksBasedOnFilters()
     }
 
+    @Suppress("unused")
     @FXML
     private fun onUpdateTaskButtonClick(){
         val selectedTask = tableView.selectionModel.selectedItem
@@ -201,6 +207,7 @@ class TasksTabController : CommonController() {
         editTaskPane.isVisible = isVisible
     }
 
+    @Suppress("unused")
     @FXML
     private fun onTaskSelected(){
         val selectedTask = tableView.selectionModel.selectedItem
