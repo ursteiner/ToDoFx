@@ -2,12 +2,9 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Task
-import com.github.ursteiner.todofx.service.DatabaseServiceImpl
-import com.github.ursteiner.todofx.service.LanguageServiceImpl
 import com.github.ursteiner.todofx.view.FxMessageDialog
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.fxml.Initializable
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonType
@@ -22,7 +19,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.ResourceBundle
 
-class TasksTabController : Initializable {
+class TasksTabController : CommonController() {
     @FXML
     private lateinit var taskNameInput: TextArea
 
@@ -72,15 +69,10 @@ class TasksTabController : Initializable {
     private lateinit var newTaskPane: TitledPane
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-    private lateinit var databaseService : DatabaseServiceImpl
-    private lateinit var languageService : LanguageServiceImpl
     private val isDoneTextIcon = "✔"
     private val tasks = mutableListOf<Task>()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?){
-        languageService = LanguageServiceImpl.getInstance(System.getProperty("user.language"))
-        databaseService = DatabaseServiceImpl.getInstance()
-
         initializeFieldNames()
         getTasksBasedOnFilters()
     }
@@ -113,7 +105,7 @@ class TasksTabController : Initializable {
 
         val newTask = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1)
         tasks.add(newTask)
-        databaseService.addTask(newTask)
+        getDatabase().addTask(newTask)
         getTasksBasedOnFilters()
         taskNameInput.text = ""
     }
@@ -127,7 +119,7 @@ class TasksTabController : Initializable {
         }
 
         tasks.clear()
-        tasks.addAll(databaseService.getSearchedTasks(("%${searchTextField.text}%".lowercase())))
+        tasks.addAll(getDatabase().getSearchedTasks(("%${searchTextField.text}%".lowercase())))
 
         tasks.filter { it.getIsDoneProperty() }
             .map { it.setIsDoneIconProperty(isDoneTextIcon) }
@@ -162,7 +154,7 @@ class TasksTabController : Initializable {
         )
 
         if(dialogResult.isPresent && dialogResult.get() == ButtonType.OK) {
-            databaseService.deleteTask(selectedTask.getIdProperty())
+            getDatabase().deleteTask(selectedTask.getIdProperty())
 
             getTasksBasedOnFilters()
             setVisibilityUpdateTask(false)
@@ -178,7 +170,7 @@ class TasksTabController : Initializable {
         }
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
-        databaseService.updateTask(selectedTask)
+        getDatabase().updateTask(selectedTask)
 
         if(hideDoneTasksCheckBox.isSelected){
             setVisibilityUpdateTask(false)
@@ -196,7 +188,7 @@ class TasksTabController : Initializable {
         }
         if(selectedTask.getNameProperty() != taskUpdateArea.text){
             selectedTask.setNameProperty(taskUpdateArea.text)
-            databaseService.updateTask(selectedTask)
+            getDatabase().updateTask(selectedTask)
         }
 
         setVisibilityUpdateTask(false)
@@ -223,10 +215,10 @@ class TasksTabController : Initializable {
         tasks.clear()
 
         if(hideDoneTasksCheckBox.isSelected){
-            tasks.addAll(databaseService.getOpenTasks())
+            tasks.addAll(getDatabase().getOpenTasks())
             setVisibilityUpdateTask(false)
         }else{
-            tasks.addAll(databaseService.getTasks())
+            tasks.addAll(getDatabase().getTasks())
             tasks.filter { it.getIsDoneProperty() }
                 .map { it.setIsDoneIconProperty(isDoneTextIcon) }
         }
@@ -242,9 +234,5 @@ class TasksTabController : Initializable {
 
     fun showDialogMessage(title: String, content: String){
         FxMessageDialog.createMessageDialog(title, content)
-    }
-
-    fun getTranslation(key: TranslationKeys): String{
-        return languageService.getTranslationForKey(key)
     }
 }

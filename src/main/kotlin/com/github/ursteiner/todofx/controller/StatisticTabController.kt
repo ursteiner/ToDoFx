@@ -1,11 +1,8 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
-import com.github.ursteiner.todofx.service.DatabaseServiceImpl
-import com.github.ursteiner.todofx.service.LanguageServiceImpl
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.fxml.Initializable
 import javafx.scene.Node
 import javafx.scene.chart.*
 import javafx.scene.chart.XYChart.Series
@@ -14,7 +11,7 @@ import java.net.URL
 import java.util.*
 
 
-class StatisticTabController: Initializable {
+class StatisticTabController: CommonController() {
 
     @FXML
     private lateinit var pieChart: PieChart
@@ -28,13 +25,7 @@ class StatisticTabController: Initializable {
     @FXML
     private lateinit var xAxis: CategoryAxis
 
-    private lateinit var databaseService : DatabaseServiceImpl
-    private lateinit var languageService : LanguageServiceImpl
-
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        languageService = LanguageServiceImpl.getInstance(System.getProperty("user.language"))
-        databaseService = DatabaseServiceImpl.getInstance()
-
         pieChart.title = getTranslation(TranslationKeys.STATISTIC)
 
         barChart.title = getTranslation(TranslationKeys.TASKS_PER_MONTH)
@@ -47,9 +38,9 @@ class StatisticTabController: Initializable {
     fun buildPieChart(){
         val pieChartData = FXCollections.observableArrayList(
             PieChart.Data(getTranslation(TranslationKeys.OPEN_TASKS),
-                databaseService.getAmountOfOpenTasks().toDouble()),
+                getDatabase().getAmountOfOpenTasks().toDouble()),
             PieChart.Data(getTranslation(TranslationKeys.RESOLVED_TASKS),
-                databaseService.getAmountOfResolvedTasks().toDouble())
+                getDatabase().getAmountOfResolvedTasks().toDouble())
         )
         pieChart.data = pieChartData
         pieChart.data.forEach {
@@ -63,7 +54,7 @@ class StatisticTabController: Initializable {
         val series = Series<String?, Int?>()
         series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
 
-        databaseService.getTasksPerMonth(12).forEach {
+        getDatabase().getTasksPerMonth(12).forEach {
             entry ->
             series.data.add(XYChart.Data<String?, Int?>(entry.key, entry.value))
         }
@@ -76,7 +67,4 @@ class StatisticTabController: Initializable {
         Tooltip.install(node, tooltip)
     }
 
-    fun getTranslation(key: TranslationKeys): String{
-        return languageService.getTranslationForKey(key)
-    }
 }
