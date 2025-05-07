@@ -30,10 +30,10 @@ class CsvExportServiceImplTest {
 
         val textLineCaptor = ArgumentCaptor.forClass(String::class.java)
 
-        Mockito.verify(mockWriter, Mockito.atLeast(2)).write(textLineCaptor.capture());
+        Mockito.verify(mockWriter, Mockito.atLeast(2)).write(textLineCaptor.capture())
         Mockito.verify(mockWriter, Mockito.atLeast(2)).newLine()
-        Mockito.verify(mockWriter).flush();
-        Mockito.verify(mockWriter).close();
+        Mockito.verify(mockWriter).flush()
+        Mockito.verify(mockWriter).close()
 
         val keys: MutableList<String> = textLineCaptor.getAllValues()
         Assertions.assertEquals(keys[0], """"Id","Description","Date","Resolved"""")
