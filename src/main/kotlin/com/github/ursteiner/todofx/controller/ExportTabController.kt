@@ -25,8 +25,13 @@ class ExportTabController: CommonController() {
     @FXML
     fun onExportTaskButtonClick(){
         val fileChooser = FileChooser()
-        fileChooser.title = "Save"
-        fileChooser.initialFileName = "tasks.csv"
+        with(fileChooser){
+            title = "Save"
+            initialFileName = "tasks.csv"
+            extensionFilters.add(
+                FileChooser.ExtensionFilter("CSV", "*.csv"),
+            )
+        }
 
         when(val file = fileChooser.showSaveDialog(exportPane.scene.window)){
             null -> logger.info("CSV Exporter: no file selected")
