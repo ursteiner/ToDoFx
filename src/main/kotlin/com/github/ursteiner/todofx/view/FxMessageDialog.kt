@@ -6,11 +6,13 @@ import java.util.Optional
 
 object FxMessageDialog {
 
-    fun createMessageDialog(title: String, content: String, type: Alert.AlertType = Alert.AlertType.INFORMATION): Optional<ButtonType>{
+    fun createMessageDialog(aTitle: String, content: String, type: Alert.AlertType = Alert.AlertType.INFORMATION): Optional<ButtonType>{
         val alert = Alert(type)
-        alert.title = title
-        alert.contentText = content
-        return alert.showAndWait()
+        with(alert) {
+            title = aTitle
+            contentText = content
+            return showAndWait()
+        }
     }
 }
 

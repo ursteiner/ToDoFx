@@ -12,11 +12,11 @@ tasks.mv.db
 
 <table>
     <tr>
-        <td><img alt="ScreenshotTasks" src="ScreenshotTasks.png"></td>
-        <td><img alt="ScreenshotStatistic" src="ScreenshotStatistic.png"></td>
+        <td><img alt="ScreenshotTasks" src="screenshots/Tasks.png"></td>
+        <td><img alt="ScreenshotStatistic" src="screenshots/Statistic.png"></td>
     </tr>
     <tr>
-        <td><img alt="ScreenshotExport" src="ScreenshotExport.png"></td>
+        <td><img alt="ScreenshotExport" src="screenshots/Export.png"></td>
         <td>&nbsp;</td>
     </tr>
 </table>

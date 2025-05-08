@@ -9,12 +9,14 @@ import javafx.stage.Stage
 class ToDoFxApplication : Application() {
     override fun start(stage: Stage) {
         val fxmlLoader = FXMLLoader(ToDoFxApplication::class.java.getResource("toDoFx-view.fxml"))
-        val scene = Scene(fxmlLoader.load(), 750.0, 520.0)
-        stage.title = "ToDoFX"
-        stage.icons.add(Image(ToDoFxApplication::class.java.getResourceAsStream("appIcon.png")))
-        stage.scene = scene
-        stage.resizableProperty().set(false)
-        stage.show()
+        val startScene = Scene(fxmlLoader.load(), 750.0, 520.0)
+        with(stage){
+            title = "ToDoFX"
+            icons.add(Image(ToDoFxApplication::class.java.getResourceAsStream("appIcon.png")))
+            scene = startScene
+            resizableProperty().set(false)
+            show()
+        }
     }
 }
 
