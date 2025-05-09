@@ -2,18 +2,20 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Task
-import com.github.ursteiner.todofx.view.FxMessageDialog
+import com.github.ursteiner.todofx.view.FxUtils
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonType
 import javafx.scene.control.CheckBox
+import javafx.scene.control.Label
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.scene.control.TitledPane
+import javafx.stage.Stage
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -68,6 +70,9 @@ class TasksTabController : CommonController() {
     @FXML
     private lateinit var newTaskPane: TitledPane
 
+    @FXML
+    private lateinit var numberOfTasks: Label
+
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val isDoneTextIcon = "✔"
     private val tasks = mutableListOf<Task>()
@@ -115,7 +120,7 @@ class TasksTabController : CommonController() {
     @FXML
     private fun onSearchButtonClick(){
         if(searchTextField.text.isEmpty()){
-            FxMessageDialog.createMessageDialog(getTranslation(TranslationKeys.MISSING_SEARCH_TERM),
+            FxUtils.createMessageDialog(getTranslation(TranslationKeys.MISSING_SEARCH_TERM),
                 getTranslation(TranslationKeys.PLEASE_FILL_IN_SEARCH_TERM))
             return
         }
@@ -128,6 +133,7 @@ class TasksTabController : CommonController() {
 
         tableView.items = FXCollections.observableList(tasks)
         tableView.refresh()
+        updateAmountOfTasksLabel()
     }
 
     @Suppress("unused")
@@ -148,7 +154,7 @@ class TasksTabController : CommonController() {
             return
         }
 
-        val dialogResult = FxMessageDialog.createMessageDialog(
+        val dialogResult = FxUtils.createMessageDialog(
             getTranslation(TranslationKeys.CONFIRM_DELETING_TASK),
             """
                 #${getTranslation(TranslationKeys.DO_YOU_WANT_TO_DELETE_THE_TASK)}
@@ -232,6 +238,11 @@ class TasksTabController : CommonController() {
 
         tableView.items = FXCollections.observableList(tasks)
         tableView.refresh()
+        updateAmountOfTasksLabel()
+    }
+
+    fun updateAmountOfTasksLabel(){
+        numberOfTasks.text = "${tasks.size}/${getDatabase().getAmountOfOpenTasks() + getDatabase().getAmountOfResolvedTasks()}"
     }
 
     fun showDialogMessageFirstSelectATask(){
@@ -240,6 +251,6 @@ class TasksTabController : CommonController() {
     }
 
     fun showDialogMessage(title: String, content: String){
-        FxMessageDialog.createMessageDialog(title, content)
+        FxUtils.createMessageDialog(title, content)
     }
 }

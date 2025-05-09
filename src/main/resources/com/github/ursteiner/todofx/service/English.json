@@ -22,6 +22,7 @@
   "MISSING_SEARCH_TERM": "Missing search term",
   "PLEASE_FILL_IN_SEARCH_TERM": "Please first fill in a search term.",
   "EXPORT_CAN_BE_STORED_ANYWHERE": "The CSV file can be saved to any location.",
-  "TASKS_PER_MONTH": "Tasks/Month",
-  "MONTH": "Month"
+  "TASKS_PER_MONTH": "New Tasks/Month",
+  "MONTH": "Month",
+  "SAVE_EXPORTED_FILE": "Save file"
 }

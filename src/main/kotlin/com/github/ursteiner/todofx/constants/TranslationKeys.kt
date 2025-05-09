@@ -25,5 +25,6 @@ enum class TranslationKeys() {
     PLEASE_FILL_IN_SEARCH_TERM,
     EXPORT_CAN_BE_STORED_ANYWHERE,
     TASKS_PER_MONTH,
-    MONTH
+    MONTH,
+    SAVE_EXPORTED_FILE
 }

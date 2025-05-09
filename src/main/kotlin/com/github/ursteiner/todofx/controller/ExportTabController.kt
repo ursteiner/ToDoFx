@@ -26,7 +26,7 @@ class ExportTabController: CommonController() {
     fun onExportTaskButtonClick(){
         val fileChooser = FileChooser()
         with(fileChooser){
-            title = "Save"
+            title = getTranslation(TranslationKeys.SAVE_EXPORTED_FILE)
             initialFileName = "tasks.csv"
             extensionFilters.add(
                 FileChooser.ExtensionFilter("CSV", "*.csv"),

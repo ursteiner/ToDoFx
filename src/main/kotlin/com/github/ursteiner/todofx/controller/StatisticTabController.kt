@@ -1,12 +1,11 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import com.github.ursteiner.todofx.view.FxUtils
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.scene.Node
 import javafx.scene.chart.*
 import javafx.scene.chart.XYChart.Series
-import javafx.scene.control.Tooltip
 import java.net.URL
 import java.util.*
 
@@ -44,7 +43,7 @@ class StatisticTabController: CommonController() {
         )
         pieChart.data = pieChartData
         pieChart.data.forEach {
-            addToolTipToNode(it.node, it.name + ": " + String.format("%.0f", it.pieValue))
+            FxUtils.addToolTipToNode(it.node, it.name + ": " + String.format("%.0f", it.pieValue))
         }
     }
 
@@ -55,16 +54,13 @@ class StatisticTabController: CommonController() {
         series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
 
         getDatabase().getTasksPerMonth(12).forEach {
-            entry ->
-            series.data.add(XYChart.Data<String?, Int?>(entry.key, entry.value))
+            series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
         }
 
         barChart.data.addAll(series)
-    }
 
-    private fun addToolTipToNode(node: Node, tooltipText: String){
-        val tooltip = Tooltip(tooltipText)
-        Tooltip.install(node, tooltip)
+        series.data.forEach {
+            FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${it.yValue}")
+        }
     }
-
 }

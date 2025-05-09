@@ -22,6 +22,7 @@
   "MISSING_SEARCH_TERM": "Fehlender Suchbegriff",
   "PLEASE_FILL_IN_SEARCH_TERM": "Bitte zuerst einen Suchbegriff eingeben",
   "EXPORT_CAN_BE_STORED_ANYWHERE": "Die CSV Datei kann an einem beliebigen Ort gespeichert werden.",
-  "TASKS_PER_MONTH": "Tasks/Monat",
-  "MONTH": "Monat"
+  "TASKS_PER_MONTH": "Neue Tasks/Monat",
+  "MONTH": "Monat",
+  "SAVE_EXPORTED_FILE": "Datei speichern"
 }
