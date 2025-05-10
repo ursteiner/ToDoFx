@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 
 class DatabaseServiceImplTest {
 
-    val testCandidate: DatabaseService = DatabaseServiceImpl.getInstance("~/testTasks")
+    val testCandidate: DatabaseService = DatabaseServiceImpl.getInstance("./testTasks")
 
     @BeforeEach
     fun cleanupTestDatabase() {

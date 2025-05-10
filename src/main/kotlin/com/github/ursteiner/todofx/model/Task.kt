@@ -10,12 +10,14 @@ class Task {
     private val id: SimpleIntegerProperty = SimpleIntegerProperty()
     private val isDone: SimpleBooleanProperty = SimpleBooleanProperty(false)
     private val isDoneIcon: SimpleStringProperty = SimpleStringProperty("")
+    private val resolvedDate: SimpleStringProperty = SimpleStringProperty("")
 
-    constructor(name: String, date: String, id: Int = 0, isDone: Boolean = false){
+    constructor(name: String, date: String, id: Int = 0, isDone: Boolean = false, resolvedDate: String = ""){
         setNameProperty(name)
         setDateProperty(date)
         setIdProperty(id)
         setIsDoneProperty(isDone)
+        setResolvedDate(resolvedDate)
     }
 
     fun setNameProperty(taskName: String){
@@ -57,5 +59,13 @@ class Task {
     @Suppress("unused")
     fun getIsDoneIconProperty(): String{
         return isDoneIcon.get()
+    }
+
+    fun setResolvedDate(resolvedDate: String){
+        this.resolvedDate.set(resolvedDate)
+    }
+
+    fun getResolvedDate(): String{
+        return this.resolvedDate.get()
     }
 }

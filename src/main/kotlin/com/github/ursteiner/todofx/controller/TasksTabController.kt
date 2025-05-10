@@ -15,7 +15,6 @@ import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.scene.control.TitledPane
-import javafx.stage.Stage
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -178,6 +177,11 @@ class TasksTabController : CommonController() {
         if(selectedTask == null) {
             showDialogMessageFirstSelectATask()
             return
+        }
+
+        when(selectedTask.getResolvedDate()){
+            "" -> selectedTask.setResolvedDate(LocalDateTime.now().format(dateTimeFormat))
+            else -> selectedTask.setResolvedDate("")
         }
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())

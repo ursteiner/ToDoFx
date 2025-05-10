@@ -18,10 +18,10 @@ class CsvExportServiceImpl : ExportService {
     }
 
     override fun exportTasks(tasks: MutableList<Task>) {
-        writer.write(""""Id","Description","Date","Resolved"""")
+        writer.write(""""Id","Description","Date","Resolved","ResolvedDate"""")
         writer.newLine()
         tasks.forEach {
-            writer.write("${it.getIdProperty()},\"${it.getNameProperty()}\",${it.getDateProperty()},${it.getIsDoneProperty()}")
+            writer.write("${it.getIdProperty()},\"${it.getNameProperty()}\",${it.getDateProperty()},${it.getIsDoneProperty()},${it.getResolvedDate()}")
             writer.newLine()
         }
         writer.flush()

@@ -20,6 +20,7 @@ class DatabaseServiceImpl : DatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Tasks)
+            //SchemaUtils.createMissingTablesAndColumns(Tasks)
         }
     }
 
@@ -37,8 +38,9 @@ class DatabaseServiceImpl : DatabaseService {
     object Tasks : Table() {
         val id: Column<Int> = integer("id").autoIncrement()
         val name: Column<String> = varchar("name", length = 500)
-        val date: Column<String> = varchar("date", length = 500)
+        val date: Column<String> = varchar("date", length = 30)
         var isDone : Column<Boolean> = bool("isDone")
+        var resolvedDate: Column<String?> = varchar("resolvedDate", length = 30).nullable()
 
         override val primaryKey = PrimaryKey(id, name = "PK_Task_ID")
     }
@@ -115,6 +117,7 @@ class DatabaseServiceImpl : DatabaseService {
             updatedTasks = Tasks.update({ Tasks.id eq task.getIdProperty() }) {
                 it[isDone] = task.getIsDoneProperty()
                 it[name] = task.getNameProperty()
+                it[resolvedDate] = task.getResolvedDate()
             }
         }
         return updatedTasks

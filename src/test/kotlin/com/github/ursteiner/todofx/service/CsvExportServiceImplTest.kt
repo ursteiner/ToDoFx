@@ -36,7 +36,7 @@ class CsvExportServiceImplTest {
         Mockito.verify(mockWriter).close()
 
         val keys: MutableList<String> = textLineCaptor.getAllValues()
-        Assertions.assertEquals(keys[0], """"Id","Description","Date","Resolved"""")
-        Assertions.assertEquals(keys[1], """11,"Task1",2025-05-01 20:20,false""")
+        Assertions.assertEquals(keys[0], """"Id","Description","Date","Resolved","ResolvedDate"""")
+        Assertions.assertEquals(keys[1], """11,"Task1",2025-05-01 20:20,false,""")
     }
 }
