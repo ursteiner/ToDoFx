@@ -5,7 +5,7 @@
 
 
 ToDoFx is a simple introductory project using Kotlin and JavaFX to manage your tasks!
-All tasks are stored in an H2 database in your profile folder.
+All tasks are stored in an H2 database in your profile folder using JetBrains Exposed.
 ```
 tasks.mv.db
 ```
