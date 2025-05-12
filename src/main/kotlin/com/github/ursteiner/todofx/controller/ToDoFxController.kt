@@ -22,6 +22,8 @@ class ToDoFxController: CommonController() {
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         tabs.tabs[Tabs.STATISTICS.index].text = getTranslation(TranslationKeys.STATISTIC)
+        tabs.tabs[Tabs.SETTINGS.index].text = getTranslation(TranslationKeys.SETTINGS)
+
     }
 
     @FXML

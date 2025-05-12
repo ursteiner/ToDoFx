@@ -16,6 +16,9 @@
         <Tab text="Export">
             <fx:include source="export-tab-view.fxml"/>
         </Tab>
+        <Tab text="Settings">
+            <fx:include source="settings-tab-view.fxml"/>
+        </Tab>
     </TabPane>
 
 </VBox>

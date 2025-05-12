@@ -24,5 +24,8 @@
   "EXPORT_CAN_BE_STORED_ANYWHERE": "Die CSV Datei kann an einem beliebigen Ort gespeichert werden.",
   "TASKS_PER_MONTH": "Neue Tasks/Monat",
   "MONTH": "Monat",
-  "SAVE_EXPORTED_FILE": "Datei speichern"
+  "SAVE_EXPORTED_FILE": "Datei speichern",
+  "ADD_CATEGORY": "Kategorie hinzufügen",
+  "DELETE_CATEGORY": "Kategorie entfernen",
+  "SETTINGS": "Einstellungen"
 }

@@ -17,7 +17,7 @@ tasks.mv.db
     </tr>
     <tr>
         <td><img alt="ScreenshotExport" src="screenshots/Export.png"></td>
-        <td>&nbsp;</td>
+        <td><img alt="ScreenshotSettings" src="screenshots/Settings.png"></td>
     </tr>
 </table>
 
