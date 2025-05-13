@@ -29,5 +29,6 @@ enum class TranslationKeys() {
     SAVE_EXPORTED_FILE,
     ADD_CATEGORY,
     DELETE_CATEGORY,
-    SETTINGS
+    SETTINGS,
+    CATEGORIES
 }

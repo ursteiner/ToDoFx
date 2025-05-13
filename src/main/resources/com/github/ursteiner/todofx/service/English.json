@@ -26,6 +26,7 @@
   "MONTH": "Month",
   "SAVE_EXPORTED_FILE": "Save file",
   "ADD_CATEGORY": "Add category",
-  "DELETE_CATEGORY": "Delete category",
-  "SETTINGS": "Settings"
+  "DELETE_CATEGORY": "Delete",
+  "SETTINGS": "Settings",
+  "CATEGORIES": "Categories"
 }

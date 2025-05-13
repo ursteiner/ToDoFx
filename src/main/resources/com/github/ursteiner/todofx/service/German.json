@@ -25,7 +25,8 @@
   "TASKS_PER_MONTH": "Neue Tasks/Monat",
   "MONTH": "Monat",
   "SAVE_EXPORTED_FILE": "Datei speichern",
-  "ADD_CATEGORY": "Kategorie hinzufügen",
-  "DELETE_CATEGORY": "Kategorie entfernen",
-  "SETTINGS": "Einstellungen"
+  "ADD_CATEGORY": "hinzufügen",
+  "DELETE_CATEGORY": "entfernen",
+  "SETTINGS": "Einstellungen",
+  "CATEGORIES": "Kategorien"
 }

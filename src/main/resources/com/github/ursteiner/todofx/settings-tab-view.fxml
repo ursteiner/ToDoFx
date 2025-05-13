@@ -14,7 +14,7 @@
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
             </padding>
-            <TitledPane collapsible="false" minHeight="300">
+            <TitledPane fx:id="categoriesTitledPane" collapsible="false" minHeight="300">
                 <ListView fx:id="categoriesListView" maxHeight="300"/>
             </TitledPane>
             <TextField fx:id="categoryTextField"/>

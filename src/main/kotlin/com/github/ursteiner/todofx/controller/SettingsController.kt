@@ -1,6 +1,7 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import com.github.ursteiner.todofx.model.Category
 import javafx.beans.property.ListProperty
 import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
@@ -9,11 +10,15 @@ import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.ListView
 import javafx.scene.control.TextField
+import javafx.scene.control.TitledPane
 import java.net.URL
 import java.util.*
 
 
 class SettingsController: CommonController() {
+
+    @FXML
+    private lateinit var categoriesTitledPane: TitledPane
 
     @FXML
     private lateinit var categoriesListView: ListView<String>
@@ -27,38 +32,50 @@ class SettingsController: CommonController() {
     @FXML
     private lateinit var deleteCategoryButton: Button
 
-    var listProperty: ListProperty<String> = SimpleListProperty()
-    private lateinit var categories: ObservableList<String>
+    private var listProperty: ListProperty<String> = SimpleListProperty()
+    private lateinit var categoriesObservable: ObservableList<String>
+    private val categories = mutableListOf<Category>()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
+        categoriesTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
+
         addCategoryButton.text = getTranslation(TranslationKeys.ADD_CATEGORY)
         deleteCategoryButton.text = getTranslation(TranslationKeys.DELETE_CATEGORY)
 
-        //TODO replace static category List with entries from database
-        categories = FXCollections.observableArrayList()
-        categories.add("Privat")
-        categories.add("Firma")
+        initCategories()
 
         categoriesListView.itemsProperty().bind(listProperty)
-        listProperty.set(categories)
+        listProperty.set(categoriesObservable)
     }
 
     @FXML
     fun onAddCategoryButtonClick(){
         if(categoryTextField.text != ""){
-            categories.add(categoryTextField.text)
+            categoriesObservable.add(categoryTextField.text)
+            getDatabase().addCategory(Category(categoryTextField.text, 0))
+            initCategories()
             categoriesListView.refresh()
-
             categoryTextField.text = ""
         }
     }
 
     @FXML
     fun onDeleteCategoryButtonClick(){
+        val selectedCategory = categoriesListView.selectionModel.selectedItem
         if(categoriesListView.selectionModel.selectedItem == null){
             return
         }
 
-        categories.remove(categoriesListView.selectionModel.selectedItem)
+        categories.filter { it.name == selectedCategory }.forEach { getDatabase().deleteCategory(it.id) }
+        initCategories()
+    }
+
+    fun initCategories(){
+        categories.clear()
+        categories.addAll(getDatabase().getCategories())
+        categoriesObservable = FXCollections.observableArrayList()
+        categories.forEach {
+            categoriesObservable.add(it.name)
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.github.ursteiner.todofx.service
 
+import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -20,6 +21,7 @@ class DatabaseServiceImpl : DatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Tasks)
+            SchemaUtils.create(Categories)
             //SchemaUtils.createMissingTablesAndColumns(Tasks)
         }
     }
@@ -43,6 +45,13 @@ class DatabaseServiceImpl : DatabaseService {
         var resolvedDate: Column<String?> = varchar("resolvedDate", length = 30).nullable()
 
         override val primaryKey = PrimaryKey(id, name = "PK_Task_ID")
+    }
+
+    object Categories : Table() {
+        val id: Column<Int> = integer("id").autoIncrement()
+        val name: Column<String> = varchar("name", length = 100)
+
+        override val primaryKey = PrimaryKey(id, name = "PK_Category_ID")
     }
 
     override fun addTask(newTask: Task) = transaction {
@@ -157,6 +166,42 @@ class DatabaseServiceImpl : DatabaseService {
         }
 
         return resultMap
+    }
+
+    override fun getCategories(): MutableList<Category> {
+        logger.info("Get Categories")
+        val categories = mutableListOf<Category>()
+
+        transaction {
+            addLogger(StdOutSqlLogger)
+            val databaseCategories = Categories.selectAll()
+
+            databaseCategories.forEach {
+                categories.add(Category(it[Categories.name], it[Categories.id]))
+            }
+        }
+        return categories
+    }
+
+    override fun addCategory(category: Category) = transaction {
+        logger.info("Category added: ${category.name}")
+        addLogger(StdOutSqlLogger)
+        val categoryId = Categories.insert {
+            it[name] = category.name
+        } get Categories.id
+
+        category.id = categoryId
+    }
+
+    override fun deleteCategory(categoryId: Int): Int {
+        logger.info("Delete category: $categoryId")
+        var deletedCategories = 0
+
+        transaction {
+            addLogger(StdOutSqlLogger)
+            deletedCategories = Categories.deleteWhere { Categories.id eq categoryId }
+        }
+        return deletedCategories
     }
 
     private fun getYearMonth(beforeXMonths: Int): String{
