@@ -2,6 +2,7 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Category
+import com.github.ursteiner.todofx.view.FxUtils
 import javafx.beans.property.ListProperty
 import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
@@ -63,6 +64,7 @@ class SettingsController: CommonController() {
     fun onDeleteCategoryButtonClick(){
         val selectedCategory = categoriesListView.selectionModel.selectedItem
         if(categoriesListView.selectionModel.selectedItem == null){
+            FxUtils.createMessageDialog(getTranslation(TranslationKeys.CATEGORIES), getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY))
             return
         }
 

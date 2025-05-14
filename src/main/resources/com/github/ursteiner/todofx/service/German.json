@@ -28,5 +28,6 @@
   "ADD_CATEGORY": "hinzufügen",
   "DELETE_CATEGORY": "entfernen",
   "SETTINGS": "Einstellungen",
-  "CATEGORIES": "Kategorien"
+  "CATEGORIES": "Kategorien",
+  "PLEASE_FIRST_SELECT_A_CATEGORY": "Bitte wählen Sie zuerst eine Kategorie aus"
 }
