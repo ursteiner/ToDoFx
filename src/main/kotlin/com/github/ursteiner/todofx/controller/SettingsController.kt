@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
+import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ListView
 import javafx.scene.control.TextField
@@ -68,8 +69,13 @@ class SettingsController: CommonController() {
             return
         }
 
-        categories.filter { it.name == selectedCategory }.forEach { getDatabase().deleteCategory(it.id) }
-        initCategories()
+        try {
+            categories.filter { it.name == selectedCategory }.forEach { getDatabase().deleteCategory(it.id) }
+            initCategories()
+        }catch (ex: Exception){
+            //TODO missing translation
+            FxUtils.createMessageDialog("Could not delete category", "Category might still be in use:\n\n${ex.message}", Alert.AlertType.WARNING)
+        }
     }
 
     fun initCategories(){

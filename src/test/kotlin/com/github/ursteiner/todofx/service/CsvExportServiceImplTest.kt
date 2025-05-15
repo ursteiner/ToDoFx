@@ -22,7 +22,7 @@ class CsvExportServiceImplTest {
 
     @Test
     fun testExportTasks(){
-        val task1 = Task("Task1", "2025-05-01 20:20", 11, false)
+        val task1 = Task("Task1", "2025-05-01 20:20", "work", 11, false)
         val tasks = mutableListOf<Task>()
         tasks.add(task1)
 
@@ -36,7 +36,7 @@ class CsvExportServiceImplTest {
         Mockito.verify(mockWriter).close()
 
         val keys: MutableList<String> = textLineCaptor.getAllValues()
-        Assertions.assertEquals(keys[0], """"Id","Description","Date","Resolved","ResolvedDate"""")
-        Assertions.assertEquals(keys[1], """11,"Task1",2025-05-01 20:20,false,""")
+        Assertions.assertEquals(keys[0], """"Id","Description","Category",Date","Resolved","ResolvedDate"""")
+        Assertions.assertEquals(keys[1], """11,"Task1","work",2025-05-01 20:20,false,""")
     }
 }

@@ -1,5 +1,7 @@
 package com.github.ursteiner.todofx.service
 
+import com.github.ursteiner.todofx.database.Categories
+import com.github.ursteiner.todofx.database.Tasks
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.sql.*
@@ -12,7 +14,7 @@ import java.util.Date
 import java.util.GregorianCalendar
 
 
-class DatabaseServiceImpl : DatabaseService {
+class DatabaseServiceImpl: TasksDatabaseService, CategoriesDatabaseService {
     private val logger = LoggerFactory.getLogger(DatabaseServiceImpl::class.java)
 
     private constructor(databasePathName: String){
@@ -21,9 +23,9 @@ class DatabaseServiceImpl : DatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Tasks)
-            //SchemaUtils.create(Categories)
-            SchemaUtils.createMissingTablesAndColumns(Tasks)
-            SchemaUtils.createMissingTablesAndColumns(Categories)
+            SchemaUtils.create(Categories)
+            //SchemaUtils.createMissingTablesAndColumns(Tasks)
+            //SchemaUtils.createMissingTablesAndColumns(Categories)
         }
     }
 
@@ -38,32 +40,14 @@ class DatabaseServiceImpl : DatabaseService {
             }
     }
 
-    object Tasks : Table() {
-        val id: Column<Int> = integer("id").autoIncrement()
-        val name: Column<String> = varchar("name", length = 500)
-        val date: Column<String> = varchar("date", length = 30)
-        val isDone: Column<Boolean> = bool("isDone")
-        val resolvedDate: Column<String?> = varchar("resolvedDate", length = 30).nullable()
-        val categoryId: Column<Int?> = integer("categoryId").references(Categories.id).nullable()
-
-        override val primaryKey = PrimaryKey(id, name = "PK_Task_ID")
-    }
-
-    object Categories : Table() {
-        val id: Column<Int> = integer("id").autoIncrement()
-        val name: Column<String> = varchar("name", length = 100)
-
-        override val primaryKey = PrimaryKey(id, name = "PK_Category_ID")
-    }
-
-    override fun addTask(newTask: Task, categoryNumber: Int?) = transaction {
+    override fun addTask(newTask: Task, categoryNumber: Int) = transaction {
         logger.info("Task added: ${newTask.getNameProperty()}")
         addLogger(StdOutSqlLogger)
         val taskId = Tasks.insert {
             it[name] = newTask.getNameProperty()
             it[date] = newTask.getDateProperty()
             it[isDone] = newTask.getIsDoneProperty()
-            if(categoryNumber != null){
+            if(categoryNumber > 0){
                 it[categoryId] = categoryNumber
             }
         } get Tasks.id
@@ -132,7 +116,7 @@ class DatabaseServiceImpl : DatabaseService {
                 it[isDone] = task.getIsDoneProperty()
                 it[name] = task.getNameProperty()
                 it[resolvedDate] = task.getResolvedDate()
-                if(categoryNumber >=0 ){
+                if(categoryNumber >= 0){
                     it[categoryId] = categoryNumber
                 }
             }

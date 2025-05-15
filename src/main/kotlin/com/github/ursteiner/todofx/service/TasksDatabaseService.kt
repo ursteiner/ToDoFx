@@ -1,10 +1,9 @@
 package com.github.ursteiner.todofx.service
 
-import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.Task
 
-interface DatabaseService {
-    fun addTask(newTask: Task, categoryNumber: Int?)
+interface TasksDatabaseService {
+    fun addTask(newTask: Task, categoryNumber: Int)
     fun getResolvedTasks(): MutableList<Task>
     fun getOpenTasks(): MutableList<Task>
     fun getTasks(resolved: Boolean? = null): MutableList<Task>
@@ -14,8 +13,4 @@ interface DatabaseService {
     fun getAmountOfResolvedTasks(): Long
     fun getAmountOfOpenTasks(): Long
     fun getTasksPerMonth(lastXMonths: Int): MutableMap<String, Int>
-
-    fun getCategories(): MutableList<Category>
-    fun addCategory(category: Category)
-    fun deleteCategory(categoryId: Int): Int
 }

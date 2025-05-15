@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 class DatabaseServiceImplTest {
 
-    val testCandidate: DatabaseService = DatabaseServiceImpl.getInstance("./testTasks")
+    val testCandidate = DatabaseServiceImpl.getInstance("./testTasks")
 
     @BeforeEach
     fun cleanupTestDatabase() {
@@ -28,8 +28,8 @@ class DatabaseServiceImplTest {
 
     @Test
     fun testAddTask() {
-        val testTask = Task("This is a Test Task", "2025-04-20 10:00")
-        testCandidate.addTask(testTask)
+        val testTask = Task("This is a Test Task", "2025-04-20 10:00", "")
+        testCandidate.addTask(testTask, -1)
 
         val databaseTasks = testCandidate.getTasks()
 
@@ -51,11 +51,11 @@ class DatabaseServiceImplTest {
 
     @Test
     fun testDeleteTask() {
-        val testTask1 = Task("This is a Test Task", "2025-04-20 10:00")
-        testCandidate.addTask(testTask1)
+        val testTask1 = Task("This is a Test Task", "2025-04-20 10:00", "")
+        testCandidate.addTask(testTask1, -1)
 
-        val testTask2 = Task("This is second Test Task", "2025-04-21 10:00")
-        testCandidate.addTask(testTask2)
+        val testTask2 = Task("This is second Test Task", "2025-04-21 10:00", "")
+        testCandidate.addTask(testTask2, -1)
 
         val numberOfDeletedTasks = testCandidate.deleteTask(testTask1.getIdProperty())
         Assertions.assertEquals(1,
@@ -82,14 +82,14 @@ class DatabaseServiceImplTest {
 
     @Test
     fun testUpdateTask() {
-        val testTask = Task("Task1", "2025-04-20 10:00")
-        testCandidate.addTask(testTask)
+        val testTask = Task("Task1", "2025-04-20 10:00", "")
+        testCandidate.addTask(testTask, -1)
 
-        val testTask2 = Task("This is second Test Task", "2025-04-21 10:00")
-        testCandidate.addTask(testTask2)
+        val testTask2 = Task("This is second Test Task", "2025-04-21 10:00", "")
+        testCandidate.addTask(testTask2, -1)
 
         testTask.setIsDoneProperty(true)
-        val updatedTasks : Int = testCandidate.updateTask(testTask2)
+        val updatedTasks : Int = testCandidate.updateTask(testTask2, -1)
 
         Assertions.assertEquals(1,
             updatedTasks,
@@ -99,11 +99,11 @@ class DatabaseServiceImplTest {
 
     @Test
     fun testGetAmountOfTasks() {
-        val testTask1 = Task("Task1", "2025-04-20 10:00", 0, false)
-        testCandidate.addTask(testTask1)
+        val testTask1 = Task("Task1", "2025-04-20 10:00", "", 0, false)
+        testCandidate.addTask(testTask1, -1)
 
-        val testTask2 = Task("This is second Test Task", "2025-04-21 10:00", 0, true)
-        testCandidate.addTask(testTask2)
+        val testTask2 = Task("This is second Test Task", "2025-04-21 10:00", "", 0, true)
+        testCandidate.addTask(testTask2, -1)
 
         val amountOfResolvedTasks : Long = testCandidate.getAmountOfResolvedTasks()
 
@@ -117,17 +117,19 @@ class DatabaseServiceImplTest {
     fun testGetTasksPerMonth(){
         val testTask1 = Task("Task1",
             "2024-04-20 10:00",
+            "",
             0,
             false)
-        testCandidate.addTask(testTask1)
+        testCandidate.addTask(testTask1, -1)
 
         val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM")
         val currentYearMonth = LocalDateTime.now().format(dateTimeFormat)
         val testTask2 = Task("This is second Test Task",
             currentYearMonth,
+            "",
             0,
             true)
-        testCandidate.addTask(testTask2)
+        testCandidate.addTask(testTask2, -1)
 
         val databaseResult = testCandidate.getTasksPerMonth(1)
         Assertions.assertEquals(1, databaseResult.size, "There should be one entry in the map")
