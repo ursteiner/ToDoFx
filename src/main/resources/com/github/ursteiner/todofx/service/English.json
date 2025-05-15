@@ -28,6 +28,7 @@
   "ADD_CATEGORY": "Add category",
   "DELETE_CATEGORY": "Delete",
   "SETTINGS": "Settings",
+  "CATEGORY": "Category",
   "CATEGORIES": "Categories",
   "PLEASE_FIRST_SELECT_A_CATEGORY": "Please first select a category"
 }

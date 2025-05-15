@@ -1,24 +1,17 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.view.FxUtils
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.scene.control.Alert
-import javafx.scene.control.Button
-import javafx.scene.control.ButtonType
-import javafx.scene.control.CheckBox
-import javafx.scene.control.Label
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.TextArea
-import javafx.scene.control.TextField
-import javafx.scene.control.TitledPane
+import javafx.scene.control.*
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.ResourceBundle
+import java.util.*
+
 
 class TasksTabController : CommonController() {
     @FXML
@@ -34,7 +27,13 @@ class TasksTabController : CommonController() {
     private lateinit var hideDoneTasksCheckBox: CheckBox
 
     @FXML
+    private lateinit var updateCategoryComboBox: ComboBox<Category>
+
+    @FXML
     private lateinit var updateTaskButton: Button
+
+    @FXML
+    private lateinit var newCategoryComboBox: ComboBox<Category>
 
     @FXML
     private lateinit var addTaskButton: Button
@@ -61,6 +60,9 @@ class TasksTabController : CommonController() {
     private lateinit var dateColumn: TableColumn<String, String>
 
     @FXML
+    private lateinit var categoryColumn: TableColumn<String, String>
+
+    @FXML
     private lateinit var doneColumn: TableColumn<String, String>
 
     @FXML
@@ -79,6 +81,15 @@ class TasksTabController : CommonController() {
     override fun initialize(p0: URL?, p1: ResourceBundle?){
         initializeFieldNames()
         getTasksBasedOnFilters()
+
+        val categories = getDatabase().getCategories()
+
+        newCategoryComboBox.items.add(Category("", -1))
+        newCategoryComboBox.items.addAll(categories)
+        newCategoryComboBox.selectionModel.selectFirst()
+
+        updateCategoryComboBox.items.add(Category("", -1))
+        updateCategoryComboBox.items.addAll(categories)
     }
 
     fun initializeFieldNames(){
@@ -96,6 +107,7 @@ class TasksTabController : CommonController() {
         idColumn.text = getTranslation(TranslationKeys.ID)
         descriptionColumn.text = getTranslation(TranslationKeys.DESCRIPTION)
         dateColumn.text = getTranslation(TranslationKeys.DATE)
+        categoryColumn.text = getTranslation(TranslationKeys.CATEGORY)
         doneColumn.text = getTranslation(TranslationKeys.DONE)
     }
 
@@ -108,11 +120,14 @@ class TasksTabController : CommonController() {
             return
         }
 
-        val newTask = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1)
+        val selectedCategory = newCategoryComboBox.selectionModel.selectedItem
+
+        val newTask = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), selectedCategory.name, -1)
         tasks.add(newTask)
-        getDatabase().addTask(newTask)
+        getDatabase().addTask(newTask, selectedCategory.id)
         getTasksBasedOnFilters()
         taskNameInput.text = ""
+        newCategoryComboBox.selectionModel.selectFirst()
     }
 
     @Suppress("unused")
@@ -185,7 +200,7 @@ class TasksTabController : CommonController() {
         }
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
-        getDatabase().updateTask(selectedTask)
+        getDatabase().updateTask(selectedTask, -1)
 
         if(hideDoneTasksCheckBox.isSelected){
             setVisibilityUpdateTask(false)
@@ -198,14 +213,16 @@ class TasksTabController : CommonController() {
     @FXML
     private fun onUpdateTaskButtonClick(){
         val selectedTask = tableView.selectionModel.selectedItem
+        val selectedCategory = updateCategoryComboBox.selectionModel.selectedItem
         if(selectedTask == null) {
             showDialogMessageFirstSelectATask()
             return
         }
-        if(selectedTask.getNameProperty() != taskUpdateArea.text){
-            selectedTask.setNameProperty(taskUpdateArea.text)
-            getDatabase().updateTask(selectedTask)
-        }
+
+        selectedTask.setNameProperty(taskUpdateArea.text)
+        selectedTask.setCategoryProperty(selectedCategory.name)
+
+        getDatabase().updateTask(selectedTask, selectedCategory.id)
 
         setVisibilityUpdateTask(false)
         tableView.refresh()
@@ -215,6 +232,7 @@ class TasksTabController : CommonController() {
         taskUpdateArea.isVisible = isVisible
         updateTaskButton.isVisible = isVisible
         editTaskPane.isVisible = isVisible
+        updateCategoryComboBox.isVisible = isVisible
     }
 
     @Suppress("unused")
@@ -223,6 +241,16 @@ class TasksTabController : CommonController() {
         val selectedTask = tableView.selectionModel.selectedItem
         if(selectedTask != null) {
             taskUpdateArea.text = selectedTask.getNameProperty()
+
+            when(selectedTask.getCategoryProperty()){
+                "" -> updateCategoryComboBox.selectionModel.selectFirst()
+                else -> updateCategoryComboBox.items.forEach {
+                    if(it.name == selectedTask.getCategoryProperty()){
+                        updateCategoryComboBox.selectionModel.select(it)
+                    }
+                }
+            }
+
             setVisibilityUpdateTask(true)
         }
     }

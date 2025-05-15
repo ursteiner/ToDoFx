@@ -7,8 +7,8 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.ursteiner.todofx.controller.SettingsController"
-            prefHeight="750.0" prefWidth="520.0">
-    <HBox minWidth="750">
+            prefHeight="840.0" prefWidth="520.0">
+    <HBox minWidth="840">
         <Pane HBox.hgrow="ALWAYS" />
         <VBox>
             <padding>

@@ -21,8 +21,9 @@ class DatabaseServiceImpl : DatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Tasks)
-            SchemaUtils.create(Categories)
-            //SchemaUtils.createMissingTablesAndColumns(Tasks)
+            //SchemaUtils.create(Categories)
+            SchemaUtils.createMissingTablesAndColumns(Tasks)
+            SchemaUtils.createMissingTablesAndColumns(Categories)
         }
     }
 
@@ -41,8 +42,9 @@ class DatabaseServiceImpl : DatabaseService {
         val id: Column<Int> = integer("id").autoIncrement()
         val name: Column<String> = varchar("name", length = 500)
         val date: Column<String> = varchar("date", length = 30)
-        var isDone : Column<Boolean> = bool("isDone")
-        var resolvedDate: Column<String?> = varchar("resolvedDate", length = 30).nullable()
+        val isDone: Column<Boolean> = bool("isDone")
+        val resolvedDate: Column<String?> = varchar("resolvedDate", length = 30).nullable()
+        val categoryId: Column<Int?> = integer("categoryId").references(Categories.id).nullable()
 
         override val primaryKey = PrimaryKey(id, name = "PK_Task_ID")
     }
@@ -54,13 +56,16 @@ class DatabaseServiceImpl : DatabaseService {
         override val primaryKey = PrimaryKey(id, name = "PK_Category_ID")
     }
 
-    override fun addTask(newTask: Task) = transaction {
+    override fun addTask(newTask: Task, categoryNumber: Int?) = transaction {
         logger.info("Task added: ${newTask.getNameProperty()}")
         addLogger(StdOutSqlLogger)
         val taskId = Tasks.insert {
             it[name] = newTask.getNameProperty()
             it[date] = newTask.getDateProperty()
             it[isDone] = newTask.getIsDoneProperty()
+            if(categoryNumber != null){
+                it[categoryId] = categoryNumber
+            }
         } get Tasks.id
 
         newTask.setIdProperty(taskId)
@@ -81,11 +86,11 @@ class DatabaseServiceImpl : DatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             val databaseTasks = when(resolved){
-                null -> Tasks.selectAll()
-                else -> Tasks.selectAll().where { Tasks.isDone eq resolved }
+                null -> (Tasks leftJoin Categories).selectAll()
+                else -> (Tasks leftJoin Categories).selectAll().where { Tasks.isDone eq resolved }
             }
             databaseTasks.forEach {
-                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Tasks.id], it[Tasks.isDone]))
+                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name],it[Tasks.id], it[Tasks.isDone]))
             }
         }
         return tasks
@@ -97,10 +102,10 @@ class DatabaseServiceImpl : DatabaseService {
 
         transaction {
             addLogger(StdOutSqlLogger)
-            val databaseTasks = Tasks.selectAll().where { LowerCase(Tasks.name) like search }
+            val databaseTasks = (Tasks leftJoin Categories).selectAll().where { LowerCase(Tasks.name) like search }
 
             databaseTasks.forEach {
-                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Tasks.id], it[Tasks.isDone]))
+                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name], it[Tasks.id], it[Tasks.isDone]))
             }
         }
         return tasks
@@ -117,7 +122,7 @@ class DatabaseServiceImpl : DatabaseService {
         return deletedTasks
     }
 
-    override fun updateTask(task: Task): Int {
+    override fun updateTask(task: Task, categoryNumber: Int): Int {
         logger.info("Update Task: ${task.getIdProperty()}")
         var updatedTasks = 0
 
@@ -127,6 +132,9 @@ class DatabaseServiceImpl : DatabaseService {
                 it[isDone] = task.getIsDoneProperty()
                 it[name] = task.getNameProperty()
                 it[resolvedDate] = task.getResolvedDate()
+                if(categoryNumber >=0 ){
+                    it[categoryId] = categoryNumber
+                }
             }
         }
         return updatedTasks

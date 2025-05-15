@@ -30,6 +30,7 @@ enum class TranslationKeys() {
     ADD_CATEGORY,
     DELETE_CATEGORY,
     SETTINGS,
+    CATEGORY,
     CATEGORIES,
     PLEASE_FIRST_SELECT_A_CATEGORY
 }

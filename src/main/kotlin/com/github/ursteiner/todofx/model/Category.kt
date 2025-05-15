@@ -1,3 +1,8 @@
 package com.github.ursteiner.todofx.model
 
-data class Category(val name: String, var id: Int)
+data class Category(val name: String, var id: Int){
+
+    override fun toString(): String {
+        return name
+    }
+}

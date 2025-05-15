@@ -21,7 +21,11 @@
                     <TextArea fx:id="taskNameInput" wrapText="true" />
                 </VBox>
             </TitledPane>
-            <Button fx:id="addTaskButton" text="Add task" onAction="#onAddTaskButtonClick"/>
+            <HBox>
+                <ComboBox fx:id="newCategoryComboBox"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button fx:id="addTaskButton" text="Add task" onAction="#onAddTaskButtonClick"/>
+            </HBox>
             <TitledPane fx:id="editTaskPane" text="Edit task description:" collapsible="false">
                 <VBox>
                     <padding>
@@ -30,7 +34,11 @@
                     <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false"/>
                 </VBox>
             </TitledPane>
-            <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false"/>
+            <HBox>
+                <ComboBox fx:id="updateCategoryComboBox"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false"/>
+            </HBox>
         </VBox>
         <VBox minWidth="10"/>
         <VBox>
@@ -45,12 +53,16 @@
                         <cellValueFactory><PropertyValueFactory property="idProperty" />
                         </cellValueFactory>
                     </TableColumn>
+                    <TableColumn fx:id="dateColumn" text="Date" minWidth="100">
+                        <cellValueFactory><PropertyValueFactory property="dateProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
                     <TableColumn fx:id="descriptionColumn" text="Description" minWidth="230">
                         <cellValueFactory><PropertyValueFactory property="nameProperty" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="dateColumn" text="Date" minWidth="100">
-                        <cellValueFactory><PropertyValueFactory property="dateProperty" />
+                    <TableColumn fx:id="categoryColumn" text="Category" minWidth="100">
+                        <cellValueFactory><PropertyValueFactory property="categoryProperty" />
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn fx:id="doneColumn" text="Done" minWidth="50" style="-fx-alignment:center;">
