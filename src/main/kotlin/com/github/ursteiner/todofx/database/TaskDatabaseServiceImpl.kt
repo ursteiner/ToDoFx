@@ -1,8 +1,5 @@
-package com.github.ursteiner.todofx.service
+package com.github.ursteiner.todofx.database
 
-import com.github.ursteiner.todofx.database.Categories
-import com.github.ursteiner.todofx.database.Tasks
-import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -14,29 +11,27 @@ import java.util.Date
 import java.util.GregorianCalendar
 
 
-class DatabaseServiceImpl: TasksDatabaseService, CategoriesDatabaseService {
-    private val logger = LoggerFactory.getLogger(DatabaseServiceImpl::class.java)
+class TaskDatabaseServiceImpl: TaskDatabaseService {
+    private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImpl::class.java)
 
     private constructor(databasePathName: String){
-        logger.info("Database connect to $databasePathName")
+        logger.info("Set database connection to $databasePathName")
         Database.connect("jdbc:h2:file:${databasePathName}", driver = "org.h2.Driver", user = "root", password = "")
         transaction {
             addLogger(StdOutSqlLogger)
-            SchemaUtils.create(Tasks)
             SchemaUtils.create(Categories)
             //SchemaUtils.createMissingTablesAndColumns(Tasks)
-            //SchemaUtils.createMissingTablesAndColumns(Categories)
         }
     }
 
     companion object {
 
         @Volatile
-        private var instance: DatabaseServiceImpl? = null
+        private var instance: TaskDatabaseServiceImpl? = null
 
         fun getInstance(databasePathName: String = "~/tasks") =
             instance ?: synchronized(this) {
-                instance ?: DatabaseServiceImpl(databasePathName).also { instance = it }
+                instance ?: TaskDatabaseServiceImpl(databasePathName).also { instance = it }
             }
     }
 
@@ -86,7 +81,8 @@ class DatabaseServiceImpl: TasksDatabaseService, CategoriesDatabaseService {
 
         transaction {
             addLogger(StdOutSqlLogger)
-            val databaseTasks = (Tasks leftJoin Categories).selectAll().where { LowerCase(Tasks.name) like search }
+            val databaseTasks = (Tasks leftJoin Categories).selectAll().where {
+                LowerCase(Tasks.name) like search or(  LowerCase( Categories.name) like search) }
 
             databaseTasks.forEach {
                 tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name], it[Tasks.id], it[Tasks.isDone]))
@@ -158,42 +154,6 @@ class DatabaseServiceImpl: TasksDatabaseService, CategoriesDatabaseService {
         }
 
         return resultMap
-    }
-
-    override fun getCategories(): MutableList<Category> {
-        logger.info("Get Categories")
-        val categories = mutableListOf<Category>()
-
-        transaction {
-            addLogger(StdOutSqlLogger)
-            val databaseCategories = Categories.selectAll()
-
-            databaseCategories.forEach {
-                categories.add(Category(it[Categories.name], it[Categories.id]))
-            }
-        }
-        return categories
-    }
-
-    override fun addCategory(category: Category) = transaction {
-        logger.info("Category added: ${category.name}")
-        addLogger(StdOutSqlLogger)
-        val categoryId = Categories.insert {
-            it[name] = category.name
-        } get Categories.id
-
-        category.id = categoryId
-    }
-
-    override fun deleteCategory(categoryId: Int): Int {
-        logger.info("Delete category: $categoryId")
-        var deletedCategories = 0
-
-        transaction {
-            addLogger(StdOutSqlLogger)
-            deletedCategories = Categories.deleteWhere { Categories.id eq categoryId }
-        }
-        return deletedCategories
     }
 
     private fun getYearMonth(beforeXMonths: Int): String{

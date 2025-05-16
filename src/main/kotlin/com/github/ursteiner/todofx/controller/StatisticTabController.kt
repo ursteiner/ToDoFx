@@ -25,7 +25,7 @@ class StatisticTabController: CommonController() {
     private lateinit var xAxis: CategoryAxis
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        pieChart.title = getTranslation(TranslationKeys.STATISTIC)
+        pieChart.title = "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
 
         barChart.title = getTranslation(TranslationKeys.TASKS_PER_MONTH)
         xAxis.label = getTranslation(TranslationKeys.MONTH)
@@ -37,9 +37,9 @@ class StatisticTabController: CommonController() {
     fun buildPieChart(){
         val pieChartData = FXCollections.observableArrayList(
             PieChart.Data(getTranslation(TranslationKeys.OPEN_TASKS),
-                getDatabase().getAmountOfOpenTasks().toDouble()),
+                getTaskDatabase().getAmountOfOpenTasks().toDouble()),
             PieChart.Data(getTranslation(TranslationKeys.RESOLVED_TASKS),
-                getDatabase().getAmountOfResolvedTasks().toDouble())
+                getTaskDatabase().getAmountOfResolvedTasks().toDouble())
         )
         pieChart.data = pieChartData
         pieChart.data.forEach {
@@ -53,7 +53,7 @@ class StatisticTabController: CommonController() {
         val series = Series<String?, Int?>()
         series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
 
-        getDatabase().getTasksPerMonth(12).forEach {
+        getTaskDatabase().getTasksPerMonth(12).forEach {
             series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
         }
 

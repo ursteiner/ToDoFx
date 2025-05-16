@@ -1,8 +1,8 @@
-package com.github.ursteiner.todofx.service
+package com.github.ursteiner.todofx.database
 
 import com.github.ursteiner.todofx.model.Task
 
-interface TasksDatabaseService {
+interface TaskDatabaseService {
     fun addTask(newTask: Task, categoryNumber: Int)
     fun getResolvedTasks(): MutableList<Task>
     fun getOpenTasks(): MutableList<Task>

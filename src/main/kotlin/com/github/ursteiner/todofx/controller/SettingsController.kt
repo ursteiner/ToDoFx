@@ -13,11 +13,14 @@ import javafx.scene.control.Button
 import javafx.scene.control.ListView
 import javafx.scene.control.TextField
 import javafx.scene.control.TitledPane
+import org.slf4j.LoggerFactory
 import java.net.URL
 import java.util.*
 
 
 class SettingsController: CommonController() {
+
+    private val logger = LoggerFactory.getLogger(SettingsController::class.java)
 
     @FXML
     private lateinit var categoriesTitledPane: TitledPane
@@ -54,7 +57,7 @@ class SettingsController: CommonController() {
     fun onAddCategoryButtonClick(){
         if(categoryTextField.text != ""){
             categoriesObservable.add(categoryTextField.text)
-            getDatabase().addCategory(Category(categoryTextField.text, 0))
+            getCategoryDatabase().addCategory(Category(categoryTextField.text, 0))
             initCategories()
             categoriesListView.refresh()
             categoryTextField.text = ""
@@ -70,17 +73,17 @@ class SettingsController: CommonController() {
         }
 
         try {
-            categories.filter { it.name == selectedCategory }.forEach { getDatabase().deleteCategory(it.id) }
+            categories.filter { it.name == selectedCategory }.forEach { getCategoryDatabase().deleteCategory(it.id) }
             initCategories()
         }catch (ex: Exception){
-            //TODO missing translation
+            logger.error("Could not delete category ${ex.message}")
             FxUtils.createMessageDialog("Could not delete category", "Category might still be in use:\n\n${ex.message}", Alert.AlertType.WARNING)
         }
     }
 
     fun initCategories(){
         categories.clear()
-        categories.addAll(getDatabase().getCategories())
+        categories.addAll(getCategoryDatabase().getCategories())
         categoriesObservable = FXCollections.observableArrayList()
         categories.forEach {
             categoriesObservable.add(it.name)

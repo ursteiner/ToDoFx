@@ -7,7 +7,7 @@ import kotlin.enums.enumEntries
 
 class LanguageServiceImplTest {
 
-    val testCandidate = LanguageServiceImpl.getInstance("en")
+    private val testCandidate = LanguageServiceImpl.getInstance("en")
 
     @Test
     fun testGetFirstSelectTaskInTableEnglish(){

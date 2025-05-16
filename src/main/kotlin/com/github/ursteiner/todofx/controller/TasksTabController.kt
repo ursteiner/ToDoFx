@@ -82,7 +82,7 @@ class TasksTabController : CommonController() {
         initializeFieldNames()
         getTasksBasedOnFilters()
 
-        val categories = getDatabase().getCategories()
+        val categories = getCategoryDatabase().getCategories()
 
         newCategoryComboBox.items.add(Category("", -1))
         newCategoryComboBox.items.addAll(categories)
@@ -124,7 +124,7 @@ class TasksTabController : CommonController() {
 
         val newTask = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), selectedCategory.name, -1)
         tasks.add(newTask)
-        getDatabase().addTask(newTask, selectedCategory.id)
+        getTaskDatabase().addTask(newTask, selectedCategory.id)
         getTasksBasedOnFilters()
         taskNameInput.text = ""
         newCategoryComboBox.selectionModel.selectFirst()
@@ -140,7 +140,7 @@ class TasksTabController : CommonController() {
         }
 
         tasks.clear()
-        tasks.addAll(getDatabase().getSearchedTasks(("%${searchTextField.text}%".lowercase())))
+        tasks.addAll(getTaskDatabase().getSearchedTasks(("%${searchTextField.text}%".lowercase())))
 
         tasks.filter { it.getIsDoneProperty() }
             .map { it.setIsDoneIconProperty(isDoneTextIcon) }
@@ -178,7 +178,7 @@ class TasksTabController : CommonController() {
         )
 
         if(dialogResult.isPresent && dialogResult.get() == ButtonType.OK) {
-            getDatabase().deleteTask(selectedTask.getIdProperty())
+            getTaskDatabase().deleteTask(selectedTask.getIdProperty())
 
             getTasksBasedOnFilters()
             setVisibilityUpdateTask(false)
@@ -200,7 +200,7 @@ class TasksTabController : CommonController() {
         }
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
-        getDatabase().updateTask(selectedTask, -1)
+        getTaskDatabase().updateTask(selectedTask, -1)
 
         if(hideDoneTasksCheckBox.isSelected){
             setVisibilityUpdateTask(false)
@@ -222,7 +222,7 @@ class TasksTabController : CommonController() {
         selectedTask.setNameProperty(taskUpdateArea.text)
         selectedTask.setCategoryProperty(selectedCategory.name)
 
-        getDatabase().updateTask(selectedTask, selectedCategory.id)
+        getTaskDatabase().updateTask(selectedTask, selectedCategory.id)
 
         setVisibilityUpdateTask(false)
         tableView.refresh()
@@ -260,10 +260,10 @@ class TasksTabController : CommonController() {
         tasks.clear()
 
         if(hideDoneTasksCheckBox.isSelected){
-            tasks.addAll(getDatabase().getOpenTasks())
+            tasks.addAll(getTaskDatabase().getOpenTasks())
             setVisibilityUpdateTask(false)
         }else{
-            tasks.addAll(getDatabase().getTasks())
+            tasks.addAll(getTaskDatabase().getTasks())
             tasks.filter { it.getIsDoneProperty() }
                 .map { it.setIsDoneIconProperty(isDoneTextIcon) }
         }
@@ -274,7 +274,7 @@ class TasksTabController : CommonController() {
     }
 
     fun updateAmountOfTasksLabel(){
-        numberOfTasks.text = "${tasks.size}/${getDatabase().getAmountOfOpenTasks() + getDatabase().getAmountOfResolvedTasks()}"
+        numberOfTasks.text = "${tasks.size}/${getTaskDatabase().getAmountOfOpenTasks() + getTaskDatabase().getAmountOfResolvedTasks()}"
     }
 
     fun showDialogMessageFirstSelectATask(){
