@@ -19,7 +19,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
         Database.connect("jdbc:h2:file:${databasePathName}", driver = "org.h2.Driver", user = "root", password = "")
         transaction {
             addLogger(StdOutSqlLogger)
-            SchemaUtils.create(Categories)
+            SchemaUtils.create(Tasks)
             //SchemaUtils.createMissingTablesAndColumns(Tasks)
         }
     }
