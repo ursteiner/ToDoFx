@@ -12,6 +12,8 @@ class ToDoFxController: CommonController() {
 
     lateinit var statisticsTabPage: AnchorPane
 
+    lateinit var settingsTabPage: AnchorPane
+
     @FXML
     private lateinit var tabPane : TabPane
 
@@ -30,8 +32,6 @@ class ToDoFxController: CommonController() {
             tabs[Tabs.EXPORT.index].text = getTranslation(TranslationKeys.EXPORT)
             tabs[Tabs.SETTINGS.index].text = getTranslation(TranslationKeys.SETTINGS)
         }
-
-
     }
 
     @FXML
