@@ -18,9 +18,9 @@ import java.net.URL
 import java.util.*
 
 
-class SettingsController: CommonController() {
+class SettingsTabController: CommonController() {
 
-    private val logger = LoggerFactory.getLogger(SettingsController::class.java)
+    private val logger = LoggerFactory.getLogger(SettingsTabController::class.java)
 
     @FXML
     private lateinit var categoriesTitledPane: TitledPane
@@ -47,8 +47,7 @@ class SettingsController: CommonController() {
         addCategoryButton.text = getTranslation(TranslationKeys.ADD_CATEGORY)
         deleteCategoryButton.text = getTranslation(TranslationKeys.DELETE_CATEGORY)
 
-        initCategories()
-
+        categoriesObservable = FXCollections.observableArrayList()
         categoriesListView.itemsProperty().bind(listProperty)
         listProperty.set(categoriesObservable)
     }
@@ -67,7 +66,7 @@ class SettingsController: CommonController() {
     @FXML
     fun onDeleteCategoryButtonClick(){
         val selectedCategory = categoriesListView.selectionModel.selectedItem
-        if(categoriesListView.selectionModel.selectedItem == null){
+        if(selectedCategory == null){
             FxUtils.createMessageDialog(getTranslation(TranslationKeys.CATEGORIES), getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY))
             return
         }
@@ -82,9 +81,10 @@ class SettingsController: CommonController() {
     }
 
     fun initCategories(){
+        categoriesObservable.clear()
+
         categories.clear()
         categories.addAll(getCategoryDatabase().getCategories())
-        categoriesObservable = FXCollections.observableArrayList()
         categories.forEach {
             categoriesObservable.add(it.name)
         }

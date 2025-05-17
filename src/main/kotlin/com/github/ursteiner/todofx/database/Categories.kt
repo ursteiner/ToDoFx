@@ -1,7 +1,7 @@
 package com.github.ursteiner.todofx.database
 
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.v1.core.Column
+import org.jetbrains.exposed.v1.core.Table
 
 object Categories : Table() {
     val id: Column<Int> = integer("id").autoIncrement()

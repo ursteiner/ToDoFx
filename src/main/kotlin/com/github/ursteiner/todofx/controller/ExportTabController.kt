@@ -4,6 +4,7 @@ import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.service.CsvExportServiceImpl
 import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.TitledPane
 import javafx.stage.FileChooser
 import org.slf4j.LoggerFactory
@@ -18,8 +19,12 @@ class ExportTabController: CommonController() {
     @FXML
     private lateinit var exportPane: TitledPane
 
+    @FXML
+    private lateinit var exportButton: Button
+
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         exportPane.text = getTranslation(TranslationKeys.EXPORT_CAN_BE_STORED_ANYWHERE)
+        exportButton.text = getTranslation(TranslationKeys.EXPORT)
     }
 
     @FXML

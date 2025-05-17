@@ -200,7 +200,7 @@ class TasksTabController : CommonController() {
         }
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
-        getTaskDatabase().updateTask(selectedTask, -1)
+        getTaskDatabase().updateTask(selectedTask)
 
         if(hideDoneTasksCheckBox.isSelected){
             setVisibilityUpdateTask(false)

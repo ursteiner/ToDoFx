@@ -18,6 +18,8 @@
   "FIRST_FILL_IN_A_DESCRIPTION": "Please first fill in a description of the task!",
   "NEW_TASK_DESCRIPTION": "New task description:",
   "TASK": "Task",
+  "TASKS": "Tasks",
+  "EXPORT": "Export",
   "SEARCH": "\uD83D\uDD0D search",
   "MISSING_SEARCH_TERM": "Missing search term",
   "PLEASE_FILL_IN_SEARCH_TERM": "Please first fill in a search term.",

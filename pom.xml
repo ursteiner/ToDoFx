@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.2</junit.version>
         <kotlin.version>2.1.0</kotlin.version>
-        <exposed.version>0.60.0</exposed.version>
+        <exposed.version>1.0.0-beta-1</exposed.version>
         <javafx.version>21.0.7</javafx.version>
         <h2.version>2.2.220</h2.version>
         <surefire.version>3.5.3</surefire.version>

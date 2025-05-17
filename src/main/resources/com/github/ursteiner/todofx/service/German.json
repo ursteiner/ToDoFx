@@ -18,6 +18,8 @@
   "FIRST_FILL_IN_A_DESCRIPTION": "Bitte zuerst die Beschreibung des Tasks ausfüllen!",
   "NEW_TASK_DESCRIPTION": "Neuer Task:",
   "TASK": "Task",
+  "TASKS": "Tasks",
+  "EXPORT": "Export",
   "SEARCH": "\uD83D\uDD0D suchen",
   "MISSING_SEARCH_TERM": "Fehlender Suchbegriff",
   "PLEASE_FILL_IN_SEARCH_TERM": "Bitte zuerst einen Suchbegriff eingeben",

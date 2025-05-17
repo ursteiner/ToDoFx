@@ -13,27 +13,45 @@ class ToDoFxController: CommonController() {
     lateinit var statisticsTabPage: AnchorPane
 
     @FXML
-    private lateinit var tabs : TabPane
+    private lateinit var tabPane : TabPane
 
     @FXML
     private lateinit var statisticsTabPageController: StatisticTabController
 
+    @FXML
+    private lateinit var settingsTabPageController: SettingsTabController
+
     private var selectedTab = Tabs.TASKS
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        tabs.tabs[Tabs.STATISTICS.index].text = getTranslation(TranslationKeys.STATISTIC)
-        tabs.tabs[Tabs.SETTINGS.index].text = getTranslation(TranslationKeys.SETTINGS)
+        with(tabPane){
+            tabs[Tabs.TASKS.index].text = getTranslation(TranslationKeys.TASKS)
+            tabs[Tabs.STATISTICS.index].text = getTranslation(TranslationKeys.STATISTIC)
+            tabs[Tabs.EXPORT.index].text = getTranslation(TranslationKeys.EXPORT)
+            tabs[Tabs.SETTINGS.index].text = getTranslation(TranslationKeys.SETTINGS)
+        }
+
 
     }
 
     @FXML
     fun onTabClicked(){
-        val currentTab = Tabs.entries[tabs.selectionModel.selectedIndex]
+        val currentTab = Tabs.entries[tabPane.selectionModel.selectedIndex]
 
-        if(tabs.selectionModel.isSelected(Tabs.STATISTICS.index) && currentTab != selectedTab){
-            statisticsTabPageController.buildPieChart()
-            statisticsTabPageController.buildBarChart()
+        if(currentTab == selectedTab){
+            return
         }
+
+        when(tabPane.selectionModel.selectedIndex){
+            Tabs.STATISTICS.index -> {
+                statisticsTabPageController.buildPieChart()
+                statisticsTabPageController.buildBarChart()
+            }
+            Tabs.SETTINGS.index -> {
+                settingsTabPageController.initCategories()
+            }
+        }
+
         selectedTab = currentTab
     }
 }

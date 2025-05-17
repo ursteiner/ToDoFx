@@ -1,9 +1,21 @@
 package com.github.ursteiner.todofx.database
 
 import com.github.ursteiner.todofx.model.Task
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.core.LowerCase
+import org.jetbrains.exposed.v1.jdbc.Database
+import org.jetbrains.exposed.v1.jdbc.SchemaUtils
+import org.jetbrains.exposed.v1.core.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.v1.core.StdOutSqlLogger
+import org.jetbrains.exposed.v1.core.count
+import org.jetbrains.exposed.v1.core.or
+import org.jetbrains.exposed.v1.core.substring
+import org.jetbrains.exposed.v1.jdbc.addLogger
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import org.slf4j.LoggerFactory
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -69,7 +81,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
                 else -> (Tasks leftJoin Categories).selectAll().where { Tasks.isDone eq resolved }
             }
             databaseTasks.forEach {
-                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name],it[Tasks.id], it[Tasks.isDone]))
+                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name],it[Tasks.id], it[Tasks.isDone], it[Tasks.resolvedDate] ?: ""))
             }
         }
         return tasks
@@ -82,7 +94,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             val databaseTasks = (Tasks leftJoin Categories).selectAll().where {
-                LowerCase(Tasks.name) like search or(  LowerCase( Categories.name) like search) }
+                LowerCase(Tasks.name) like search or (  LowerCase( Categories.name) like search) }
 
             databaseTasks.forEach {
                 tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name], it[Tasks.id], it[Tasks.isDone]))

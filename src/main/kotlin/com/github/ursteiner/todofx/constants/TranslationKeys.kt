@@ -20,6 +20,8 @@ enum class TranslationKeys() {
     FIRST_FILL_IN_A_DESCRIPTION,
     NEW_TASK_DESCRIPTION,
     TASK,
+    TASKS,
+    EXPORT,
     SEARCH,
     MISSING_SEARCH_TERM,
     PLEASE_FILL_IN_SEARCH_TERM,
