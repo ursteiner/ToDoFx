@@ -1,10 +1,10 @@
 {
   "FIRST_SELECT_TASK_IN_TABLE": "Please first select a task in the table!",
   "HIDE_DONE_TASKS": "hide done tasks",
-  "UPDATE_TASK": "Update task",
+  "UPDATE_TASK": "Update",
   "EDIT_TASK_DESCRIPTION": "Edit task description:",
   "STATISTIC": "Statistic",
-  "ADD_TASK": "Add task",
+  "ADD_TASK": "Add",
   "RESOLVE_TASK": "Un/resolve Task",
   "DELETE_TASK": "Delete task",
   "ID": "Id",

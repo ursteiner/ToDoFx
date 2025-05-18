@@ -44,8 +44,9 @@ class ToDoFxController: CommonController() {
 
         when(tabPane.selectionModel.selectedIndex){
             Tabs.STATISTICS.index -> {
-                statisticsTabPageController.buildPieChart()
-                statisticsTabPageController.buildBarChart()
+                statisticsTabPageController.buildPieChartResolvedOpen()
+                statisticsTabPageController.buildBarChartTasksPerMonth()
+                statisticsTabPageController.buildPieChartTasksPerCategory()
             }
             Tabs.SETTINGS.index -> {
                 settingsTabPageController.initCategories()

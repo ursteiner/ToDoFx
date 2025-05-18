@@ -1,10 +1,10 @@
 {
   "FIRST_SELECT_TASK_IN_TABLE": "Bitte zuerst einen Task in der Tabelle auswählen!",
   "HIDE_DONE_TASKS": "erledigte Tasks ausblenden",
-  "UPDATE_TASK": "Task aktualisieren",
+  "UPDATE_TASK": "aktualisieren",
   "EDIT_TASK_DESCRIPTION": "Task bearbeiten:",
   "STATISTIC": "Statistik",
-  "ADD_TASK": "Task hinzufügen",
+  "ADD_TASK": "hinzufügen",
   "RESOLVE_TASK": "Task nicht/erledigen",
   "DELETE_TASK": "Task löschen",
   "ID": "Id",

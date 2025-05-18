@@ -168,6 +168,22 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
         return resultMap
     }
 
+    override fun getTasksPerCategory(): MutableMap<String, Int> {
+        logger.info("Get Tasks per category.")
+        val resultMap = mutableMapOf<String, Int>()
+
+        transaction {
+            addLogger(StdOutSqlLogger)
+            (Categories leftJoin Tasks).select(Categories.name, Categories.name.count())
+                .groupBy(Categories.name)
+                .forEach {
+                    resultMap.put(it[Categories.name], it[Categories.name.count()].toInt())
+                }
+        }
+
+        return resultMap
+    }
+
     private fun getYearMonth(beforeXMonths: Int): String{
         val c: Calendar = GregorianCalendar()
         c.setTime(Date())

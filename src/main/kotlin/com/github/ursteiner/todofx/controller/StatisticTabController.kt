@@ -6,6 +6,7 @@ import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.chart.*
 import javafx.scene.chart.XYChart.Series
+import javafx.scene.control.TitledPane
 import java.net.URL
 import java.util.*
 
@@ -13,10 +14,22 @@ import java.util.*
 class StatisticTabController: CommonController() {
 
     @FXML
-    private lateinit var pieChart: PieChart
+    private lateinit var pieChartOpenResolved: PieChart
 
     @FXML
-    private lateinit var barChart: BarChart<String,Int>
+    private lateinit var pieChartTasksPerCategory: PieChart
+
+    @FXML
+    private lateinit var openResolvedTitledPane: TitledPane
+
+    @FXML
+    private lateinit var tasksPerCategoryTitledPane: TitledPane
+
+    @FXML
+    private lateinit var tasksPerMonthTitledPane: TitledPane
+
+    @FXML
+    private lateinit var barChartTasksPerMonth: BarChart<String,Int>
 
     @FXML
     private lateinit var yAxis: NumberAxis
@@ -25,30 +38,44 @@ class StatisticTabController: CommonController() {
     private lateinit var xAxis: CategoryAxis
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        pieChart.title = "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
+        openResolvedTitledPane.text = "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
+        tasksPerCategoryTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
 
-        barChart.title = getTranslation(TranslationKeys.TASKS_PER_MONTH)
+        tasksPerMonthTitledPane.text = getTranslation(TranslationKeys.TASKS_PER_MONTH)
         xAxis.label = getTranslation(TranslationKeys.MONTH)
         //workaround for bad label positioning
         xAxis.animated = false
         yAxis.label = "#Tasks"
     }
 
-    fun buildPieChart(){
+    fun buildPieChartResolvedOpen(){
         val pieChartData = FXCollections.observableArrayList(
             PieChart.Data(getTranslation(TranslationKeys.OPEN_TASKS),
                 getTaskDatabase().getAmountOfOpenTasks().toDouble()),
             PieChart.Data(getTranslation(TranslationKeys.RESOLVED_TASKS),
                 getTaskDatabase().getAmountOfResolvedTasks().toDouble())
         )
-        pieChart.data = pieChartData
-        pieChart.data.forEach {
+        pieChartOpenResolved.data = pieChartData
+        pieChartOpenResolved.data.forEach {
             FxUtils.addToolTipToNode(it.node, it.name + ": " + String.format("%.0f", it.pieValue))
         }
     }
 
-    fun buildBarChart(){
-        barChart.data.clear()
+    fun buildPieChartTasksPerCategory(){
+        val categoriesObservable = FXCollections.observableArrayList<PieChart.Data>()
+        val categories = getTaskDatabase().getTasksPerCategory()
+        categories.keys.forEach {
+            key -> categoriesObservable.add(PieChart.Data(key, categories[key]?.toDouble() ?: 0.0))
+        }
+
+        pieChartTasksPerCategory.data = categoriesObservable
+        pieChartTasksPerCategory.data.forEach {
+            FxUtils.addToolTipToNode(it.node, it.name + ": " + String.format("%.0f", it.pieValue))
+        }
+    }
+
+    fun buildBarChartTasksPerMonth(){
+        barChartTasksPerMonth.data.clear()
 
         val series = Series<String?, Int?>()
         series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
@@ -57,7 +84,7 @@ class StatisticTabController: CommonController() {
             series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
         }
 
-        barChart.data.addAll(series)
+        barChartTasksPerMonth.data.addAll(series)
 
         series.data.forEach {
             FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${it.yValue}")
