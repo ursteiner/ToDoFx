@@ -5,26 +5,31 @@ import com.github.ursteiner.todofx.model.Category
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.slf4j.LoggerFactory
 
 class CategoryDatabaseServiceImplTest {
-
-    val testCandidate = CategoryDatabaseServiceImpl.getInstance("./testTasks")
+    private val logger = LoggerFactory.getLogger(CategoryDatabaseServiceImplTest::class.java)
+    private val testCandidate = CategoryDatabaseServiceImpl.getInstance("./testTasks")
 
     @BeforeEach
     fun cleanupTestDatabase() {
         testCandidate.getCategories().forEach {
             testCandidate.deleteCategory(it.id)
-            println("Deleted category: ${it.id}")
+            logger.info("Deleted category: ${it.id}")
         }
     }
 
     @Test
     fun testAddCategory(){
-        val testCategory = Category("privat", 0)
-        testCandidate.addCategory(testCategory)
-        val categories = testCandidate.getCategories()
+        val testCategory1 = Category("work", 0)
+        testCandidate.addCategory(testCategory1)
 
-        Assertions.assertEquals(testCategory.name, categories[0].name, "The category name should match")
+        val testCategory2 = Category("private", 0)
+        testCandidate.addCategory(testCategory2)
+
+        val categories = testCandidate.getCategories()
+        Assertions.assertEquals(testCategory2.name, categories[0].name, "The category name should match")
+        Assertions.assertEquals(testCategory1.name, categories[1].name, "Category work should be returned as second entry because of sorting")
     }
 
     @Test
@@ -35,7 +40,7 @@ class CategoryDatabaseServiceImplTest {
 
     @Test
     fun testDeleteCategory(){
-        val testCategory = Category("privat", 0)
+        val testCategory = Category("private", 0)
         testCandidate.addCategory(testCategory)
         val deletedCategories = testCandidate.deleteCategory(testCategory.id)
 

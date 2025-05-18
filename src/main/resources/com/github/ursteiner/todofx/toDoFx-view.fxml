@@ -7,16 +7,16 @@
       fx:controller="com.github.ursteiner.todofx.controller.ToDoFxController">
 
     <TabPane fx:id="tabPane" onMouseClicked="#onTabClicked">
-        <Tab text="Tasks">
+        <Tab text="Tasks" closable="false">
             <fx:include source="tasks-tab-view.fxml"/>
         </Tab>
-        <Tab text="Statistic">
+        <Tab text="Statistic" closable="false">
             <fx:include fx:id="statisticsTabPage" source="statistic-tab-view.fxml"/>
         </Tab>
-        <Tab text="Export">
+        <Tab text="Export" closable="false">
             <fx:include source="export-tab-view.fxml"/>
         </Tab>
-        <Tab text="Settings">
+        <Tab text="Settings" closable="false">
             <fx:include fx:id="settingsTabPage" source="settings-tab-view.fxml"/>
         </Tab>
     </TabPane>

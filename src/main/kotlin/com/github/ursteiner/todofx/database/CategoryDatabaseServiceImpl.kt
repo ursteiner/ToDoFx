@@ -1,6 +1,7 @@
 package com.github.ursteiner.todofx.database
 
 import com.github.ursteiner.todofx.model.Category
+import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.core.SqlExpressionBuilder.eq
@@ -43,7 +44,7 @@ class CategoryDatabaseServiceImpl : CategoryDatabaseService {
 
         transaction {
             addLogger(StdOutSqlLogger)
-            val databaseCategories = Categories.selectAll()
+            val databaseCategories = Categories.selectAll().orderBy(Categories.name, SortOrder.ASC)
 
             databaseCategories.forEach {
                 categories.add(Category(it[Categories.name], it[Categories.id]))

@@ -6,7 +6,6 @@ import com.github.ursteiner.todofx.view.FxUtils
 import javafx.beans.property.ListProperty
 import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
-import javafx.collections.ObservableList
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
@@ -38,7 +37,7 @@ class SettingsTabController: CommonController() {
     private lateinit var deleteCategoryButton: Button
 
     private var listProperty: ListProperty<String> = SimpleListProperty()
-    private lateinit var categoriesObservable: ObservableList<String>
+    private var categoriesObservable = FXCollections.observableArrayList<String>()
     private val categories = mutableListOf<Category>()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
@@ -47,7 +46,6 @@ class SettingsTabController: CommonController() {
         addCategoryButton.text = getTranslation(TranslationKeys.ADD_CATEGORY)
         deleteCategoryButton.text = getTranslation(TranslationKeys.DELETE_CATEGORY)
 
-        categoriesObservable = FXCollections.observableArrayList()
         categoriesListView.itemsProperty().bind(listProperty)
         listProperty.set(categoriesObservable)
     }

@@ -20,7 +20,6 @@ class Task {
         setIsDoneProperty(isDone)
         setResolvedDate(resolvedDate)
         setCategoryProperty(categoryName ?: "")
-
     }
 
     fun setNameProperty(taskName: String){

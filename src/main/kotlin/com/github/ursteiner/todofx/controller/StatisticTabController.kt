@@ -37,6 +37,8 @@ class StatisticTabController: CommonController() {
     @FXML
     private lateinit var xAxis: CategoryAxis
 
+    private val TASKS_LAST_X_MONTH = 12
+
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         openResolvedTitledPane.text = "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
         tasksPerCategoryTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
@@ -70,7 +72,7 @@ class StatisticTabController: CommonController() {
 
         pieChartTasksPerCategory.data = categoriesObservable
         pieChartTasksPerCategory.data.forEach {
-            FxUtils.addToolTipToNode(it.node, it.name + ": " + String.format("%.0f", it.pieValue))
+            FxUtils.addToolTipToNode(it.node, "${it.name}: ${String.format("%.0f", it.pieValue)}")
         }
     }
 
@@ -80,7 +82,7 @@ class StatisticTabController: CommonController() {
         val series = Series<String?, Int?>()
         series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
 
-        getTaskDatabase().getTasksPerMonth(12).forEach {
+        getTaskDatabase().getTasksPerMonth(TASKS_LAST_X_MONTH).forEach {
             series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
         }
 

@@ -24,7 +24,7 @@ class ExportTabController: CommonController() {
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         exportPane.text = getTranslation(TranslationKeys.EXPORT_CAN_BE_STORED_ANYWHERE)
-        exportButton.text = "💾 " + getTranslation(TranslationKeys.EXPORT)
+        exportButton.text = "💾 ${getTranslation(TranslationKeys.EXPORT)}"
     }
 
     @FXML

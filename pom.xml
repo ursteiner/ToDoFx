@@ -22,7 +22,7 @@
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
         <kotlinxJson.version>1.8.1</kotlinxJson.version>
         <mockito.version>5.17.0</mockito.version>
-        <log4j.version>2.0.17</log4j.version>
+        <slf4j.version>2.0.17</slf4j.version>
     </properties>
 
     <dependencies>
@@ -93,8 +93,8 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${log4j.version}</version>
+            <artifactId>slf4j-reload4j</artifactId>
+            <version>${slf4j.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

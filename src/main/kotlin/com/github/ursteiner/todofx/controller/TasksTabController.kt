@@ -237,22 +237,24 @@ class TasksTabController : CommonController() {
 
     @Suppress("unused")
     @FXML
-    private fun onTaskSelected(){
+    private fun onTaskSelected() {
         val selectedTask = tableView.selectionModel.selectedItem
-        if(selectedTask != null) {
-            taskUpdateArea.text = selectedTask.getNameProperty()
+        if (selectedTask == null) {
+            return
+        }
+        
+        taskUpdateArea.text = selectedTask.getNameProperty()
 
-            when(selectedTask.getCategoryProperty()){
-                "" -> updateCategoryComboBox.selectionModel.selectFirst()
-                else -> updateCategoryComboBox.items.forEach {
-                    if(it.name == selectedTask.getCategoryProperty()){
-                        updateCategoryComboBox.selectionModel.select(it)
-                    }
+        when (selectedTask.getCategoryProperty()) {
+            "" -> updateCategoryComboBox.selectionModel.selectFirst()
+            else -> updateCategoryComboBox.items.forEach {
+                if (it.name == selectedTask.getCategoryProperty()) {
+                    updateCategoryComboBox.selectionModel.select(it)
                 }
             }
-
-            setVisibilityUpdateTask(true)
         }
+
+        setVisibilityUpdateTask(true)
     }
 
     @FXML

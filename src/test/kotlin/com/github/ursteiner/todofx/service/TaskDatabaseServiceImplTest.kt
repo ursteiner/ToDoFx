@@ -6,18 +6,19 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
+import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class TaskDatabaseServiceImplTest {
-
+    private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImplTest::class.java)
     private val testCandidate = TaskDatabaseServiceImpl.getInstance("./testTasks")
 
     @BeforeEach
     fun cleanupTestDatabase() {
         testCandidate.getTasks().forEach {
             testCandidate.deleteTask(it.getIdProperty())
-            println("Deleted task: ${it.getIdProperty()}")
+            logger.info("Deleted task: ${it.getIdProperty()}")
         }
     }
 
