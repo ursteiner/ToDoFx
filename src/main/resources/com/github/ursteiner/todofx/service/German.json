@@ -1,7 +1,7 @@
 {
   "FIRST_SELECT_TASK_IN_TABLE": "Bitte zuerst einen Task in der Tabelle auswählen!",
   "HIDE_DONE_TASKS": "erledigte Tasks ausblenden",
-  "UPDATE_TASK": "aktualisieren",
+  "UPDATE": "aktualisieren",
   "EDIT_TASK_DESCRIPTION": "Task bearbeiten:",
   "STATISTIC": "Statistik",
   "ADD_TASK": "hinzufügen",
@@ -32,5 +32,9 @@
   "SETTINGS": "Einstellungen",
   "CATEGORY": "Kategorie",
   "CATEGORIES": "Kategorien",
-  "PLEASE_FIRST_SELECT_A_CATEGORY": "Bitte wählen Sie zuerst eine Kategorie aus"
+  "PLEASE_FIRST_SELECT_A_CATEGORY": "Bitte wählen Sie zuerst eine Kategorie aus",
+  "DUPLICATE_CATEGORY": "Doppelte Kategorie",
+  "CATEGORY_IS_ALREADY_AVAILABLE": "Kategorie ist schon vorhanden",
+  "COULD_NOT_DELETE_CATEGORY": "Kategorie konnte nicht gelöscht werden",
+  "CATEGORY_MIGHT_STILL_BE_IN_USE": "Kategorie ist vermutlich noch in Verwendung"
 }

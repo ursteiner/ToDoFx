@@ -3,7 +3,7 @@ package com.github.ursteiner.todofx.constants
 enum class TranslationKeys() {
     FIRST_SELECT_TASK_IN_TABLE,
     HIDE_DONE_TASKS,
-    UPDATE_TASK,
+    UPDATE,
     EDIT_TASK_DESCRIPTION,
     STATISTIC,
     ADD_TASK,
@@ -34,5 +34,9 @@ enum class TranslationKeys() {
     SETTINGS,
     CATEGORY,
     CATEGORIES,
-    PLEASE_FIRST_SELECT_A_CATEGORY
+    PLEASE_FIRST_SELECT_A_CATEGORY,
+    DUPLICATE_CATEGORY,
+    CATEGORY_IS_ALREADY_AVAILABLE,
+    COULD_NOT_DELETE_CATEGORY,
+    CATEGORY_MIGHT_STILL_BE_IN_USE
 }

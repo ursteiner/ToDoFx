@@ -43,6 +43,9 @@ class ToDoFxController: CommonController() {
         }
 
         when(tabPane.selectionModel.selectedIndex){
+            Tabs.TASKS.index -> {
+                //TODO reload category dropdown
+            }
             Tabs.STATISTICS.index -> {
                 statisticsTabPageController.buildPieChartResolvedOpen()
                 statisticsTabPageController.buildBarChartTasksPerMonth()

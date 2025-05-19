@@ -101,7 +101,7 @@ class TasksTabController : CommonController() {
         addTaskButton.text = getTranslation(TranslationKeys.ADD_TASK)
         resolveTaskButton.text = getTranslation(TranslationKeys.RESOLVE_TASK)
         deleteTaskButton.text = getTranslation(TranslationKeys.DELETE_TASK)
-        updateTaskButton.text = getTranslation(TranslationKeys.UPDATE_TASK)
+        updateTaskButton.text = getTranslation(TranslationKeys.UPDATE)
         searchButton.text = getTranslation(TranslationKeys.SEARCH)
 
         idColumn.text = getTranslation(TranslationKeys.ID)

@@ -34,6 +34,9 @@ class SettingsTabController: CommonController() {
     private lateinit var addCategoryButton: Button
 
     @FXML
+    private lateinit var updateCategoryButton: Button
+
+    @FXML
     private lateinit var deleteCategoryButton: Button
 
     private var listProperty: ListProperty<String> = SimpleListProperty()
@@ -44,6 +47,7 @@ class SettingsTabController: CommonController() {
         categoriesTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
 
         addCategoryButton.text = getTranslation(TranslationKeys.ADD_CATEGORY)
+        updateCategoryButton.text = getTranslation(TranslationKeys.UPDATE)
         deleteCategoryButton.text = getTranslation(TranslationKeys.DELETE_CATEGORY)
 
         categoriesListView.itemsProperty().bind(listProperty)
@@ -52,20 +56,55 @@ class SettingsTabController: CommonController() {
 
     @FXML
     fun onAddCategoryButtonClick(){
-        if(categoryTextField.text != ""){
-            categoriesObservable.add(categoryTextField.text)
-            getCategoryDatabase().addCategory(Category(categoryTextField.text, 0))
-            initCategories()
-            categoriesListView.refresh()
-            categoryTextField.text = ""
+        if(categoryTextField.text == ""){
+           return
         }
+
+        if(categories.any { it.name == categoryTextField.text }){
+            FxUtils.createMessageDialog(getTranslation(TranslationKeys.DUPLICATE_CATEGORY),
+                getTranslation(TranslationKeys.CATEGORY_IS_ALREADY_AVAILABLE))
+            return
+        }
+
+        categoriesObservable.add(categoryTextField.text)
+        getCategoryDatabase().addCategory(Category(categoryTextField.text, 0))
+        initCategories()
+        categoriesListView.refresh()
+        categoryTextField.text = ""
+    }
+
+    @FXML
+    fun onCategorySelected(){
+        val selectedCategory = categoriesListView.selectionModel.selectedItem
+        if(selectedCategory == null){
+            return
+        }
+
+        categoryTextField.text = selectedCategory
+    }
+
+    @FXML
+    fun onUpdateCategoryButtonClick(){
+        val selectedCategory = categoriesListView.selectionModel.selectedItem
+        if(categoryTextField.text == "" || selectedCategory == null){
+            return
+        }
+
+        categories.filter { it.name == selectedCategory }.forEach { category ->
+            category.name = categoryTextField.text
+            getCategoryDatabase().updateCategory(category)
+        }
+
+        categoryTextField.text = ""
+        initCategories()
     }
 
     @FXML
     fun onDeleteCategoryButtonClick(){
         val selectedCategory = categoriesListView.selectionModel.selectedItem
         if(selectedCategory == null){
-            FxUtils.createMessageDialog(getTranslation(TranslationKeys.CATEGORIES), getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY))
+            FxUtils.createMessageDialog(getTranslation(TranslationKeys.CATEGORIES),
+                getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY))
             return
         }
 
@@ -74,7 +113,9 @@ class SettingsTabController: CommonController() {
             initCategories()
         }catch (ex: Exception){
             logger.error("Could not delete category ${ex.message}")
-            FxUtils.createMessageDialog("Could not delete category", "Category might still be in use:\n\n${ex.message}", Alert.AlertType.WARNING)
+            FxUtils.createMessageDialog(getTranslation(TranslationKeys.COULD_NOT_DELETE_CATEGORY),
+                "${getTranslation(TranslationKeys.CATEGORY_MIGHT_STILL_BE_IN_USE)}\n\n${ex.message}",
+                Alert.AlertType.WARNING)
         }
     }
 

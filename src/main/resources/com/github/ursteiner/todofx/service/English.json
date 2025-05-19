@@ -1,7 +1,7 @@
 {
   "FIRST_SELECT_TASK_IN_TABLE": "Please first select a task in the table!",
   "HIDE_DONE_TASKS": "hide done tasks",
-  "UPDATE_TASK": "Update",
+  "UPDATE": "Update",
   "EDIT_TASK_DESCRIPTION": "Edit task description:",
   "STATISTIC": "Statistic",
   "ADD_TASK": "Add",
@@ -32,5 +32,9 @@
   "SETTINGS": "Settings",
   "CATEGORY": "Category",
   "CATEGORIES": "Categories",
-  "PLEASE_FIRST_SELECT_A_CATEGORY": "Please first select a category"
+  "PLEASE_FIRST_SELECT_A_CATEGORY": "Please first select a category",
+  "DUPLICATE_CATEGORY": "Duplicate category",
+  "CATEGORY_IS_ALREADY_AVAILABLE": "Category is already available",
+  "COULD_NOT_DELETE_CATEGORY": "Could not delete category",
+  "CATEGORY_MIGHT_STILL_BE_IN_USE": "Category might still be in use"
 }

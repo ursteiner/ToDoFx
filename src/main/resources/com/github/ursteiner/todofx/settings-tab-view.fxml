@@ -15,13 +15,15 @@
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
             </padding>
             <TitledPane fx:id="categoriesTitledPane" collapsible="false" minHeight="300">
-                <ListView fx:id="categoriesListView" maxHeight="300"/>
+                <ListView fx:id="categoriesListView" onMouseClicked="#onCategorySelected" maxHeight="300"/>
             </TitledPane>
             <TextField fx:id="categoryTextField"/>
             <HBox>
-                <Button fx:id="addCategoryButton" text="add category" onAction="#onAddCategoryButtonClick"/>
+                <Button fx:id="addCategoryButton" text="Add category" onAction="#onAddCategoryButtonClick"/>
                 <Pane HBox.hgrow="ALWAYS" />
-                <Button fx:id="deleteCategoryButton" text="delete category" onAction="#onDeleteCategoryButtonClick"/>
+                <Button fx:id="updateCategoryButton" text="Update category" onAction="#onUpdateCategoryButtonClick"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button fx:id="deleteCategoryButton" text="Delete category" onAction="#onDeleteCategoryButtonClick"/>
             </HBox>
         </VBox>
         <Pane HBox.hgrow="ALWAYS" />

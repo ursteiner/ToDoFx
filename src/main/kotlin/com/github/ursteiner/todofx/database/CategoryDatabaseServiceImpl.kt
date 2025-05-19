@@ -1,6 +1,11 @@
 package com.github.ursteiner.todofx.database
 
+import com.github.ursteiner.todofx.database.Tasks.categoryId
+import com.github.ursteiner.todofx.database.Tasks.isDone
+import com.github.ursteiner.todofx.database.Tasks.name
+import com.github.ursteiner.todofx.database.Tasks.resolvedDate
 import com.github.ursteiner.todofx.model.Category
+import com.github.ursteiner.todofx.model.Task
 import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
@@ -11,6 +16,7 @@ import org.jetbrains.exposed.v1.jdbc.deleteWhere
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.update
 import org.slf4j.LoggerFactory
 
 class CategoryDatabaseServiceImpl : CategoryDatabaseService {
@@ -72,5 +78,18 @@ class CategoryDatabaseServiceImpl : CategoryDatabaseService {
             deletedCategories = Categories.deleteWhere { Categories.id eq categoryId }
         }
         return deletedCategories
+    }
+
+    override fun updateCategory(category: Category): Int {
+        logger.info("Update Category: ${category.id}")
+        var updatedCategories = 0
+
+        transaction {
+            addLogger(StdOutSqlLogger)
+            updatedCategories = Categories.update({ Categories.id eq category.id }) {
+                it[name] = category.name
+            }
+        }
+        return updatedCategories
     }
 }
