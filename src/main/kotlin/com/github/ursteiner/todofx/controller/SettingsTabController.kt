@@ -62,7 +62,7 @@ class SettingsTabController: CommonController() {
 
         if(categories.any { it.name == categoryTextField.text }){
             FxUtils.createMessageDialog(getTranslation(TranslationKeys.DUPLICATE_CATEGORY),
-                getTranslation(TranslationKeys.CATEGORY_IS_ALREADY_AVAILABLE))
+                "${getTranslation(TranslationKeys.CATEGORY_IS_ALREADY_AVAILABLE)}: ${categoryTextField.text}")
             return
         }
 
@@ -87,6 +87,8 @@ class SettingsTabController: CommonController() {
     fun onUpdateCategoryButtonClick(){
         val selectedCategory = categoriesListView.selectionModel.selectedItem
         if(categoryTextField.text == "" || selectedCategory == null){
+            FxUtils.createMessageDialog(getTranslation(TranslationKeys.CATEGORIES),
+                getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY))
             return
         }
 
@@ -117,6 +119,12 @@ class SettingsTabController: CommonController() {
                 "${getTranslation(TranslationKeys.CATEGORY_MIGHT_STILL_BE_IN_USE)}\n\n${ex.message}",
                 Alert.AlertType.WARNING)
         }
+    }
+
+    @FXML
+    fun onClearSelectedCategoryButtonClick(){
+        categoryTextField.text = ""
+        categoriesListView.selectionModel.select(null)
     }
 
     fun initCategories(){

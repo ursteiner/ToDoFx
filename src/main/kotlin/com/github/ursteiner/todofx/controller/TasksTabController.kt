@@ -239,10 +239,8 @@ class TasksTabController : CommonController() {
     @FXML
     private fun onTaskSelected() {
         val selectedTask = tableView.selectionModel.selectedItem
-        if (selectedTask == null) {
-            return
-        }
-        
+        selectedTask ?: return
+
         taskUpdateArea.text = selectedTask.getNameProperty()
 
         when (selectedTask.getCategoryProperty()) {

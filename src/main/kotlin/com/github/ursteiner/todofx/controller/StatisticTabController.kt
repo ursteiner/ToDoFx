@@ -37,17 +37,19 @@ class StatisticTabController: CommonController() {
     @FXML
     private lateinit var xAxis: CategoryAxis
 
-    private val TASKS_LAST_X_MONTH = 12
+    private val numberOfPreviousMonths = 12
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         openResolvedTitledPane.text = "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
         tasksPerCategoryTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
-
         tasksPerMonthTitledPane.text = getTranslation(TranslationKeys.TASKS_PER_MONTH)
+
+        //Axis animation is disabled as workaround due to incorrect axis labeling
         xAxis.label = getTranslation(TranslationKeys.MONTH)
-        //workaround for bad label positioning
         xAxis.animated = false
-        yAxis.label = "#Tasks"
+
+        yAxis.label = "#${getTranslation(TranslationKeys.TASKS)}"
+        yAxis.animated = false
     }
 
     fun buildPieChartResolvedOpen(){
@@ -82,11 +84,11 @@ class StatisticTabController: CommonController() {
         val series = Series<String?, Int?>()
         series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
 
-        getTaskDatabase().getTasksPerMonth(TASKS_LAST_X_MONTH).forEach {
+        getTaskDatabase().getTasksPerMonth(numberOfPreviousMonths).forEach {
             series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
         }
 
-        barChartTasksPerMonth.data.addAll(series)
+        barChartTasksPerMonth.data.add(series)
 
         series.data.forEach {
             FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${it.yValue}")

@@ -17,7 +17,10 @@
             <TitledPane fx:id="categoriesTitledPane" collapsible="false" minHeight="300">
                 <ListView fx:id="categoriesListView" onMouseClicked="#onCategorySelected" maxHeight="300"/>
             </TitledPane>
-            <TextField fx:id="categoryTextField"/>
+            <HBox>
+                <TextField fx:id="categoryTextField" HBox.hgrow="ALWAYS"/>
+                <Button text="✖" onAction="#onClearSelectedCategoryButtonClick"/>
+            </HBox>
             <HBox>
                 <Button fx:id="addCategoryButton" text="Add category" onAction="#onAddCategoryButtonClick"/>
                 <Pane HBox.hgrow="ALWAYS" />
