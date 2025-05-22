@@ -1,5 +1,6 @@
 package com.github.ursteiner.todofx.controller
 
+import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.database.CategoryDatabaseService
 import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
@@ -16,6 +17,10 @@ abstract class CommonController: Initializable{
 
     fun getTranslation(key: TranslationKeys): String{
         return languageService.getTranslationForKey(key)
+    }
+
+    fun setLanguage(languages: AvailableLanguages){
+        languageService.setLanguage(languages)
     }
 
     fun getTaskDatabase(): TaskDatabaseService {

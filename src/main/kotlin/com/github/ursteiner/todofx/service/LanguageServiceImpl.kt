@@ -8,13 +8,11 @@ import kotlinx.serialization.json.jsonPrimitive
 
 class LanguageServiceImpl : LanguageService {
 
-    private val currentLanguage: AvailableLanguages
-    private var translations: JsonObject
+    private lateinit var currentLanguage: AvailableLanguages
+    private lateinit var translations: JsonObject
 
     private constructor(selectedLanguage: AvailableLanguages){
-        currentLanguage = selectedLanguage
-        val translationFileContent = object {}.javaClass.getResourceAsStream("${selectedLanguage.language}.json")?.bufferedReader()?.readText() ?: ""
-        translations = Json.decodeFromString(translationFileContent)
+        setLanguage(selectedLanguage)
     }
 
     companion object {
@@ -37,5 +35,11 @@ class LanguageServiceImpl : LanguageService {
 
     override fun getAmountOfTranslations(): Int {
         return translations.size
+    }
+
+    override fun setLanguage(selectedLanguage: AvailableLanguages) {
+        currentLanguage = selectedLanguage
+        val translationFileContent = object {}.javaClass.getResourceAsStream("${selectedLanguage.language}.json")?.bufferedReader()?.readText() ?: ""
+        translations = Json.decodeFromString(translationFileContent)
     }
 }

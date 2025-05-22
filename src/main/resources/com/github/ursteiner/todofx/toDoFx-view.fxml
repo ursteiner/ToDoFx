@@ -8,13 +8,13 @@
 
     <TabPane fx:id="tabPane" onMouseClicked="#onTabClicked">
         <Tab text="Tasks" closable="false">
-            <fx:include source="tasks-tab-view.fxml"/>
+            <fx:include fx:id="tasksTabPage" source="tasks-tab-view.fxml"/>
         </Tab>
         <Tab text="Statistic" closable="false">
             <fx:include fx:id="statisticsTabPage" source="statistic-tab-view.fxml"/>
         </Tab>
         <Tab text="Export" closable="false">
-            <fx:include source="export-tab-view.fxml"/>
+            <fx:include fx:id="exportTabPage" source="export-tab-view.fxml"/>
         </Tab>
         <Tab text="Settings" closable="false">
             <fx:include fx:id="settingsTabPage" source="settings-tab-view.fxml"/>

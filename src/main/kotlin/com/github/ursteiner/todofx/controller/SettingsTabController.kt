@@ -1,5 +1,6 @@
 package com.github.ursteiner.todofx.controller
 
+import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.view.FxUtils
@@ -9,6 +10,7 @@ import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
+import javafx.scene.control.ComboBox
 import javafx.scene.control.ListView
 import javafx.scene.control.TextField
 import javafx.scene.control.TitledPane
@@ -39,19 +41,39 @@ class SettingsTabController: CommonController() {
     @FXML
     private lateinit var deleteCategoryButton: Button
 
+    @FXML
+    private lateinit var selectLanguageComboBox: ComboBox<String>
+
     private var listProperty: ListProperty<String> = SimpleListProperty()
     private var categoriesObservable = FXCollections.observableArrayList<String>()
     private val categories = mutableListOf<Category>()
 
+    lateinit var toDoFxController: ToDoFxController
+
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
+        initTranslations()
+        initComboBox()
+
+        categoriesListView.itemsProperty().bind(listProperty)
+        listProperty.set(categoriesObservable)
+    }
+
+    fun initTranslations(){
         categoriesTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
 
         addCategoryButton.text = getTranslation(TranslationKeys.ADD_CATEGORY)
         updateCategoryButton.text = getTranslation(TranslationKeys.UPDATE)
         deleteCategoryButton.text = getTranslation(TranslationKeys.DELETE_CATEGORY)
+    }
 
-        categoriesListView.itemsProperty().bind(listProperty)
-        listProperty.set(categoriesObservable)
+    fun initComboBox(){
+        selectLanguageComboBox.items.clear()
+        selectLanguageComboBox.items.add("de")
+        selectLanguageComboBox.items.add("en")
+        when(System.getProperty("user.language")){
+            "de" -> selectLanguageComboBox.selectionModel.select(0)
+            "en" -> selectLanguageComboBox.selectionModel.select(1)
+        }
     }
 
     @FXML
@@ -135,5 +157,19 @@ class SettingsTabController: CommonController() {
         categories.forEach {
             categoriesObservable.add(it.name)
         }
+    }
+
+    @FXML
+    fun onLanguageSelectedComboBox(){
+        val selectedLanguage = selectLanguageComboBox.selectionModel.selectedItem
+
+        when(selectedLanguage){
+            "de" -> setLanguage(AvailableLanguages.GERMAN)
+            "en" -> setLanguage(AvailableLanguages.ENGLISH)
+        }
+
+        initTranslations()
+        //Change the language of the parent controller taking care of the tab names
+        toDoFxController.initialize(null, null)
     }
 }

@@ -10,9 +10,11 @@ import java.util.ResourceBundle
 
 class ToDoFxController: CommonController() {
 
-    lateinit var statisticsTabPage: AnchorPane
-
+    //prevents unused warning, although the controllers are used
     lateinit var settingsTabPage: AnchorPane
+    lateinit var exportTabPage: AnchorPane
+    lateinit var tasksTabPage: AnchorPane
+    lateinit var statisticsTabPage: AnchorPane
 
     @FXML
     private lateinit var tabPane : TabPane
@@ -23,6 +25,12 @@ class ToDoFxController: CommonController() {
     @FXML
     private lateinit var settingsTabPageController: SettingsTabController
 
+    @FXML
+    private lateinit var tasksTabPageController: TasksTabController
+
+    @FXML
+    private lateinit var exportTabPageController: ExportTabController
+
     private var selectedTab = Tabs.TASKS
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
@@ -32,6 +40,8 @@ class ToDoFxController: CommonController() {
             tabs[Tabs.EXPORT.index].text = getTranslation(TranslationKeys.EXPORT)
             tabs[Tabs.SETTINGS.index].text = getTranslation(TranslationKeys.SETTINGS)
         }
+
+        settingsTabPageController.toDoFxController = this
     }
 
     @FXML
@@ -44,14 +54,19 @@ class ToDoFxController: CommonController() {
 
         when(tabPane.selectionModel.selectedIndex){
             Tabs.TASKS.index -> {
-                //TODO reload category dropdown
+                tasksTabPageController.initialize(null, null)
             }
             Tabs.STATISTICS.index -> {
+                statisticsTabPageController.initialize(null,null)
                 statisticsTabPageController.buildPieChartResolvedOpen()
                 statisticsTabPageController.buildBarChartTasksPerMonth()
                 statisticsTabPageController.buildPieChartTasksPerCategory()
             }
+            Tabs.EXPORT.index -> {
+                exportTabPageController.initialize(null, null)
+            }
             Tabs.SETTINGS.index -> {
+                settingsTabPageController.initTranslations()
                 settingsTabPageController.initCategories()
             }
         }

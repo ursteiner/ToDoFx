@@ -84,10 +84,12 @@ class TasksTabController : CommonController() {
 
         val categories = getCategoryDatabase().getCategories()
 
+        newCategoryComboBox.items.clear()
         newCategoryComboBox.items.add(Category("", -1))
         newCategoryComboBox.items.addAll(categories)
         newCategoryComboBox.selectionModel.selectFirst()
 
+        updateCategoryComboBox.items.clear()
         updateCategoryComboBox.items.add(Category("", -1))
         updateCategoryComboBox.items.addAll(categories)
     }

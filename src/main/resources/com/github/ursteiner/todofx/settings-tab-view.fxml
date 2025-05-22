@@ -9,11 +9,10 @@
             fx:controller="com.github.ursteiner.todofx.controller.SettingsTabController"
             prefHeight="840.0" prefWidth="520.0">
     <HBox minWidth="840">
-        <Pane HBox.hgrow="ALWAYS" />
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        </padding>
         <VBox>
-            <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-            </padding>
             <TitledPane fx:id="categoriesTitledPane" collapsible="false" minHeight="300">
                 <ListView fx:id="categoriesListView" onMouseClicked="#onCategorySelected" maxHeight="300"/>
             </TitledPane>
@@ -23,12 +22,15 @@
             </HBox>
             <HBox>
                 <Button fx:id="addCategoryButton" text="Add category" onAction="#onAddCategoryButtonClick"/>
-                <Pane HBox.hgrow="ALWAYS" />
+                <Pane HBox.hgrow="ALWAYS"/>
                 <Button fx:id="updateCategoryButton" text="Update category" onAction="#onUpdateCategoryButtonClick"/>
-                <Pane HBox.hgrow="ALWAYS" />
+                <Pane HBox.hgrow="ALWAYS"/>
                 <Button fx:id="deleteCategoryButton" text="Delete category" onAction="#onDeleteCategoryButtonClick"/>
             </HBox>
         </VBox>
-        <Pane HBox.hgrow="ALWAYS" />
+        <Pane HBox.hgrow="ALWAYS"/>
+        <VBox>
+            <ComboBox fx:id="selectLanguageComboBox" onAction="#onLanguageSelectedComboBox"/>
+        </VBox>
     </HBox>
 </AnchorPane>
