@@ -43,7 +43,7 @@
         <VBox minWidth="10"/>
         <VBox>
             <HBox>
-                <TextField fx:id="searchTextField" HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchTextField" onAction="#onSearchButtonClick" HBox.hgrow="ALWAYS"/>
                 <Button fx:id="searchButton" text="🔍 suchen" onAction="#onSearchButtonClick"/>
                 <Button text="🗑" onAction="#onClearSearchButton"/>
             </HBox>

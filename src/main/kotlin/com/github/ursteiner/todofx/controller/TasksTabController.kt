@@ -5,6 +5,7 @@ import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.view.FxUtils
 import javafx.collections.FXCollections
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import java.net.URL
@@ -134,7 +135,7 @@ class TasksTabController : CommonController() {
 
     @Suppress("unused")
     @FXML
-    private fun onSearchButtonClick(){
+    private fun onSearchButtonClick(actionEvent: ActionEvent){
         if(searchTextField.text.isEmpty()){
             FxUtils.createMessageDialog(getTranslation(TranslationKeys.MISSING_SEARCH_TERM),
                 getTranslation(TranslationKeys.PLEASE_FILL_IN_SEARCH_TERM))
