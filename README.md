@@ -21,6 +21,13 @@ tasks.mv.db
     </tr>
 </table>
 
+Check for dependency updates
+```
+.\mvnw versions:display-dependency-updates
+```
 
-
+Check for plugin updates
+```
+.\mvnw versions:display-plugin-updates
+```
 

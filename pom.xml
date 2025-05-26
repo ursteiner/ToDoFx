@@ -11,14 +11,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.10.2</junit.version>
-        <kotlin.version>2.1.0</kotlin.version>
+        <junit.version>5.12.2</junit.version>
+        <kotlin.version>2.1.21</kotlin.version>
         <exposed.version>1.0.0-beta-2</exposed.version>
-        <javafx.version>21.0.7</javafx.version>
+        <javafx.version>24.0.1</javafx.version>
         <h2.version>2.3.232</h2.version>
         <surefire.version>3.5.3</surefire.version>
         <shade.version>3.6.0</shade.version>
-        <mavenCompilerPlugin.version>3.13.0</mavenCompilerPlugin.version>
+        <mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
         <kotlinxJson.version>1.8.1</kotlinxJson.version>
         <mockito.version>5.18.0</mockito.version>
@@ -109,8 +109,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${mavenCompilerPlugin.version}</version>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
+                    <source>23</source>
+                    <target>23</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -156,7 +156,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>11</jvmTarget>
+                    <jvmTarget>23</jvmTarget>
                     <compilerPlugins>
 
                     </compilerPlugins>
@@ -190,13 +190,13 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.17.0</version>
+                <version>2.18.0</version>
                 <configuration>
                     <ruleSet>
                         <ignoreVersions>
                             <ignoreVersion>
                                 <type>regex</type>
-                                <version>.+-(alpha|beta|M|RC).*</version>
+                                <version>.+-(alpha|beta|Beta|ea|M|RC).*</version>
                             </ignoreVersion>
                         </ignoreVersions>
                     </ruleSet>
