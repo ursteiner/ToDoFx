@@ -84,7 +84,13 @@ class StatisticTabController: CommonController() {
         val series = Series<String?, Int?>()
         series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
 
-        getTaskDatabase().getTasksPerMonth(numberOfPreviousMonths).forEach {
+        val tasksPerMonth = getTaskDatabase().getTasksPerMonth(numberOfPreviousMonths)
+
+        //fix 0.5 steps in the y-axis
+        yAxis.upperBound = tasksPerMonth.maxBy { it.value }.value.toDouble() + 2
+        yAxis.minorTickVisibleProperty().set(false)
+
+        tasksPerMonth.forEach {
             series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
         }
 
