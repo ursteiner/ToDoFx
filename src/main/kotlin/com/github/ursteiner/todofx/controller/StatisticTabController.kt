@@ -87,7 +87,7 @@ class StatisticTabController: CommonController() {
         val tasksPerMonth = getTaskDatabase().getTasksPerMonth(numberOfPreviousMonths)
 
         //fix 0.5 steps in the y-axis
-        yAxis.upperBound = tasksPerMonth.maxBy { it.value }.value.toDouble() + 2
+        yAxis.upperBound = ((tasksPerMonth.maxByOrNull { it.value }?.value?.toDouble()) ?: 0.0) + 2.0
         yAxis.minorTickVisibleProperty().set(false)
 
         tasksPerMonth.forEach {

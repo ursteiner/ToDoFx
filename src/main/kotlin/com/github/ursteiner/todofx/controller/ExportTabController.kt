@@ -40,7 +40,7 @@ class ExportTabController: CommonController() {
 
         when(val file = fileChooser.showSaveDialog(exportPane.scene.window)){
             null -> logger.info("CSV Exporter: no file selected")
-            else -> CsvExportServiceImpl(file).exportTasks(TaskDatabaseServiceImpl.getInstance().getTasks())
+            else -> CsvExportServiceImpl(file).exportTasks(TaskDatabaseServiceImpl.getInstance(defaultDataBasePathName).getTasks())
         }
     }
 }

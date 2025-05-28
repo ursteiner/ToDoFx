@@ -33,7 +33,7 @@ class CategoryDatabaseServiceImpl : CategoryDatabaseService {
         @Volatile
         private var instance: CategoryDatabaseServiceImpl? = null
 
-        fun getInstance(databasePathName: String = "~/tasks") =
+        fun getInstance(databasePathName: String) =
             instance ?: synchronized(this) {
                 instance ?: CategoryDatabaseServiceImpl(databasePathName).also { instance = it }
             }

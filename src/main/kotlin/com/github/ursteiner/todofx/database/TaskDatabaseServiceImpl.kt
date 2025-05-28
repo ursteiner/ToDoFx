@@ -41,7 +41,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
         @Volatile
         private var instance: TaskDatabaseServiceImpl? = null
 
-        fun getInstance(databasePathName: String = "~/tasks") =
+        fun getInstance(databasePathName: String) =
             instance ?: synchronized(this) {
                 instance ?: TaskDatabaseServiceImpl(databasePathName).also { instance = it }
             }

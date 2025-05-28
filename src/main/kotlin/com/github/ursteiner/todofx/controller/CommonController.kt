@@ -11,9 +11,11 @@ import javafx.fxml.Initializable
 
 abstract class CommonController: Initializable{
 
+    val defaultDataBasePathName = "~/tasks"
+
     private val languageService = LanguageServiceImpl.getInstance(System.getProperty("user.language"))
-    private val taskDatabaseService = TaskDatabaseServiceImpl.getInstance()
-    private val categoryDatabaseService = CategoryDatabaseServiceImpl.getInstance()
+    private val taskDatabaseService = TaskDatabaseServiceImpl.getInstance(defaultDataBasePathName)
+    private val categoryDatabaseService = CategoryDatabaseServiceImpl.getInstance(defaultDataBasePathName)
 
     fun getTranslation(key: TranslationKeys): String{
         return languageService.getTranslationForKey(key)
