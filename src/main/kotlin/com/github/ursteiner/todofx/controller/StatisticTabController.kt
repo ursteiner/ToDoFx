@@ -97,7 +97,7 @@ class StatisticTabController: CommonController() {
         barChartTasksPerMonth.data.add(series)
 
         series.data.forEach {
-            FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${it.yValue}")
+            FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)}")
         }
     }
 }
