@@ -23,7 +23,7 @@ class LanguageServiceImpl : LanguageService {
         fun getInstance(language: String) =
             instance ?: synchronized(this) {
                 instance ?: when(language){
-                    "de" -> LanguageServiceImpl(AvailableLanguages.GERMAN)
+                    AvailableLanguages.GERMAN.abbreviation -> LanguageServiceImpl(AvailableLanguages.GERMAN)
                     else -> LanguageServiceImpl(AvailableLanguages.ENGLISH)
                 }.also { instance = it }
             }

@@ -40,15 +40,10 @@ class StatisticTabController: CommonController() {
     private val numberOfPreviousMonths = 12
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        openResolvedTitledPane.text = "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
-        tasksPerCategoryTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
-        tasksPerMonthTitledPane.text = getTranslation(TranslationKeys.TASKS_PER_MONTH)
+        initTranslations()
 
         //Axis animation is disabled as workaround due to incorrect axis labeling
-        xAxis.label = getTranslation(TranslationKeys.MONTH)
         xAxis.animated = false
-
-        yAxis.label = "#${getTranslation(TranslationKeys.TASKS)}"
         yAxis.animated = false
     }
 
@@ -99,5 +94,14 @@ class StatisticTabController: CommonController() {
         series.data.forEach {
             FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)}")
         }
+    }
+
+    override fun initTranslations() {
+        openResolvedTitledPane.text = "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
+        tasksPerCategoryTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
+        tasksPerMonthTitledPane.text = getTranslation(TranslationKeys.TASKS_PER_MONTH)
+
+        xAxis.label = getTranslation(TranslationKeys.MONTH)
+        yAxis.label = "#${getTranslation(TranslationKeys.TASKS)}"
     }
 }

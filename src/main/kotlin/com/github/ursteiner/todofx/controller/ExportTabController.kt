@@ -23,8 +23,7 @@ class ExportTabController: CommonController() {
     private lateinit var exportButton: Button
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        exportPane.text = getTranslation(TranslationKeys.EXPORT_CAN_BE_STORED_ANYWHERE)
-        exportButton.text = "💾 ${getTranslation(TranslationKeys.EXPORT)}"
+        initTranslations()
     }
 
     @FXML
@@ -42,5 +41,10 @@ class ExportTabController: CommonController() {
             null -> logger.info("CSV Exporter: no file selected")
             else -> CsvExportServiceImpl(file).exportTasks(TaskDatabaseServiceImpl.getInstance(defaultDataBasePathName).getTasks())
         }
+    }
+
+    override fun initTranslations() {
+        exportPane.text = getTranslation(TranslationKeys.EXPORT_CAN_BE_STORED_ANYWHERE)
+        exportButton.text = "💾 ${getTranslation(TranslationKeys.EXPORT)}"
     }
 }

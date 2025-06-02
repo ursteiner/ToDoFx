@@ -34,13 +34,6 @@ class ToDoFxController: CommonController() {
     private var selectedTab = Tabs.TASKS
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        with(tabPane){
-            tabs[Tabs.TASKS.index].text = getTranslation(TranslationKeys.TASKS)
-            tabs[Tabs.STATISTICS.index].text = getTranslation(TranslationKeys.STATISTIC)
-            tabs[Tabs.EXPORT.index].text = getTranslation(TranslationKeys.EXPORT)
-            tabs[Tabs.SETTINGS.index].text = getTranslation(TranslationKeys.SETTINGS)
-        }
-
         settingsTabPageController.toDoFxController = this
     }
 
@@ -72,5 +65,14 @@ class ToDoFxController: CommonController() {
         }
 
         selectedTab = currentTab
+    }
+
+    override fun initTranslations() {
+        with(tabPane){
+            tabs[Tabs.TASKS.index].text = getTranslation(TranslationKeys.TASKS)
+            tabs[Tabs.STATISTICS.index].text = getTranslation(TranslationKeys.STATISTIC)
+            tabs[Tabs.EXPORT.index].text = getTranslation(TranslationKeys.EXPORT)
+            tabs[Tabs.SETTINGS.index].text = getTranslation(TranslationKeys.SETTINGS)
+        }
     }
 }

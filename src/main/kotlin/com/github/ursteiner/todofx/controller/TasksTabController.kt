@@ -80,7 +80,7 @@ class TasksTabController : CommonController() {
     private val tasks = mutableListOf<Task>()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?){
-        initializeFieldNames()
+        initTranslations()
         getTasksBasedOnFilters()
 
         val categories = getCategoryDatabase().getCategories()
@@ -93,25 +93,6 @@ class TasksTabController : CommonController() {
         updateCategoryComboBox.items.clear()
         updateCategoryComboBox.items.add(Category("", -1))
         updateCategoryComboBox.items.addAll(categories)
-    }
-
-    fun initializeFieldNames(){
-        hideDoneTasksCheckBox.text = getTranslation(TranslationKeys.HIDE_DONE_TASKS)
-
-        editTaskPane.text = getTranslation(TranslationKeys.EDIT_TASK_DESCRIPTION)
-        newTaskPane.text = getTranslation(TranslationKeys.NEW_TASK_DESCRIPTION)
-
-        addTaskButton.text = getTranslation(TranslationKeys.ADD_TASK)
-        resolveTaskButton.text = getTranslation(TranslationKeys.RESOLVE_TASK)
-        deleteTaskButton.text = getTranslation(TranslationKeys.DELETE_TASK)
-        updateTaskButton.text = getTranslation(TranslationKeys.UPDATE)
-        searchButton.text = getTranslation(TranslationKeys.SEARCH)
-
-        idColumn.text = getTranslation(TranslationKeys.ID)
-        descriptionColumn.text = getTranslation(TranslationKeys.DESCRIPTION)
-        dateColumn.text = getTranslation(TranslationKeys.DATE)
-        categoryColumn.text = getTranslation(TranslationKeys.CATEGORY)
-        doneColumn.text = getTranslation(TranslationKeys.DONE)
     }
 
     @Suppress("unused")
@@ -287,5 +268,24 @@ class TasksTabController : CommonController() {
 
     fun showDialogMessage(title: String, content: String){
         FxUtils.createMessageDialog(title, content)
+    }
+
+    override fun initTranslations() {
+        hideDoneTasksCheckBox.text = getTranslation(TranslationKeys.HIDE_DONE_TASKS)
+
+        editTaskPane.text = getTranslation(TranslationKeys.EDIT_TASK_DESCRIPTION)
+        newTaskPane.text = getTranslation(TranslationKeys.NEW_TASK_DESCRIPTION)
+
+        addTaskButton.text = getTranslation(TranslationKeys.ADD_TASK)
+        resolveTaskButton.text = getTranslation(TranslationKeys.RESOLVE_TASK)
+        deleteTaskButton.text = getTranslation(TranslationKeys.DELETE_TASK)
+        updateTaskButton.text = getTranslation(TranslationKeys.UPDATE)
+        searchButton.text = getTranslation(TranslationKeys.SEARCH)
+
+        idColumn.text = getTranslation(TranslationKeys.ID)
+        descriptionColumn.text = getTranslation(TranslationKeys.DESCRIPTION)
+        dateColumn.text = getTranslation(TranslationKeys.DATE)
+        categoryColumn.text = getTranslation(TranslationKeys.CATEGORY)
+        doneColumn.text = getTranslation(TranslationKeys.DONE)
     }
 }

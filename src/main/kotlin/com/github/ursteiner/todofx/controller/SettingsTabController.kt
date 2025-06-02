@@ -58,7 +58,7 @@ class SettingsTabController: CommonController() {
         listProperty.set(categoriesObservable)
     }
 
-    fun initTranslations(){
+    override fun initTranslations(){
         categoriesTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
 
         addCategoryButton.text = getTranslation(TranslationKeys.ADD_CATEGORY)
@@ -68,11 +68,11 @@ class SettingsTabController: CommonController() {
 
     fun initComboBox(){
         selectLanguageComboBox.items.clear()
-        selectLanguageComboBox.items.add("de")
-        selectLanguageComboBox.items.add("en")
+        selectLanguageComboBox.items.add(AvailableLanguages.GERMAN.abbreviation)
+        selectLanguageComboBox.items.add(AvailableLanguages.ENGLISH.abbreviation)
         when(System.getProperty("user.language")){
-            "de" -> selectLanguageComboBox.selectionModel.select(0)
-            "en" -> selectLanguageComboBox.selectionModel.select(1)
+            AvailableLanguages.GERMAN.abbreviation -> selectLanguageComboBox.selectionModel.select(0)
+            AvailableLanguages.ENGLISH.abbreviation -> selectLanguageComboBox.selectionModel.select(1)
         }
     }
 
@@ -164,8 +164,8 @@ class SettingsTabController: CommonController() {
         val selectedLanguage = selectLanguageComboBox.selectionModel.selectedItem
 
         when(selectedLanguage){
-            "de" -> setLanguage(AvailableLanguages.GERMAN)
-            "en" -> setLanguage(AvailableLanguages.ENGLISH)
+            AvailableLanguages.GERMAN.abbreviation -> setLanguage(AvailableLanguages.GERMAN)
+            AvailableLanguages.ENGLISH.abbreviation -> setLanguage(AvailableLanguages.ENGLISH)
         }
 
         initTranslations()

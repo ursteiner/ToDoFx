@@ -32,4 +32,6 @@ abstract class CommonController: Initializable{
     fun getCategoryDatabase(): CategoryDatabaseService {
         return categoryDatabaseService
     }
+
+    abstract fun initTranslations()
 }
