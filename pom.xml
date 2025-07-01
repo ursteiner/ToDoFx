@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.13.1</junit.version>
+        <junit.version>5.13.2</junit.version>
         <kotlin.version>2.2.0</kotlin.version>
         <exposed.version>1.0.0-beta-2</exposed.version>
         <javafx.version>25-ea+21</javafx.version>
