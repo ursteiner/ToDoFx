@@ -35,6 +35,7 @@ class ToDoFxController: CommonController() {
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         settingsTabPageController.toDoFxController = this
+        initTranslations()
     }
 
     @FXML
