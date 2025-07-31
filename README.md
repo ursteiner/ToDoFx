@@ -12,12 +12,23 @@ tasks.mv.db
 
 <table>
     <tr>
-        <td><img alt="ScreenshotTasks" src="screenshots/Tasks.png"></td>
-        <td><img alt="ScreenshotStatistic" src="screenshots/Statistic.png"></td>
+        <td>
+            <img alt="ScreenshotTasks" src="screenshots/Tasks.png">
+            <br><center>Manage your tasks</center>
+        </td>
+        <td>
+            <img alt="ScreenshotStatistic" src="screenshots/Statistic.png">
+            <br><center>Take a look at the statistics of your tasks</center>
+        </td>
     </tr>
     <tr>
-        <td><img alt="ScreenshotExport" src="screenshots/Export.png"></td>
-        <td><img alt="ScreenshotSettings" src="screenshots/Settings.png"></td>
+        <td>
+            <img alt="ScreenshotExport" src="screenshots/Export.png">
+            <br><center>Export all your tasks as CSV file</center>
+        </td>
+        <td><img alt="ScreenshotSettings" src="screenshots/Settings.png">
+            <br><center>Adjust your preferences on the settings tab</center>
+        </td>
     </tr>
 </table>
 
