@@ -1,6 +1,7 @@
 package com.github.ursteiner.todofx.database
 
 import com.github.ursteiner.todofx.model.Task
+import com.github.ursteiner.todofx.utils.DateUtils
 import org.jetbrains.exposed.v1.core.LowerCase
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
@@ -158,7 +159,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
             val yearMonth = Tasks.date.substring(0,7)
             Tasks.select(yearMonth, yearMonth.count())
                 .groupBy(yearMonth)
-                .where {yearMonth greaterEq getYearMonth(lastXMonths)}
+                .where {yearMonth greaterEq DateUtils.getYearMonth(lastXMonths)}
                 .forEach {
                     resultMap.put(it[yearMonth], it[yearMonth.count()].toInt())
                 }
@@ -181,14 +182,5 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
         }
 
         return resultMap
-    }
-
-    private fun getYearMonth(beforeXMonths: Int): String{
-        val c: Calendar = GregorianCalendar()
-        c.setTime(Date())
-        val sdf = SimpleDateFormat("yyyy-MM")
-        c.add(Calendar.MONTH, -beforeXMonths)
-
-        return sdf.format(c.getTime())
     }
 }

@@ -1,6 +1,7 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import com.github.ursteiner.todofx.utils.DateUtils
 import com.github.ursteiner.todofx.view.FxUtils
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
@@ -85,8 +86,12 @@ class StatisticTabController: CommonController() {
         yAxis.upperBound = ((tasksPerMonth.maxByOrNull { it.value }?.value?.toDouble()) ?: 0.0) + 2.0
         yAxis.minorTickVisibleProperty().set(false)
 
-        tasksPerMonth.forEach {
-            series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
+        generateDefaultBarChartData(numberOfPreviousMonths).forEach {
+            if(tasksPerMonth.containsKey(it.key)){
+                series.data.add(XYChart.Data<String?, Int?>(it.key, tasksPerMonth.get(it.key)))
+            }else{
+                series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
+            }
         }
 
         barChartTasksPerMonth.data.add(series)
@@ -94,6 +99,15 @@ class StatisticTabController: CommonController() {
         series.data.forEach {
             FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)}")
         }
+    }
+
+    fun generateDefaultBarChartData(lastXmonths: Int): MutableMap<String, Int> {
+        val monthMap = mutableMapOf<String, Int>()
+        for(month in 0..lastXmonths){
+            monthMap.put(DateUtils.getYearMonth(lastXmonths - month), 0)
+        }
+
+        return monthMap
     }
 
     override fun initTranslations() {
