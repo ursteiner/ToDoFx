@@ -21,7 +21,7 @@
         <mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
         <kotlinxJson.version>1.9.0</kotlinxJson.version>
-        <mockito.version>5.18.0</mockito.version>
+        <mockito.version>5.19.0</mockito.version>
         <slf4j.version>2.0.17</slf4j.version>
         <kotlinMavenSerialization.version>2.2.0</kotlinMavenSerialization.version>
     </properties>
