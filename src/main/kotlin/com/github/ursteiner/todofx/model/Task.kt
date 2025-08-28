@@ -67,7 +67,7 @@ class Task {
         this.resolvedDate.set(resolvedDate)
     }
 
-    fun getResolvedDate(): String{
+    fun getResolvedDateProperty(): String{
         return this.resolvedDate.get()
     }
 

@@ -67,6 +67,9 @@ class TasksTabController : CommonController() {
     private lateinit var doneColumn: TableColumn<String, String>
 
     @FXML
+    private lateinit var resolvedDateColumn: TableColumn<String, String>
+
+    @FXML
     private lateinit var editTaskPane: TitledPane
 
     @FXML
@@ -178,7 +181,7 @@ class TasksTabController : CommonController() {
             return
         }
 
-        when(selectedTask.getResolvedDate()){
+        when(selectedTask.getResolvedDateProperty()){
             "" -> selectedTask.setResolvedDate(LocalDateTime.now().format(dateTimeFormat))
             else -> selectedTask.setResolvedDate("")
         }
@@ -287,5 +290,6 @@ class TasksTabController : CommonController() {
         dateColumn.text = getTranslation(TranslationKeys.DATE)
         categoryColumn.text = getTranslation(TranslationKeys.CATEGORY)
         doneColumn.text = getTranslation(TranslationKeys.DONE)
+        resolvedDateColumn.text = getTranslation(TranslationKeys.COMPLETION_DATE)
     }
 }

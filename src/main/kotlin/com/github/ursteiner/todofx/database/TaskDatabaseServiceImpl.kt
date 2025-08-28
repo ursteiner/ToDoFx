@@ -97,7 +97,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
                 LowerCase(Tasks.name) like search or (  LowerCase( Categories.name) like search) }
 
             databaseTasks.forEach {
-                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name], it[Tasks.id], it[Tasks.isDone]))
+                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name], it[Tasks.id], it[Tasks.isDone], it[Tasks.resolvedDate] ?: ""))
             }
         }
         return tasks
@@ -123,7 +123,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
             updatedTasks = Tasks.update({ Tasks.id eq task.getIdProperty() }) {
                 it[isDone] = task.getIsDoneProperty()
                 it[name] = task.getNameProperty()
-                it[resolvedDate] = task.getResolvedDate()
+                it[resolvedDate] = task.getResolvedDateProperty()
                 if(categoryNumber >= 0){
                     it[categoryId] = categoryNumber
                 }

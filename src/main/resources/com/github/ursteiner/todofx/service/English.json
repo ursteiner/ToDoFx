@@ -36,5 +36,6 @@
   "DUPLICATE_CATEGORY": "Duplicate category",
   "CATEGORY_IS_ALREADY_AVAILABLE": "Category is already available",
   "COULD_NOT_DELETE_CATEGORY": "Could not delete category",
-  "CATEGORY_MIGHT_STILL_BE_IN_USE": "Category might still be in use"
+  "CATEGORY_MIGHT_STILL_BE_IN_USE": "Category might still be in use",
+  "COMPLETION_DATE": "Completion date"
 }

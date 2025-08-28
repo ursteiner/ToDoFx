@@ -69,6 +69,10 @@
                         <cellValueFactory><PropertyValueFactory property="isDoneIconProperty" />
                         </cellValueFactory>
                     </TableColumn>
+                    <TableColumn fx:id="resolvedDateColumn" text="Done" minWidth="110">
+                        <cellValueFactory><PropertyValueFactory property="resolvedDateProperty" />
+                        </cellValueFactory>
+                    </TableColumn>
                 </columns>
             </TableView>
 
