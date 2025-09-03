@@ -261,7 +261,10 @@ class TasksTabController : CommonController() {
     }
 
     fun updateAmountOfTasksLabel(){
-        numberOfTasks.text = "${tasks.size}/${getTaskDatabase().getAmountOfOpenTasks() + getTaskDatabase().getAmountOfResolvedTasks()}"
+        numberOfTasks.text = "${tasks.size}" +
+                " / " +
+                "${getTaskDatabase().getAmountOfOpenTasks() + getTaskDatabase().getAmountOfResolvedTasks()}" +
+                " ${getTranslation(TranslationKeys.TASKS)}"
     }
 
     fun showDialogMessageFirstSelectATask(){
