@@ -24,6 +24,10 @@
         <mockito.version>5.19.0</mockito.version>
         <slf4j.version>2.0.17</slf4j.version>
         <kotlinMavenSerialization.version>2.2.10</kotlinMavenSerialization.version>
+
+        <mavenPlugin.version>2.18.0</mavenPlugin.version>
+
+        <javaVersion>23</javaVersion>
     </properties>
 
     <dependencies>
@@ -111,9 +115,9 @@
                         <artifactId>kotlin-stdlib</artifactId>
                     </exclusion>
                     <exclusion>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>kotlin-reflect</artifactId>
-                </exclusion>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-reflect</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
         </dependencies>
@@ -128,8 +132,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${mavenCompilerPlugin.version}</version>
                 <configuration>
-                    <source>23</source>
-                    <target>23</target>
+                    <source>${javaVersion}</source>
+                    <target>${javaVersion}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -175,7 +179,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>23</jvmTarget>
+                    <jvmTarget>${javaVersion}</jvmTarget>
                     <compilerPlugins>
 
                     </compilerPlugins>
@@ -209,7 +213,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.18.0</version>
+                <version>${mavenPlugin.version}</version>
                 <configuration>
                     <ruleSet>
                         <ignoreVersions>
