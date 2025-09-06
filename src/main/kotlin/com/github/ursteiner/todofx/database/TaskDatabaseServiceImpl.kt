@@ -172,7 +172,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
 
         transaction {
             addLogger(StdOutSqlLogger)
-            (Categories leftJoin Tasks).select(Categories.name, Categories.name.count())
+            (Categories innerJoin Tasks).select(Categories.name, Categories.name.count())
                 .groupBy(Categories.name)
                 .forEach {
                     resultMap.put(it[Categories.name], it[Categories.name.count()].toInt())
