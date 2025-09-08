@@ -1,6 +1,6 @@
 package com.github.ursteiner.todofx.utils
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.text.SimpleDateFormat
@@ -21,6 +21,6 @@ class DateUtilsTest {
         val sdf = SimpleDateFormat("yyyy-MM", Locale.getDefault())
         val currentDate = sdf.format(Date())
 
-        Assertions.assertEquals(currentDate, testCandidate.getYearMonth(0))
+        assertEquals(currentDate, testCandidate.getYearMonth(0))
     }
 }

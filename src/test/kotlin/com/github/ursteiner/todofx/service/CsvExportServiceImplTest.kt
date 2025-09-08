@@ -1,11 +1,14 @@
 package com.github.ursteiner.todofx.service
 
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.atLeast
+import org.junit.jupiter.api.Assertions.assertEquals
+
 import com.github.ursteiner.todofx.model.Task
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentCaptor
-import org.mockito.Mockito
 import java.io.BufferedWriter
 
 
@@ -16,7 +19,7 @@ class CsvExportServiceImplTest {
 
     @BeforeEach
     fun setUp() {
-        mockWriter = Mockito.mock(BufferedWriter::class.java)
+        mockWriter = mock(BufferedWriter::class.java)
         testCandidate = CsvExportServiceImpl(mockWriter)
     }
 
@@ -30,13 +33,13 @@ class CsvExportServiceImplTest {
 
         val textLineCaptor = ArgumentCaptor.forClass(String::class.java)
 
-        Mockito.verify(mockWriter, Mockito.atLeast(2)).write(textLineCaptor.capture())
-        Mockito.verify(mockWriter, Mockito.atLeast(2)).newLine()
-        Mockito.verify(mockWriter).flush()
-        Mockito.verify(mockWriter).close()
+        verify(mockWriter, atLeast(2)).write(textLineCaptor.capture())
+        verify(mockWriter, atLeast(2)).newLine()
+        verify(mockWriter).flush()
+        verify(mockWriter).close()
 
         val keys: MutableList<String> = textLineCaptor.getAllValues()
-        Assertions.assertEquals(keys[0], """"Id","Description","Category","Date","Resolved","ResolvedDate"""")
-        Assertions.assertEquals(keys[1], """11,"Task1","work",2025-05-01 20:20,false,""")
+        assertEquals(keys[0], """"Id","Description","Category","Date","Resolved","ResolvedDate"""")
+        assertEquals(keys[1], """11,"Task1","work",2025-05-01 20:20,false,""")
     }
 }

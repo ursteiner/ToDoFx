@@ -1,10 +1,9 @@
-package com.github.ursteiner.todofx.service
+package com.github.ursteiner.todofx.service.integration
 
 import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.model.Task
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
-
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
@@ -12,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 class TaskDatabaseServiceImplTest {
     private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImplTest::class.java)
-    private val testCandidate = TaskDatabaseServiceImpl.getInstance("./testTasks")
+    private val testCandidate = TaskDatabaseServiceImpl.Companion.getInstance("./testTasks")
 
     @BeforeEach
     fun cleanupTestDatabase() {
@@ -29,7 +28,8 @@ class TaskDatabaseServiceImplTest {
 
         val databaseTasks = testCandidate.getTasks()
 
-        Assertions.assertEquals(1,
+        Assertions.assertEquals(
+            1,
             databaseTasks.size,
             "There should be one task available"
         )
@@ -54,7 +54,8 @@ class TaskDatabaseServiceImplTest {
         testCandidate.addTask(testTask2, -1)
 
         val numberOfDeletedTasks = testCandidate.deleteTask(testTask1.getIdProperty())
-        Assertions.assertEquals(1,
+        Assertions.assertEquals(
+            1,
             numberOfDeletedTasks,
             "One task should have been deleted"
         )
@@ -63,14 +64,17 @@ class TaskDatabaseServiceImplTest {
     @Test
     fun testDeleteNoneExistingTask(){
         val tasksDeleted = testCandidate.deleteTask(-1)
-        Assertions.assertEquals(0,
+        Assertions.assertEquals(
+            0,
             tasksDeleted,
-            "There shouldn't be a task with id -1 to delete")
+            "There shouldn't be a task with id -1 to delete"
+        )
     }
 
     @Test
     fun testGetTasksNoneAvailable() {
-        Assertions.assertEquals(0,
+        Assertions.assertEquals(
+            0,
             testCandidate.getTasks().size,
             "There should be no tasks in the test database"
         )
@@ -87,7 +91,8 @@ class TaskDatabaseServiceImplTest {
         testTask.setIsDoneProperty(true)
         val updatedTasks : Int = testCandidate.updateTask(testTask2, -1)
 
-        Assertions.assertEquals(1,
+        Assertions.assertEquals(
+            1,
             updatedTasks,
             "1 task should be updated"
         )
@@ -103,7 +108,8 @@ class TaskDatabaseServiceImplTest {
 
         val amountOfResolvedTasks : Long = testCandidate.getAmountOfResolvedTasks()
 
-        Assertions.assertEquals(1,
+        Assertions.assertEquals(
+            1,
             amountOfResolvedTasks,
             "1 task should be resolved"
         )
@@ -111,20 +117,24 @@ class TaskDatabaseServiceImplTest {
 
     @Test
     fun testGetTasksPerMonth(){
-        val testTask1 = Task("Task1",
+        val testTask1 = Task(
+            "Task1",
             "2024-04-20 10:00",
             "",
             0,
-            false)
+            false
+        )
         testCandidate.addTask(testTask1, -1)
 
         val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM")
         val currentYearMonth = LocalDateTime.now().format(dateTimeFormat)
-        val testTask2 = Task("This is second Test Task",
+        val testTask2 = Task(
+            "This is second Test Task",
             currentYearMonth,
             "",
             0,
-            true)
+            true
+        )
         testCandidate.addTask(testTask2, -1)
 
         val databaseResult = testCandidate.getTasksPerMonth(1)
