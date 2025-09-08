@@ -61,6 +61,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit5</artifactId>
+            <version>4.0.18</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
@@ -146,7 +152,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.github.ursteiner.todofx.ToDoFxApplicationKt
+                                com.github.ursteiner.todofx.ToDoFxApplicationTestKt
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
