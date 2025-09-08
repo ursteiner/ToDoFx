@@ -10,24 +10,27 @@ All tasks are stored in an H2 database in your profile folder using JetBrains Ex
 tasks.mv.db
 ```
 
+To start the ToDoFx app simply run the main method of <b>ToDoFxApplication</b>.
+
+
 <table>
     <tr>
         <td>
             <img alt="ScreenshotTasks" src="screenshots/Tasks.png">
-            <br><center>Manage your tasks</center>
+            <br><p align="center">Manage your tasks</p>
         </td>
         <td>
             <img alt="ScreenshotStatistic" src="screenshots/Statistic.png">
-            <br><center>Take a look at the statistics of your tasks</center>
+            <br><p align="center">Take a look at the statistics of your tasks</p>
         </td>
     </tr>
     <tr>
         <td>
             <img alt="ScreenshotExport" src="screenshots/Export.png">
-            <br><center>Export all your tasks as CSV file</center>
+            <br><p align="center">Export all your tasks as CSV file</p>
         </td>
         <td><img alt="ScreenshotSettings" src="screenshots/Settings.png">
-            <br><center>Adjust your preferences on the settings tab</center>
+            <br><p align="center">Adjust your preferences on the settings tab</p>
         </td>
     </tr>
 </table>
