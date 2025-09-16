@@ -23,7 +23,7 @@
         <kotlinxJson.version>1.9.0</kotlinxJson.version>
         <mockito.version>5.19.0</mockito.version>
         <slf4j.version>2.0.17</slf4j.version>
-        <kotlinMavenSerialization.version>2.2.10</kotlinMavenSerialization.version>
+        <kotlinMavenSerialization.version>2.2.20</kotlinMavenSerialization.version>
 
         <mavenPlugin.version>2.19.0</mavenPlugin.version>
 
