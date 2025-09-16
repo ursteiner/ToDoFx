@@ -16,7 +16,7 @@
         <exposed.version>1.0.0-rc-1</exposed.version>
         <javafx.version>26-ea+7</javafx.version>
         <h2.version>2.3.232</h2.version>
-        <surefire.version>3.5.3</surefire.version>
+        <surefire.version>3.5.4</surefire.version>
         <shade.version>3.6.1</shade.version>
         <mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
