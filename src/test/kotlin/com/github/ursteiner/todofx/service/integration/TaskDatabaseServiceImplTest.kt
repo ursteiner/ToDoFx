@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 class TaskDatabaseServiceImplTest {
     private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImplTest::class.java)
-    private val testCandidate = TaskDatabaseServiceImpl.Companion.getInstance("./testTasks")
+    private val testCandidate = TaskDatabaseServiceImpl.getInstance("./testTasks")
 
     @BeforeEach
     fun cleanupTestDatabase() {
