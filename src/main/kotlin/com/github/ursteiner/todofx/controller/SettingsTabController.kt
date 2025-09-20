@@ -19,7 +19,7 @@ import java.net.URL
 import java.util.*
 
 
-class SettingsTabController: CommonController() {
+class SettingsTabController : CommonController() {
 
     private val logger = LoggerFactory.getLogger(SettingsTabController::class.java)
 
@@ -58,7 +58,7 @@ class SettingsTabController: CommonController() {
         listProperty.set(categoriesObservable)
     }
 
-    override fun initTranslations(){
+    override fun initTranslations() {
         categoriesTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
 
         addCategoryButton.text = getTranslation(TranslationKeys.ADD_CATEGORY)
@@ -66,25 +66,27 @@ class SettingsTabController: CommonController() {
         deleteCategoryButton.text = getTranslation(TranslationKeys.DELETE_CATEGORY)
     }
 
-    fun initComboBox(){
+    fun initComboBox() {
         selectLanguageComboBox.items.clear()
         selectLanguageComboBox.items.add(AvailableLanguages.GERMAN.abbreviation)
         selectLanguageComboBox.items.add(AvailableLanguages.ENGLISH.abbreviation)
-        when(System.getProperty("user.language")){
+        when (System.getProperty("user.language")) {
             AvailableLanguages.GERMAN.abbreviation -> selectLanguageComboBox.selectionModel.select(0)
             AvailableLanguages.ENGLISH.abbreviation -> selectLanguageComboBox.selectionModel.select(1)
         }
     }
 
     @FXML
-    fun onAddCategoryButtonClick(){
-        if(categoryTextField.text == ""){
-           return
+    fun onAddCategoryButtonClick() {
+        if (categoryTextField.text == "") {
+            return
         }
 
-        if(categories.any { it.name == categoryTextField.text }){
-            FxUtils.createMessageDialog(getTranslation(TranslationKeys.DUPLICATE_CATEGORY),
-                "${getTranslation(TranslationKeys.CATEGORY_IS_ALREADY_AVAILABLE)}: ${categoryTextField.text}")
+        if (categories.any { it.name == categoryTextField.text }) {
+            FxUtils.createMessageDialog(
+                getTranslation(TranslationKeys.DUPLICATE_CATEGORY),
+                "${getTranslation(TranslationKeys.CATEGORY_IS_ALREADY_AVAILABLE)}: ${categoryTextField.text}"
+            )
             return
         }
 
@@ -96,9 +98,9 @@ class SettingsTabController: CommonController() {
     }
 
     @FXML
-    fun onCategorySelected(){
+    fun onCategorySelected() {
         val selectedCategory = categoriesListView.selectionModel.selectedItem
-        if(selectedCategory == null){
+        if (selectedCategory == null) {
             return
         }
 
@@ -106,11 +108,13 @@ class SettingsTabController: CommonController() {
     }
 
     @FXML
-    fun onUpdateCategoryButtonClick(){
+    fun onUpdateCategoryButtonClick() {
         val selectedCategory = categoriesListView.selectionModel.selectedItem
-        if(categoryTextField.text == "" || selectedCategory == null){
-            FxUtils.createMessageDialog(getTranslation(TranslationKeys.CATEGORIES),
-                getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY))
+        if (categoryTextField.text == "" || selectedCategory == null) {
+            FxUtils.createMessageDialog(
+                getTranslation(TranslationKeys.CATEGORIES),
+                getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY)
+            )
             return
         }
 
@@ -124,32 +128,36 @@ class SettingsTabController: CommonController() {
     }
 
     @FXML
-    fun onDeleteCategoryButtonClick(){
+    fun onDeleteCategoryButtonClick() {
         val selectedCategory = categoriesListView.selectionModel.selectedItem
-        if(selectedCategory == null){
-            FxUtils.createMessageDialog(getTranslation(TranslationKeys.CATEGORIES),
-                getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY))
+        if (selectedCategory == null) {
+            FxUtils.createMessageDialog(
+                getTranslation(TranslationKeys.CATEGORIES),
+                getTranslation(TranslationKeys.PLEASE_FIRST_SELECT_A_CATEGORY)
+            )
             return
         }
 
         try {
             categories.filter { it.name == selectedCategory }.forEach { getCategoryDatabase().deleteCategory(it.id) }
             initCategories()
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
             logger.error("Could not delete category ${ex.message}")
-            FxUtils.createMessageDialog(getTranslation(TranslationKeys.COULD_NOT_DELETE_CATEGORY),
+            FxUtils.createMessageDialog(
+                getTranslation(TranslationKeys.COULD_NOT_DELETE_CATEGORY),
                 "${getTranslation(TranslationKeys.CATEGORY_MIGHT_STILL_BE_IN_USE)}\n\n${ex.message}",
-                Alert.AlertType.WARNING)
+                Alert.AlertType.WARNING
+            )
         }
     }
 
     @FXML
-    fun onClearSelectedCategoryButtonClick(){
+    fun onClearSelectedCategoryButtonClick() {
         categoryTextField.text = ""
         categoriesListView.selectionModel.select(null)
     }
 
-    fun initCategories(){
+    fun initCategories() {
         categoriesObservable.clear()
 
         categories.clear()
@@ -160,10 +168,10 @@ class SettingsTabController: CommonController() {
     }
 
     @FXML
-    fun onLanguageSelectedComboBox(){
+    fun onLanguageSelectedComboBox() {
         val selectedLanguage = selectLanguageComboBox.selectionModel.selectedItem
 
-        when(selectedLanguage){
+        when (selectedLanguage) {
             AvailableLanguages.GERMAN.abbreviation -> setLanguage(AvailableLanguages.GERMAN)
             AvailableLanguages.ENGLISH.abbreviation -> setLanguage(AvailableLanguages.ENGLISH)
         }

@@ -31,7 +31,7 @@
                     <CategoryAxis fx:id="xAxis"/>
                 </xAxis>
                 <yAxis>
-                    <NumberAxis fx:id="yAxis" autoRanging="false" tickUnit="1.0" />
+                    <NumberAxis fx:id="yAxis" autoRanging="false" tickUnit="1.0"/>
                 </yAxis>
             </BarChart>
         </TitledPane>

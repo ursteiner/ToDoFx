@@ -20,7 +20,7 @@ class CategoryDatabaseServiceImplTest {
     }
 
     @Test
-    fun testAddCategory(){
+    fun testAddCategory() {
         val testCategory1 = Category("work", 0)
         testCandidate.addCategory(testCategory1)
 
@@ -37,13 +37,13 @@ class CategoryDatabaseServiceImplTest {
     }
 
     @Test
-    fun testGetCategories(){
+    fun testGetCategories() {
         val amountOfCategories = testCandidate.getCategories()
         assertEquals(0, amountOfCategories.size, "There should be 0 categories")
     }
 
     @Test
-    fun testDeleteCategory(){
+    fun testDeleteCategory() {
         val testCategory = Category("private", 0)
         testCandidate.addCategory(testCategory)
         val deletedCategories = testCandidate.deleteCategory(testCategory.id)

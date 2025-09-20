@@ -15,7 +15,7 @@ class ToDoFxApplicationTest : ApplicationTest() {
     override fun start(stage: Stage) {
         val fxmlLoader = FXMLLoader(ToDoFxApplication::class.java.getResource("toDoFx-view.fxml"))
         val startScene = Scene(fxmlLoader.load(), 940.0, 520.0)
-        with(stage){
+        with(stage) {
             title = "ToDoFX"
             icons.add(Image(ToDoFxApplication::class.java.getResourceAsStream("appIcon.png")))
             scene = startScene
@@ -25,7 +25,7 @@ class ToDoFxApplicationTest : ApplicationTest() {
     }
 
     @Test
-    fun buttons_shouldBeVisible_whenStarted(){
+    fun buttons_shouldBeVisible_whenStarted() {
         verifyThat("#addTaskButton", NodeMatchers.isVisible())
         verifyThat("#searchButton", NodeMatchers.isVisible())
         verifyThat("#resolveTaskButton", NodeMatchers.isVisible())
@@ -33,7 +33,7 @@ class ToDoFxApplicationTest : ApplicationTest() {
     }
 
     @Test
-    fun buttons_shouldBeInvisible_whenStarted(){
+    fun buttons_shouldBeInvisible_whenStarted() {
         verifyThat("#updateTaskButton", NodeMatchers.isInvisible())
     }
 

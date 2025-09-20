@@ -5,7 +5,7 @@ import com.github.ursteiner.todofx.utils.DateUtils
 import org.jetbrains.exposed.v1.core.LowerCase
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
-import org.jetbrains.exposed.v1.core.eq;
+import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.count
 import org.jetbrains.exposed.v1.core.greaterEq
@@ -21,10 +21,10 @@ import org.jetbrains.exposed.v1.jdbc.update
 import org.slf4j.LoggerFactory
 
 
-class TaskDatabaseServiceImpl: TaskDatabaseService {
+class TaskDatabaseServiceImpl : TaskDatabaseService {
     private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImpl::class.java)
 
-    private constructor(databasePathName: String){
+    private constructor(databasePathName: String) {
         logger.info("Set database connection to $databasePathName")
         Database.connect("jdbc:h2:file:${databasePathName}", driver = "org.h2.Driver", user = "root", password = "")
         transaction {
@@ -52,7 +52,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
             it[name] = newTask.getNameProperty()
             it[date] = newTask.getDateProperty()
             it[isDone] = newTask.getIsDoneProperty()
-            if(categoryNumber > 0){
+            if (categoryNumber > 0) {
                 it[categoryId] = categoryNumber
             }
         } get Tasks.id
@@ -68,18 +68,27 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
         return getTasks(false)
     }
 
-    override fun getTasks(resolved: Boolean?): MutableList<Task>{
+    override fun getTasks(resolved: Boolean?): MutableList<Task> {
         logger.info("Get Tasks resolved: $resolved")
         val tasks = mutableListOf<Task>()
 
         transaction {
             addLogger(StdOutSqlLogger)
-            val databaseTasks = when(resolved){
+            val databaseTasks = when (resolved) {
                 null -> (Tasks leftJoin Categories).selectAll()
                 else -> (Tasks leftJoin Categories).selectAll().where { Tasks.isDone eq resolved }
             }
             databaseTasks.forEach {
-                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name],it[Tasks.id], it[Tasks.isDone], it[Tasks.resolvedDate] ?: ""))
+                tasks.add(
+                    Task(
+                        it[Tasks.name],
+                        it[Tasks.date],
+                        it[Categories.name],
+                        it[Tasks.id],
+                        it[Tasks.isDone],
+                        it[Tasks.resolvedDate] ?: ""
+                    )
+                )
             }
         }
         return tasks
@@ -92,10 +101,20 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
         transaction {
             addLogger(StdOutSqlLogger)
             val databaseTasks = (Tasks leftJoin Categories).selectAll().where {
-                LowerCase(Tasks.name) like search or (  LowerCase( Categories.name) like search) }
+                LowerCase(Tasks.name) like search or (LowerCase(Categories.name) like search)
+            }
 
             databaseTasks.forEach {
-                tasks.add(Task(it[Tasks.name], it[Tasks.date], it[Categories.name], it[Tasks.id], it[Tasks.isDone], it[Tasks.resolvedDate] ?: ""))
+                tasks.add(
+                    Task(
+                        it[Tasks.name],
+                        it[Tasks.date],
+                        it[Categories.name],
+                        it[Tasks.id],
+                        it[Tasks.isDone],
+                        it[Tasks.resolvedDate] ?: ""
+                    )
+                )
             }
         }
         return tasks
@@ -122,7 +141,7 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
                 it[isDone] = task.getIsDoneProperty()
                 it[name] = task.getNameProperty()
                 it[resolvedDate] = task.getResolvedDateProperty()
-                if(categoryNumber >= 0){
+                if (categoryNumber >= 0) {
                     it[categoryId] = categoryNumber
                 }
             }
@@ -154,10 +173,10 @@ class TaskDatabaseServiceImpl: TaskDatabaseService {
 
         transaction {
             addLogger(StdOutSqlLogger)
-            val yearMonth = Tasks.date.substring(0,7)
+            val yearMonth = Tasks.date.substring(0, 7)
             Tasks.select(yearMonth, yearMonth.count())
                 .groupBy(yearMonth)
-                .where {yearMonth greaterEq DateUtils.getYearMonth(lastXMonths)}
+                .where { yearMonth greaterEq DateUtils.getYearMonth(lastXMonths) }
                 .forEach {
                     resultMap.put(it[yearMonth], it[yearMonth.count()].toInt())
                 }

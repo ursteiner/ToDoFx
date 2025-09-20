@@ -9,7 +9,7 @@ import com.github.ursteiner.todofx.service.LanguageServiceImpl
 import com.github.ursteiner.todofx.database.TaskDatabaseService
 import javafx.fxml.Initializable
 
-abstract class CommonController: Initializable{
+abstract class CommonController : Initializable {
 
     val defaultDataBasePathName = "~/tasks"
 
@@ -17,11 +17,11 @@ abstract class CommonController: Initializable{
     private val taskDatabaseService = TaskDatabaseServiceImpl.getInstance(defaultDataBasePathName)
     private val categoryDatabaseService = CategoryDatabaseServiceImpl.getInstance(defaultDataBasePathName)
 
-    fun getTranslation(key: TranslationKeys): String{
+    fun getTranslation(key: TranslationKeys): String {
         return languageService.getTranslationForKey(key)
     }
 
-    fun setLanguage(languages: AvailableLanguages){
+    fun setLanguage(languages: AvailableLanguages) {
         languageService.setLanguage(languages)
     }
 

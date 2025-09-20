@@ -8,7 +8,7 @@ import javafx.scene.layout.AnchorPane
 import java.net.URL
 import java.util.ResourceBundle
 
-class ToDoFxController: CommonController() {
+class ToDoFxController : CommonController() {
 
     //prevents unused warning, although the controllers are used
     lateinit var settingsTabPage: AnchorPane
@@ -17,7 +17,7 @@ class ToDoFxController: CommonController() {
     lateinit var statisticsTabPage: AnchorPane
 
     @FXML
-    private lateinit var tabPane : TabPane
+    private lateinit var tabPane: TabPane
 
     @FXML
     private lateinit var statisticsTabPageController: StatisticTabController
@@ -39,26 +39,29 @@ class ToDoFxController: CommonController() {
     }
 
     @FXML
-    fun onTabClicked(){
+    fun onTabClicked() {
         val currentTab = Tabs.entries[tabPane.selectionModel.selectedIndex]
 
-        if(currentTab == selectedTab){
+        if (currentTab == selectedTab) {
             return
         }
 
-        when(tabPane.selectionModel.selectedIndex){
+        when (tabPane.selectionModel.selectedIndex) {
             Tabs.TASKS.index -> {
                 tasksTabPageController.initialize(null, null)
             }
+
             Tabs.STATISTICS.index -> {
-                statisticsTabPageController.initialize(null,null)
+                statisticsTabPageController.initialize(null, null)
                 statisticsTabPageController.buildPieChartResolvedOpen()
                 statisticsTabPageController.buildBarChartTasksPerMonth()
                 statisticsTabPageController.buildPieChartTasksPerCategory()
             }
+
             Tabs.EXPORT.index -> {
                 exportTabPageController.initialize(null, null)
             }
+
             Tabs.SETTINGS.index -> {
                 settingsTabPageController.initTranslations()
                 settingsTabPageController.initCategories()
@@ -69,7 +72,7 @@ class ToDoFxController: CommonController() {
     }
 
     override fun initTranslations() {
-        with(tabPane){
+        with(tabPane) {
             tabs[Tabs.TASKS.index].text = getTranslation(TranslationKeys.TASKS)
             tabs[Tabs.STATISTICS.index].text = getTranslation(TranslationKeys.STATISTIC)
             tabs[Tabs.EXPORT.index].text = getTranslation(TranslationKeys.EXPORT)

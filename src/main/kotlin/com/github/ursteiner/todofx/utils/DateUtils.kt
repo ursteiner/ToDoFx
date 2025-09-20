@@ -7,7 +7,7 @@ import java.util.GregorianCalendar
 
 object DateUtils {
 
-    fun getYearMonth(beforeXMonths: Int): String{
+    fun getYearMonth(beforeXMonths: Int): String {
         val c: Calendar = GregorianCalendar()
         c.setTime(Date())
         val sdf = SimpleDateFormat("yyyy-MM")

@@ -18,12 +18,12 @@
                     <padding>
                         <Insets/>
                     </padding>
-                    <TextArea fx:id="taskNameInput" wrapText="true" />
+                    <TextArea fx:id="taskNameInput" wrapText="true"/>
                 </VBox>
             </TitledPane>
             <HBox>
                 <ComboBox fx:id="newCategoryComboBox"/>
-                <Pane HBox.hgrow="ALWAYS" />
+                <Pane HBox.hgrow="ALWAYS"/>
                 <Button fx:id="addTaskButton" text="Add task" onAction="#onAddTaskButtonClick"/>
             </HBox>
             <TitledPane fx:id="editTaskPane" text="Edit task description:" collapsible="false">
@@ -36,8 +36,9 @@
             </TitledPane>
             <HBox>
                 <ComboBox fx:id="updateCategoryComboBox"/>
-                <Pane HBox.hgrow="ALWAYS" />
-                <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" visible="false"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick"
+                        visible="false"/>
             </HBox>
         </VBox>
         <VBox minWidth="10"/>
@@ -50,27 +51,33 @@
             <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
                 <columns>
                     <TableColumn fx:id="idColumn" text="Id" minWidth="50">
-                        <cellValueFactory><PropertyValueFactory property="idProperty" />
+                        <cellValueFactory>
+                            <PropertyValueFactory property="idProperty"/>
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn fx:id="dateColumn" text="Date" minWidth="100">
-                        <cellValueFactory><PropertyValueFactory property="dateProperty" />
+                        <cellValueFactory>
+                            <PropertyValueFactory property="dateProperty"/>
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn fx:id="descriptionColumn" text="Description" minWidth="230">
-                        <cellValueFactory><PropertyValueFactory property="nameProperty" />
+                        <cellValueFactory>
+                            <PropertyValueFactory property="nameProperty"/>
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn fx:id="categoryColumn" text="Category" minWidth="100">
-                        <cellValueFactory><PropertyValueFactory property="categoryProperty" />
+                        <cellValueFactory>
+                            <PropertyValueFactory property="categoryProperty"/>
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn fx:id="doneColumn" text="Done" minWidth="50" style="-fx-alignment:center;">
-                        <cellValueFactory><PropertyValueFactory property="isDoneIconProperty" />
+                        <cellValueFactory>
+                            <PropertyValueFactory property="isDoneIconProperty"/>
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn fx:id="resolvedDateColumn" text="Done" minWidth="110">
-                        <cellValueFactory><PropertyValueFactory property="resolvedDateProperty" />
+                        <cellValueFactory>
+                            <PropertyValueFactory property="resolvedDateProperty"/>
                         </cellValueFactory>
                     </TableColumn>
                 </columns>
@@ -78,11 +85,12 @@
 
             <HBox alignment="CENTER">
                 <Button fx:id="resolveTaskButton" text="Un/resolve task" onAction="#onCompletedTaskButtonClick"/>
-                <Pane HBox.hgrow="ALWAYS" />
-                <CheckBox selected="true" text="hide done tasks" onAction="#getTasksBasedOnFilters" fx:id="hideDoneTasksCheckBox"/>
-                <Pane HBox.hgrow="ALWAYS" />
+                <Pane HBox.hgrow="ALWAYS"/>
+                <CheckBox selected="true" text="hide done tasks" onAction="#getTasksBasedOnFilters"
+                          fx:id="hideDoneTasksCheckBox"/>
+                <Pane HBox.hgrow="ALWAYS"/>
                 <Label fx:id="numberOfTasks"/>
-                <Pane HBox.hgrow="ALWAYS" />
+                <Pane HBox.hgrow="ALWAYS"/>
                 <Button fx:id="deleteTaskButton" text="Delete task" onAction="#onDeleteTaskButtonClick"/>
             </HBox>
         </VBox>

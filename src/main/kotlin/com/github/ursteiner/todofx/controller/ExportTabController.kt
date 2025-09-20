@@ -12,7 +12,7 @@ import java.net.URL
 import java.util.*
 
 
-class ExportTabController: CommonController() {
+class ExportTabController : CommonController() {
 
     private val logger = LoggerFactory.getLogger(ExportTabController::class.java)
 
@@ -27,9 +27,9 @@ class ExportTabController: CommonController() {
     }
 
     @FXML
-    fun onExportTaskButtonClick(){
+    fun onExportTaskButtonClick() {
         val fileChooser = FileChooser()
-        with(fileChooser){
+        with(fileChooser) {
             title = getTranslation(TranslationKeys.SAVE_EXPORTED_FILE)
             initialFileName = "tasks.csv"
             extensionFilters.add(
@@ -37,9 +37,11 @@ class ExportTabController: CommonController() {
             )
         }
 
-        when(val file = fileChooser.showSaveDialog(exportPane.scene.window)){
+        when (val file = fileChooser.showSaveDialog(exportPane.scene.window)) {
             null -> logger.info("CSV Exporter: no file selected")
-            else -> CsvExportServiceImpl(file).exportTasks(TaskDatabaseServiceImpl.getInstance(defaultDataBasePathName).getTasks())
+            else -> CsvExportServiceImpl(file).exportTasks(
+                TaskDatabaseServiceImpl.getInstance(defaultDataBasePathName).getTasks()
+            )
         }
     }
 

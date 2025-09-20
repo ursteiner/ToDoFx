@@ -12,12 +12,12 @@ class DateUtilsTest {
     private lateinit var testCandidate: DateUtils
 
     @BeforeEach
-    fun setUp(){
+    fun setUp() {
         testCandidate = DateUtils
     }
 
     @Test
-    fun testGetYearMonth(){
+    fun testGetYearMonth() {
         val sdf = SimpleDateFormat("yyyy-MM", Locale.getDefault())
         val currentDate = sdf.format(Date())
 

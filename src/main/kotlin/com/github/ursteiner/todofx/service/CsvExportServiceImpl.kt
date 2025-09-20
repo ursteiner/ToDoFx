@@ -9,11 +9,11 @@ class CsvExportServiceImpl : ExportService {
 
     private val writer: BufferedWriter
 
-    constructor(bufferedWriter: BufferedWriter){
+    constructor(bufferedWriter: BufferedWriter) {
         writer = bufferedWriter
     }
 
-    constructor(filePath: File){
+    constructor(filePath: File) {
         writer = BufferedWriter(FileWriter(filePath))
     }
 

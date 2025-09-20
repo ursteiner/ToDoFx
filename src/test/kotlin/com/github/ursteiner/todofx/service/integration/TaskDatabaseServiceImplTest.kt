@@ -62,7 +62,7 @@ class TaskDatabaseServiceImplTest {
     }
 
     @Test
-    fun testDeleteNoneExistingTask(){
+    fun testDeleteNoneExistingTask() {
         val tasksDeleted = testCandidate.deleteTask(-1)
         Assertions.assertEquals(
             0,
@@ -89,7 +89,7 @@ class TaskDatabaseServiceImplTest {
         testCandidate.addTask(testTask2, -1)
 
         testTask.setIsDoneProperty(true)
-        val updatedTasks : Int = testCandidate.updateTask(testTask2, -1)
+        val updatedTasks: Int = testCandidate.updateTask(testTask2, -1)
 
         Assertions.assertEquals(
             1,
@@ -106,7 +106,7 @@ class TaskDatabaseServiceImplTest {
         val testTask2 = Task("This is second Test Task", "2025-04-21 10:00", "", 0, true)
         testCandidate.addTask(testTask2, -1)
 
-        val amountOfResolvedTasks : Long = testCandidate.getAmountOfResolvedTasks()
+        val amountOfResolvedTasks: Long = testCandidate.getAmountOfResolvedTasks()
 
         Assertions.assertEquals(
             1,
@@ -116,7 +116,7 @@ class TaskDatabaseServiceImplTest {
     }
 
     @Test
-    fun testGetTasksPerMonth(){
+    fun testGetTasksPerMonth() {
         val testTask1 = Task(
             "Task1",
             "2024-04-20 10:00",

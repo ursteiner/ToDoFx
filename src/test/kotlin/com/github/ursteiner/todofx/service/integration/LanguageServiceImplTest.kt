@@ -11,7 +11,7 @@ class LanguageServiceImplTest {
     private val testCandidate = LanguageServiceImpl.getInstance("en")
 
     @Test
-    fun testGetFirstSelectTaskInTableEnglish(){
+    fun testGetFirstSelectTaskInTableEnglish() {
         assertEquals(
             "Please first select a task in the table!",
             testCandidate.getTranslationForKey(
@@ -21,7 +21,7 @@ class LanguageServiceImplTest {
     }
 
     @Test
-    fun testAllKeysAreTranslated(){
+    fun testAllKeysAreTranslated() {
         //In case there is no translation, the key is returned.
         //So if the key is returned we are missing a translation.
         enumEntries<TranslationKeys>().forEach {
@@ -33,7 +33,7 @@ class LanguageServiceImplTest {
     }
 
     @Test
-    fun testEnumAndJsonFileHaveSameAmountOfProperties(){
+    fun testEnumAndJsonFileHaveSameAmountOfProperties() {
         assertEquals(
             enumEntries<TranslationKeys>().size,
             testCandidate.getAmountOfTranslations()

@@ -11,7 +11,7 @@ class LanguageServiceImpl : LanguageService {
     private lateinit var currentLanguage: AvailableLanguages
     private lateinit var translations: JsonObject
 
-    private constructor(selectedLanguage: AvailableLanguages){
+    private constructor(selectedLanguage: AvailableLanguages) {
         setLanguage(selectedLanguage)
     }
 
@@ -22,7 +22,7 @@ class LanguageServiceImpl : LanguageService {
 
         fun getInstance(language: String) =
             instance ?: synchronized(this) {
-                instance ?: when(language){
+                instance ?: when (language) {
                     AvailableLanguages.GERMAN.abbreviation -> LanguageServiceImpl(AvailableLanguages.GERMAN)
                     else -> LanguageServiceImpl(AvailableLanguages.ENGLISH)
                 }.also { instance = it }
@@ -39,7 +39,9 @@ class LanguageServiceImpl : LanguageService {
 
     override fun setLanguage(selectedLanguage: AvailableLanguages) {
         currentLanguage = selectedLanguage
-        val translationFileContent = object {}.javaClass.getResourceAsStream("${selectedLanguage.language}.json")?.bufferedReader()?.readText() ?: ""
+        val translationFileContent =
+            object {}.javaClass.getResourceAsStream("${selectedLanguage.language}.json")?.bufferedReader()?.readText()
+                ?: ""
         translations = Json.decodeFromString(translationFileContent)
     }
 }

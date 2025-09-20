@@ -12,7 +12,8 @@
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
-        <TitledPane fx:id="exportPane" collapsible="false" text="Export is stored as 'tasks.csv' to the application folder." minWidth="710" minHeight="450">
+        <TitledPane fx:id="exportPane" collapsible="false"
+                    text="Export is stored as 'tasks.csv' to the application folder." minWidth="710" minHeight="450">
             <Button fx:id="exportButton" text="💾 Export" onAction="#onExportTaskButtonClick"/>
         </TitledPane>
     </VBox>

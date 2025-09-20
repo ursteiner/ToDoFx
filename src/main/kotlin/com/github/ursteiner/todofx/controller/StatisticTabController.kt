@@ -12,7 +12,7 @@ import java.net.URL
 import java.util.*
 
 
-class StatisticTabController: CommonController() {
+class StatisticTabController : CommonController() {
 
     @FXML
     private lateinit var pieChartOpenResolved: PieChart
@@ -30,7 +30,7 @@ class StatisticTabController: CommonController() {
     private lateinit var tasksPerMonthTitledPane: TitledPane
 
     @FXML
-    private lateinit var barChartTasksPerMonth: BarChart<String,Int>
+    private lateinit var barChartTasksPerMonth: BarChart<String, Int>
 
     @FXML
     private lateinit var yAxis: NumberAxis
@@ -48,12 +48,16 @@ class StatisticTabController: CommonController() {
         yAxis.animated = false
     }
 
-    fun buildPieChartResolvedOpen(){
+    fun buildPieChartResolvedOpen() {
         val pieChartData = FXCollections.observableArrayList(
-            PieChart.Data(getTranslation(TranslationKeys.OPEN_TASKS),
-                getTaskDatabase().getAmountOfOpenTasks().toDouble()),
-            PieChart.Data(getTranslation(TranslationKeys.RESOLVED_TASKS),
-                getTaskDatabase().getAmountOfResolvedTasks().toDouble())
+            PieChart.Data(
+                getTranslation(TranslationKeys.OPEN_TASKS),
+                getTaskDatabase().getAmountOfOpenTasks().toDouble()
+            ),
+            PieChart.Data(
+                getTranslation(TranslationKeys.RESOLVED_TASKS),
+                getTaskDatabase().getAmountOfResolvedTasks().toDouble()
+            )
         )
         pieChartOpenResolved.data = pieChartData
         pieChartOpenResolved.data.forEach {
@@ -61,11 +65,11 @@ class StatisticTabController: CommonController() {
         }
     }
 
-    fun buildPieChartTasksPerCategory(){
+    fun buildPieChartTasksPerCategory() {
         val categoriesObservable = FXCollections.observableArrayList<PieChart.Data>()
         val categories = getTaskDatabase().getTasksPerCategory()
-        categories.keys.forEach {
-            key -> categoriesObservable.add(PieChart.Data(key, categories[key]?.toDouble() ?: 0.0))
+        categories.keys.forEach { key ->
+            categoriesObservable.add(PieChart.Data(key, categories[key]?.toDouble() ?: 0.0))
         }
 
         pieChartTasksPerCategory.data = categoriesObservable
@@ -74,7 +78,7 @@ class StatisticTabController: CommonController() {
         }
     }
 
-    fun buildBarChartTasksPerMonth(){
+    fun buildBarChartTasksPerMonth() {
         barChartTasksPerMonth.data.clear()
 
         val series = Series<String?, Int?>()
@@ -87,9 +91,9 @@ class StatisticTabController: CommonController() {
         yAxis.minorTickVisibleProperty().set(false)
 
         generateDefaultBarChartData(numberOfPreviousMonths).forEach {
-            if(tasksPerMonth.containsKey(it.key)){
+            if (tasksPerMonth.containsKey(it.key)) {
                 series.data.add(XYChart.Data<String?, Int?>(it.key, tasksPerMonth.get(it.key)))
-            }else{
+            } else {
                 series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
             }
         }
@@ -103,7 +107,7 @@ class StatisticTabController: CommonController() {
 
     fun generateDefaultBarChartData(lastXmonths: Int): MutableMap<String, Int> {
         val monthMap = mutableMapOf<String, Int>()
-        for(month in 0..lastXmonths){
+        for (month in 0..lastXmonths) {
             monthMap.put(DateUtils.getYearMonth(lastXmonths - month), 0)
         }
 
@@ -111,7 +115,8 @@ class StatisticTabController: CommonController() {
     }
 
     override fun initTranslations() {
-        openResolvedTitledPane.text = "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
+        openResolvedTitledPane.text =
+            "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
         tasksPerCategoryTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
         tasksPerMonthTitledPane.text = getTranslation(TranslationKeys.TASKS_PER_MONTH)
 

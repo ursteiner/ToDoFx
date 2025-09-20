@@ -82,7 +82,7 @@ class TasksTabController : CommonController() {
     private val isDoneTextIcon = "✔"
     private val tasks = mutableListOf<Task>()
 
-    override fun initialize(p0: URL?, p1: ResourceBundle?){
+    override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()
         getTasksBasedOnFilters()
 
@@ -100,10 +100,12 @@ class TasksTabController : CommonController() {
 
     @Suppress("unused")
     @FXML
-    private fun onAddTaskButtonClick(){
-        if(taskNameInput.text.isEmpty()){
-            showDialogMessage(getTranslation(TranslationKeys.TASK),
-                getTranslation(TranslationKeys.FIRST_FILL_IN_A_DESCRIPTION))
+    private fun onAddTaskButtonClick() {
+        if (taskNameInput.text.isEmpty()) {
+            showDialogMessage(
+                getTranslation(TranslationKeys.TASK),
+                getTranslation(TranslationKeys.FIRST_FILL_IN_A_DESCRIPTION)
+            )
             return
         }
 
@@ -119,10 +121,12 @@ class TasksTabController : CommonController() {
 
     @Suppress("unused")
     @FXML
-    private fun onSearchButtonClick(actionEvent: ActionEvent){
-        if(searchTextField.text.isEmpty()){
-            FxUtils.createMessageDialog(getTranslation(TranslationKeys.MISSING_SEARCH_TERM),
-                getTranslation(TranslationKeys.PLEASE_FILL_IN_SEARCH_TERM))
+    private fun onSearchButtonClick(actionEvent: ActionEvent) {
+        if (searchTextField.text.isEmpty()) {
+            FxUtils.createMessageDialog(
+                getTranslation(TranslationKeys.MISSING_SEARCH_TERM),
+                getTranslation(TranslationKeys.PLEASE_FILL_IN_SEARCH_TERM)
+            )
             return
         }
 
@@ -139,8 +143,8 @@ class TasksTabController : CommonController() {
 
     @Suppress("unused")
     @FXML
-    private fun onClearSearchButton(){
-        if(searchTextField.text.isNotEmpty()) {
+    private fun onClearSearchButton() {
+        if (searchTextField.text.isNotEmpty()) {
             searchTextField.text = ""
             getTasksBasedOnFilters()
         }
@@ -148,9 +152,9 @@ class TasksTabController : CommonController() {
 
     @Suppress("unused")
     @FXML
-    private fun onDeleteTaskButtonClick(){
+    private fun onDeleteTaskButtonClick() {
         val selectedTask = tableView.selectionModel.selectedItem
-        if(selectedTask == null){
+        if (selectedTask == null) {
             showDialogMessageFirstSelectATask()
             return
         }
@@ -164,7 +168,7 @@ class TasksTabController : CommonController() {
             Alert.AlertType.CONFIRMATION
         )
 
-        if(dialogResult.isPresent && dialogResult.get() == ButtonType.OK) {
+        if (dialogResult.isPresent && dialogResult.get() == ButtonType.OK) {
             getTaskDatabase().deleteTask(selectedTask.getIdProperty())
 
             getTasksBasedOnFilters()
@@ -174,14 +178,14 @@ class TasksTabController : CommonController() {
 
     @Suppress("unused")
     @FXML
-    private fun onCompletedTaskButtonClick(){
+    private fun onCompletedTaskButtonClick() {
         val selectedTask = tableView.selectionModel.selectedItem
-        if(selectedTask == null) {
+        if (selectedTask == null) {
             showDialogMessageFirstSelectATask()
             return
         }
 
-        when(selectedTask.getResolvedDateProperty()){
+        when (selectedTask.getResolvedDateProperty()) {
             "" -> selectedTask.setResolvedDate(LocalDateTime.now().format(dateTimeFormat))
             else -> selectedTask.setResolvedDate("")
         }
@@ -189,7 +193,7 @@ class TasksTabController : CommonController() {
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
         getTaskDatabase().updateTask(selectedTask)
 
-        if(hideDoneTasksCheckBox.isSelected){
+        if (hideDoneTasksCheckBox.isSelected) {
             setVisibilityUpdateTask(false)
         }
 
@@ -198,10 +202,10 @@ class TasksTabController : CommonController() {
 
     @Suppress("unused")
     @FXML
-    private fun onUpdateTaskButtonClick(){
+    private fun onUpdateTaskButtonClick() {
         val selectedTask = tableView.selectionModel.selectedItem
         val selectedCategory = updateCategoryComboBox.selectionModel.selectedItem
-        if(selectedTask == null) {
+        if (selectedTask == null) {
             showDialogMessageFirstSelectATask()
             return
         }
@@ -215,7 +219,7 @@ class TasksTabController : CommonController() {
         tableView.refresh()
     }
 
-    private fun setVisibilityUpdateTask(isVisible: Boolean){
+    private fun setVisibilityUpdateTask(isVisible: Boolean) {
         taskUpdateArea.isVisible = isVisible
         updateTaskButton.isVisible = isVisible
         editTaskPane.isVisible = isVisible
@@ -243,13 +247,13 @@ class TasksTabController : CommonController() {
     }
 
     @FXML
-    private fun getTasksBasedOnFilters(){
+    private fun getTasksBasedOnFilters() {
         tasks.clear()
 
-        if(hideDoneTasksCheckBox.isSelected){
+        if (hideDoneTasksCheckBox.isSelected) {
             tasks.addAll(getTaskDatabase().getOpenTasks())
             setVisibilityUpdateTask(false)
-        }else{
+        } else {
             tasks.addAll(getTaskDatabase().getTasks())
             tasks.filter { it.getIsDoneProperty() }
                 .map { it.setIsDoneIconProperty(isDoneTextIcon) }
@@ -260,19 +264,21 @@ class TasksTabController : CommonController() {
         updateAmountOfTasksLabel()
     }
 
-    fun updateAmountOfTasksLabel(){
+    fun updateAmountOfTasksLabel() {
         numberOfTasks.text = "${tasks.size}" +
                 " / " +
                 "${getTaskDatabase().getAmountOfOpenTasks() + getTaskDatabase().getAmountOfResolvedTasks()}" +
                 " ${getTranslation(TranslationKeys.TASKS)}"
     }
 
-    fun showDialogMessageFirstSelectATask(){
-        showDialogMessage(getTranslation(TranslationKeys.TASK),
-            getTranslation(TranslationKeys.FIRST_SELECT_TASK_IN_TABLE))
+    fun showDialogMessageFirstSelectATask() {
+        showDialogMessage(
+            getTranslation(TranslationKeys.TASK),
+            getTranslation(TranslationKeys.FIRST_SELECT_TASK_IN_TABLE)
+        )
     }
 
-    fun showDialogMessage(title: String, content: String){
+    fun showDialogMessage(title: String, content: String) {
         FxUtils.createMessageDialog(title, content)
     }
 

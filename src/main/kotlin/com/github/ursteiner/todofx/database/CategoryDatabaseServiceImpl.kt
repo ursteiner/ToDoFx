@@ -17,7 +17,7 @@ class CategoryDatabaseServiceImpl : CategoryDatabaseService {
 
     private val logger = LoggerFactory.getLogger(CategoryDatabaseServiceImpl::class.java)
 
-    private constructor(databasePathName: String){
+    private constructor(databasePathName: String) {
         logger.info("Set database connection to $databasePathName")
         Database.connect("jdbc:h2:file:${databasePathName}", driver = "org.h2.Driver", user = "root", password = "")
         transaction {
