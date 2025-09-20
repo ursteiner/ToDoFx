@@ -11,19 +11,22 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <exposed.version>1.0.0-rc-1</exposed.version>
+        <h2.version>2.3.232</h2.version>
+        <javafx.version>26-ea+7</javafx.version>
+        <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
         <junit.version>5.13.4</junit.version>
         <kotlin.version>2.2.20</kotlin.version>
-        <exposed.version>1.0.0-rc-1</exposed.version>
-        <javafx.version>26-ea+7</javafx.version>
-        <h2.version>2.3.232</h2.version>
-        <surefire.version>3.5.4</surefire.version>
-        <shade.version>3.6.1</shade.version>
-        <mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
-        <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
-        <kotlinxJson.version>1.9.0</kotlinxJson.version>
-        <mockito.version>5.19.0</mockito.version>
-        <slf4j.version>2.0.17</slf4j.version>
         <kotlinMavenSerialization.version>2.2.20</kotlinMavenSerialization.version>
+        <kotlinxJson.version>1.9.0</kotlinxJson.version>
+        <mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
+        <mockito.version>5.19.0</mockito.version>
+        <shade.version>3.6.1</shade.version>
+        <slf4j.version>2.0.17</slf4j.version>
+        <surefire.version>3.5.4</surefire.version>
+        <testfx.openjfx.version>21.0.2</testfx.openjfx.version>
+        <testfx.version>4.0.18</testfx.version>
 
         <mavenPlugin.version>2.19.0</mavenPlugin.version>
 
@@ -63,13 +66,13 @@
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-junit5</artifactId>
-            <version>4.0.18</version>
+            <version>${testfx.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>openjfx-monocle</artifactId>
-            <version>21.0.2</version>
+            <version>${testfx.openjfx.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
