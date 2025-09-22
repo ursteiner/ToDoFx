@@ -28,7 +28,7 @@
         <testfx.openjfx.version>21.0.2</testfx.openjfx.version>
         <testfx.version>4.0.18</testfx.version>
 
-        <mavenPlugin.version>2.19.0</mavenPlugin.version>
+        <mavenPlugin.version>2.19.1</mavenPlugin.version>
 
         <javaVersion>23</javaVersion>
     </properties>
