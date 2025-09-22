@@ -20,7 +20,7 @@
         <kotlin.version>2.2.20</kotlin.version>
         <kotlinMavenSerialization.version>2.2.20</kotlinMavenSerialization.version>
         <kotlinxJson.version>1.9.0</kotlinxJson.version>
-        <mavenCompilerPlugin.version>3.14.0</mavenCompilerPlugin.version>
+        <mavenCompilerPlugin.version>3.14.1</mavenCompilerPlugin.version>
         <mockito.version>5.19.0</mockito.version>
         <shade.version>3.6.1</shade.version>
         <slf4j.version>2.0.17</slf4j.version>
