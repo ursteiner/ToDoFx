@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <exposed.version>1.0.0-rc-1</exposed.version>
+        <exposed.version>1.0.0-rc-2</exposed.version>
         <h2.version>2.4.240</h2.version>
         <javafx.version>26-ea+10</javafx.version>
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
