@@ -25,7 +25,7 @@ class CsvExportServiceImplTest {
 
     @Test
     fun testExportTasks() {
-        val task1 = Task("Task1", "2025-05-01 20:20", "work", 11, false)
+        val task1 = Task("Task1", "2025-05-01 20:20", 11, false, "", "work")
         val tasks = mutableListOf<Task>()
         tasks.add(task1)
 

@@ -21,7 +21,7 @@ class CsvExportServiceImpl : ExportService {
         writer.write(""""Id","Description","Category","Date","Resolved","ResolvedDate"""")
         writer.newLine()
         tasks.forEach {
-            writer.write("${it.getIdProperty()},\"${it.getNameProperty()}\",\"${it.getCategoryProperty()}\",${it.getDateProperty()},${it.getIsDoneProperty()},${it.getResolvedDateProperty()}")
+            writer.write("${it.id},\"${it.name}\",\"${it.category}\",${it.date},${it.isDone},${it.resolvedDate}")
             writer.newLine()
         }
         writer.flush()

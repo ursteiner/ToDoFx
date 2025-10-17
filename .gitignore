@@ -39,6 +39,7 @@ build/
 
 ### Test ###
 testTasks.mv.db
+testTasks.trace.db
 
 ### Export ###
 tasks.csv

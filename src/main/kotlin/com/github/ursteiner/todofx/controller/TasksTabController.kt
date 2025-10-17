@@ -2,7 +2,8 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Category
-import com.github.ursteiner.todofx.model.Task
+import com.github.ursteiner.todofx.model.FXTask
+import com.github.ursteiner.todofx.utils.TaskMapper
 import com.github.ursteiner.todofx.view.FxUtils
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
@@ -22,7 +23,7 @@ class TasksTabController : CommonController() {
     private lateinit var taskUpdateArea: TextArea
 
     @FXML
-    private lateinit var tableView: TableView<Task>
+    private lateinit var tableView: TableView<FXTask>
 
     @FXML
     private lateinit var hideDoneTasksCheckBox: CheckBox
@@ -80,7 +81,7 @@ class TasksTabController : CommonController() {
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val isDoneTextIcon = "✔"
-    private val tasks = mutableListOf<Task>()
+    private val tasks = mutableListOf<FXTask>()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()
@@ -111,9 +112,9 @@ class TasksTabController : CommonController() {
 
         val selectedCategory = newCategoryComboBox.selectionModel.selectedItem
 
-        val newTask = Task(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), selectedCategory.name, -1)
+        val newTask = FXTask(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), selectedCategory.name, -1)
         tasks.add(newTask)
-        getTaskDatabase().addTask(newTask, selectedCategory.id)
+        getTaskDatabase().addTask(TaskMapper.mapFxTaskToTask(newTask), selectedCategory.id)
         getTasksBasedOnFilters()
         taskNameInput.text = ""
         newCategoryComboBox.selectionModel.selectFirst()
@@ -131,7 +132,8 @@ class TasksTabController : CommonController() {
         }
 
         tasks.clear()
-        tasks.addAll(getTaskDatabase().getSearchedTasks(("%${searchTextField.text}%".lowercase())))
+        val foundTasks = getTaskDatabase().getSearchedTasks(("%${searchTextField.text}%".lowercase()))
+        tasks.addAll(TaskMapper.mapTasksToFxTasks(foundTasks))
 
         tasks.filter { it.getIsDoneProperty() }
             .map { it.setIsDoneIconProperty(isDoneTextIcon) }
@@ -191,7 +193,7 @@ class TasksTabController : CommonController() {
         }
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
-        getTaskDatabase().updateTask(selectedTask)
+        getTaskDatabase().updateTask(TaskMapper.mapFxTaskToTask(selectedTask))
 
         if (hideDoneTasksCheckBox.isSelected) {
             setVisibilityUpdateTask(false)
@@ -213,7 +215,7 @@ class TasksTabController : CommonController() {
         selectedTask.setNameProperty(taskUpdateArea.text)
         selectedTask.setCategoryProperty(selectedCategory.name)
 
-        getTaskDatabase().updateTask(selectedTask, selectedCategory.id)
+        getTaskDatabase().updateTask(TaskMapper.mapFxTaskToTask(selectedTask), selectedCategory.id)
 
         setVisibilityUpdateTask(false)
         tableView.refresh()
@@ -251,10 +253,10 @@ class TasksTabController : CommonController() {
         tasks.clear()
 
         if (hideDoneTasksCheckBox.isSelected) {
-            tasks.addAll(getTaskDatabase().getOpenTasks())
+            tasks.addAll(TaskMapper.mapTasksToFxTasks(getTaskDatabase().getOpenTasks()))
             setVisibilityUpdateTask(false)
         } else {
-            tasks.addAll(getTaskDatabase().getTasks())
+            tasks.addAll(TaskMapper.mapTasksToFxTasks(getTaskDatabase().getTasks()))
             tasks.filter { it.getIsDoneProperty() }
                 .map { it.setIsDoneIconProperty(isDoneTextIcon) }
         }

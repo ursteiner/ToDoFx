@@ -46,18 +46,18 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
     }
 
     override fun addTask(newTask: Task, categoryNumber: Int) = transaction {
-        logger.info("Task added: ${newTask.getNameProperty()}")
+        logger.info("Task added: ${newTask.name}")
         addLogger(StdOutSqlLogger)
         val taskId = Tasks.insert {
-            it[name] = newTask.getNameProperty()
-            it[date] = newTask.getDateProperty()
-            it[isDone] = newTask.getIsDoneProperty()
+            it[name] = newTask.name
+            it[date] = newTask.date
+            it[isDone] = newTask.isDone
             if (categoryNumber > 0) {
                 it[categoryId] = categoryNumber
             }
         } get Tasks.id
 
-        newTask.setIdProperty(taskId)
+        newTask.id = taskId
     }
 
     override fun getResolvedTasks(): MutableList<Task> {
@@ -83,10 +83,10 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
                     Task(
                         it[Tasks.name],
                         it[Tasks.date],
-                        it[Categories.name],
                         it[Tasks.id],
                         it[Tasks.isDone],
-                        it[Tasks.resolvedDate] ?: ""
+                        it[Tasks.resolvedDate] ?: "",
+                        it[Categories.name]
                     )
                 )
             }
@@ -109,10 +109,10 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
                     Task(
                         it[Tasks.name],
                         it[Tasks.date],
-                        it[Categories.name],
                         it[Tasks.id],
                         it[Tasks.isDone],
-                        it[Tasks.resolvedDate] ?: ""
+                        it[Tasks.resolvedDate] ?: "",
+                        it[Categories.name]
                     )
                 )
             }
@@ -132,15 +132,15 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
     }
 
     override fun updateTask(task: Task, categoryNumber: Int): Int {
-        logger.info("Update Task: ${task.getIdProperty()}")
+        logger.info("Update Task: ${task.id}")
         var updatedTasks = 0
 
         transaction {
             addLogger(StdOutSqlLogger)
-            updatedTasks = Tasks.update({ Tasks.id eq task.getIdProperty() }) {
-                it[isDone] = task.getIsDoneProperty()
-                it[name] = task.getNameProperty()
-                it[resolvedDate] = task.getResolvedDateProperty()
+            updatedTasks = Tasks.update({ Tasks.id eq task.id }) {
+                it[isDone] = task.isDone
+                it[name] = task.name
+                it[resolvedDate] = task.resolvedDate
                 if (categoryNumber >= 0) {
                     it[categoryId] = categoryNumber
                 }
@@ -178,7 +178,7 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
                 .groupBy(yearMonth)
                 .where { yearMonth greaterEq DateUtils.getYearMonth(lastXMonths) }
                 .forEach {
-                    resultMap.put(it[yearMonth], it[yearMonth.count()].toInt())
+                    resultMap[it[yearMonth]] = it[yearMonth.count()].toInt()
                 }
         }
 
@@ -194,7 +194,7 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
             (Categories innerJoin Tasks).select(Categories.name, Categories.name.count())
                 .groupBy(Categories.name)
                 .forEach {
-                    resultMap.put(it[Categories.name], it[Categories.name.count()].toInt())
+                    resultMap[it[Categories.name]] = it[Categories.name.count()].toInt()
                 }
         }
 
