@@ -20,10 +20,10 @@ object TaskMapper {
         return FXTask(
             task.name,
             task.date,
-            task.category,
             task.id,
             task.isDone,
-            task.resolvedDate
+            task.resolvedDate,
+            task.category
         )
     }
 

@@ -16,10 +16,10 @@ class FXTask {
     constructor(
         name: String,
         date: String,
-        categoryName: String?,
         id: Int = 0,
         isDone: Boolean = false,
-        resolvedDate: String = ""
+        resolvedDate: String = "",
+        categoryName: String?,
     ) {
         setNameProperty(name)
         setDateProperty(date)
