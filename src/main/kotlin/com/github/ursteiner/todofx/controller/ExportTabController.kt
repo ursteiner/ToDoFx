@@ -2,7 +2,6 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.service.CsvExportServiceImpl
-import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.TitledPane
@@ -40,7 +39,7 @@ class ExportTabController : CommonController() {
         when (val file = fileChooser.showSaveDialog(exportPane.scene.window)) {
             null -> logger.info("CSV Exporter: no file selected")
             else -> CsvExportServiceImpl(file).exportTasks(
-                TaskDatabaseServiceImpl.getInstance(defaultDataBasePathName).getTasks()
+                getTaskDatabase().getTasks()
             )
         }
     }

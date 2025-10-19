@@ -1,6 +1,7 @@
 package com.github.ursteiner.todofx.service.integration
 
 import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
+import com.github.ursteiner.todofx.model.DbConnection
 import com.github.ursteiner.todofx.model.Task
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -11,7 +12,8 @@ import java.time.format.DateTimeFormatter
 
 class TaskDatabaseServiceImplTest {
     private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImplTest::class.java)
-    private val testCandidate = TaskDatabaseServiceImpl.getInstance("./testTasks")
+    private val databaseConnection = DbConnection("jdbc:h2:mem:testTasks;DB_CLOSE_DELAY=-1;", "org.h2.Driver", "root", "")
+    private val testCandidate = TaskDatabaseServiceImpl.getInstance(databaseConnection)
 
     @BeforeEach
     fun cleanupTestDatabase() {

@@ -1,5 +1,6 @@
 package com.github.ursteiner.todofx.database
 
+import com.github.ursteiner.todofx.model.DbConnection
 import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.utils.DateUtils
 import org.jetbrains.exposed.v1.core.LowerCase
@@ -24,13 +25,12 @@ import org.slf4j.LoggerFactory
 class TaskDatabaseServiceImpl : TaskDatabaseService {
     private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImpl::class.java)
 
-    private constructor(databasePathName: String) {
-        logger.info("Set database connection to $databasePathName")
-        Database.connect("jdbc:h2:file:${databasePathName}", driver = "org.h2.Driver", user = "root", password = "")
+    private constructor(dbConnection: DbConnection) {
+        logger.info("Set database connection to ${dbConnection.url}")
+        Database.connect(dbConnection.url, dbConnection.driver, dbConnection.user, dbConnection.password)
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Tasks)
-            //SchemaUtils.createMissingTablesAndColumns(Tasks)
         }
     }
 
@@ -39,9 +39,9 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         @Volatile
         private var instance: TaskDatabaseServiceImpl? = null
 
-        fun getInstance(databasePathName: String) =
+        fun getInstance(dbConnection: DbConnection) =
             instance ?: synchronized(this) {
-                instance ?: TaskDatabaseServiceImpl(databasePathName).also { instance = it }
+                instance ?: TaskDatabaseServiceImpl(dbConnection).also { instance = it }
             }
     }
 

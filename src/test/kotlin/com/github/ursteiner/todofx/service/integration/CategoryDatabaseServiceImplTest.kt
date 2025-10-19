@@ -2,6 +2,7 @@ package com.github.ursteiner.todofx.service.integration
 
 import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
 import com.github.ursteiner.todofx.model.Category
+import com.github.ursteiner.todofx.model.DbConnection
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -9,7 +10,8 @@ import org.slf4j.LoggerFactory
 
 class CategoryDatabaseServiceImplTest {
     private val logger = LoggerFactory.getLogger(CategoryDatabaseServiceImplTest::class.java)
-    private val testCandidate = CategoryDatabaseServiceImpl.getInstance("./testTasks")
+    private val databaseConnection = DbConnection("jdbc:h2:mem:testTasks;DB_CLOSE_DELAY=-1;", "org.h2.Driver", "root", "")
+    private val testCandidate = CategoryDatabaseServiceImpl.getInstance(databaseConnection)
 
     @BeforeEach
     fun cleanupTestDatabase() {

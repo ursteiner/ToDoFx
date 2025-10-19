@@ -7,15 +7,16 @@ import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
 import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.service.LanguageServiceImpl
 import com.github.ursteiner.todofx.database.TaskDatabaseService
+import com.github.ursteiner.todofx.model.DbConnection
 import javafx.fxml.Initializable
 
 abstract class CommonController : Initializable {
 
-    val defaultDataBasePathName = "~/tasks"
+    private val databaseConnection = DbConnection("jdbc:h2:file:~/tasks", "org.h2.Driver", "root", "")
 
     private val languageService = LanguageServiceImpl.getInstance(System.getProperty("user.language"))
-    private val taskDatabaseService = TaskDatabaseServiceImpl.getInstance(defaultDataBasePathName)
-    private val categoryDatabaseService = CategoryDatabaseServiceImpl.getInstance(defaultDataBasePathName)
+    private val taskDatabaseService = TaskDatabaseServiceImpl.getInstance(databaseConnection)
+    private val categoryDatabaseService = CategoryDatabaseServiceImpl.getInstance(databaseConnection)
 
     fun getTranslation(key: TranslationKeys): String {
         return languageService.getTranslationForKey(key)

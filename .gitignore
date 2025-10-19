@@ -37,10 +37,6 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### Test ###
-testTasks.mv.db
-testTasks.trace.db
-
 ### Export ###
 tasks.csv
 
