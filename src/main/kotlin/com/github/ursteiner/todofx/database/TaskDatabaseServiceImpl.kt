@@ -158,7 +158,7 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
     }
 
     private fun getAmountOfTasks(resolved: Boolean): Long {
-        logger.info("Get amount of Tasks: $resolved")
+        logger.info("Get amount of Tasks (resolved = $resolved)")
         var amoundOfTasks: Long = 0
         transaction {
             addLogger(StdOutSqlLogger)
