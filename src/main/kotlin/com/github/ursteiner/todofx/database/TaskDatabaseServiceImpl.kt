@@ -170,6 +170,7 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         return amoundOfTasks
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun getTasksCreatedPerMonth(lastXMonths: Int): MutableMap<String, Int> {
         logger.info("Get Tasks created in the last $lastXMonths month.")
         return getTasksCreatedOrResolvedPerMonth(lastXMonths, Tasks.date as Column<String?>)
