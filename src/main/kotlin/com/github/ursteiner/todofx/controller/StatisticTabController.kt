@@ -95,27 +95,27 @@ class StatisticTabController : CommonController() {
         yAxis.minorTickVisibleProperty().set(false)
 
         generateDefaultBarChartData(numberOfPreviousMonths).forEach {
-            if (newTasksPerMonth.containsKey(it.key)) {
-                newTasksSeries.data.add(XYChart.Data<String?, Int?>(it.key, newTasksPerMonth.get(it.key)))
-            } else {
-                newTasksSeries.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
-            }
-
-            if (resolvedTasksPerMonth.containsKey(it.key)) {
-                resolvedTasksSeries.data.add(XYChart.Data<String?, Int?>(it.key, resolvedTasksPerMonth.get(it.key)))
-            } else {
-                resolvedTasksSeries.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
-            }
+            addDataToSeries(it.key, newTasksSeries, newTasksPerMonth)
+            addDataToSeries(it.key, resolvedTasksSeries, resolvedTasksPerMonth)
         }
 
         barChartTasksPerMonth.data.add(newTasksSeries)
         barChartTasksPerMonth.data.add(resolvedTasksSeries)
 
-        newTasksSeries.data.forEach {
-            FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)}")
-        }
+        addToolTipToSeries(newTasksSeries)
+        addToolTipToSeries(resolvedTasksSeries)
+    }
 
-        resolvedTasksSeries.data.forEach {
+    fun addDataToSeries(yearMonth: String, series: Series<String?, Int?>, tasksPerMonth: MutableMap<String, Int>) {
+        if (tasksPerMonth.containsKey(yearMonth)) {
+            series.data.add(XYChart.Data<String?, Int?>(yearMonth, tasksPerMonth.get(yearMonth)))
+        } else {
+            series.data.add(XYChart.Data<String?, Int?>(yearMonth, 0))
+        }
+    }
+
+    fun addToolTipToSeries(series: Series<String?, Int?>) {
+        series.data.forEach {
             FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)}")
         }
     }
