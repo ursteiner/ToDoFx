@@ -42,3 +42,6 @@ tasks.csv
 
 ### Build ###
 dependency-reduced-pom.xml
+
+### Log ###
+ToDoFx.log
