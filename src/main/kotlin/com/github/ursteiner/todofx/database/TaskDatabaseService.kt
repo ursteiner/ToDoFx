@@ -12,6 +12,7 @@ interface TaskDatabaseService {
     fun updateTask(task: Task, categoryNumber: Int = -1): Int
     fun getAmountOfResolvedTasks(): Long
     fun getAmountOfOpenTasks(): Long
-    fun getTasksPerMonth(lastXMonths: Int): MutableMap<String, Int>
+    fun getTasksCreatedPerMonth(lastXMonths: Int): MutableMap<String, Int>
+    fun getTasksResolvedPerMonth(lastXMonths: Int): MutableMap<String, Int>
     fun getTasksPerCategory(): MutableMap<String, Int>
 }

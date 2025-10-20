@@ -118,7 +118,7 @@ class TaskDatabaseServiceImplTest {
     }
 
     @Test
-    fun testGetTasksPerMonth() {
+    fun testGetTasksCreatedPerMonth() {
         val testTask1 = Task(
             "Task1",
             "2024-04-20 10:00",
@@ -141,7 +141,7 @@ class TaskDatabaseServiceImplTest {
         )
         testCandidate.addTask(testTask2, -1)
 
-        val databaseResult = testCandidate.getTasksPerMonth(1)
+        val databaseResult = testCandidate.getTasksCreatedPerMonth(1)
         Assertions.assertEquals(1, databaseResult.size, "There should be one entry in the map")
         Assertions.assertEquals(true, databaseResult.contains(currentYearMonth))
     }

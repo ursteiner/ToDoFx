@@ -81,26 +81,41 @@ class StatisticTabController : CommonController() {
     fun buildBarChartTasksPerMonth() {
         barChartTasksPerMonth.data.clear()
 
-        val series = Series<String?, Int?>()
-        series.name = getTranslation(TranslationKeys.TASKS_PER_MONTH)
+        val newTasksSeries = Series<String?, Int?>()
+        val resolvedTasksSeries = Series<String?, Int?>()
 
-        val tasksPerMonth = getTaskDatabase().getTasksPerMonth(numberOfPreviousMonths)
+        newTasksSeries.name = getTranslation(TranslationKeys.TASKS_CREATED)
+        resolvedTasksSeries.name = getTranslation(TranslationKeys.TASKS_RESOLVED)
+
+        val newTasksPerMonth = getTaskDatabase().getTasksCreatedPerMonth(numberOfPreviousMonths)
+        val resolvedTasksPerMonth = getTaskDatabase().getTasksResolvedPerMonth(numberOfPreviousMonths)
 
         //fix 0.5 steps in the y-axis
-        yAxis.upperBound = ((tasksPerMonth.maxByOrNull { it.value }?.value?.toDouble()) ?: 0.0) + 2.0
+        yAxis.upperBound = ((newTasksPerMonth.maxByOrNull { it.value }?.value?.toDouble()) ?: 0.0) + 2.0
         yAxis.minorTickVisibleProperty().set(false)
 
         generateDefaultBarChartData(numberOfPreviousMonths).forEach {
-            if (tasksPerMonth.containsKey(it.key)) {
-                series.data.add(XYChart.Data<String?, Int?>(it.key, tasksPerMonth.get(it.key)))
+            if (newTasksPerMonth.containsKey(it.key)) {
+                newTasksSeries.data.add(XYChart.Data<String?, Int?>(it.key, newTasksPerMonth.get(it.key)))
             } else {
-                series.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
+                newTasksSeries.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
+            }
+
+            if (resolvedTasksPerMonth.containsKey(it.key)) {
+                resolvedTasksSeries.data.add(XYChart.Data<String?, Int?>(it.key, resolvedTasksPerMonth.get(it.key)))
+            } else {
+                resolvedTasksSeries.data.add(XYChart.Data<String?, Int?>(it.key, it.value))
             }
         }
 
-        barChartTasksPerMonth.data.add(series)
+        barChartTasksPerMonth.data.add(newTasksSeries)
+        barChartTasksPerMonth.data.add(resolvedTasksSeries)
 
-        series.data.forEach {
+        newTasksSeries.data.forEach {
+            FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)}")
+        }
+
+        resolvedTasksSeries.data.forEach {
             FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)}")
         }
     }
@@ -118,7 +133,7 @@ class StatisticTabController : CommonController() {
         openResolvedTitledPane.text =
             "${getTranslation(TranslationKeys.OPEN_TASKS)}/${getTranslation(TranslationKeys.RESOLVED_TASKS)}"
         tasksPerCategoryTitledPane.text = getTranslation(TranslationKeys.CATEGORIES)
-        tasksPerMonthTitledPane.text = getTranslation(TranslationKeys.TASKS_PER_MONTH)
+        tasksPerMonthTitledPane.text = getTranslation(TranslationKeys.TASKS)
 
         xAxis.label = getTranslation(TranslationKeys.MONTH)
         yAxis.label = "#${getTranslation(TranslationKeys.TASKS)}"

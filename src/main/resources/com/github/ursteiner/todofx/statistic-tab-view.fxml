@@ -26,7 +26,7 @@
             </TitledPane>
         </VBox>
         <TitledPane fx:id="tasksPerMonthTitledPane" collapsible="false" maxHeight="440">
-            <BarChart fx:id="barChartTasksPerMonth" legendVisible="false">
+            <BarChart fx:id="barChartTasksPerMonth">
                 <xAxis>
                     <CategoryAxis fx:id="xAxis"/>
                 </xAxis>

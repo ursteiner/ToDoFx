@@ -4,13 +4,16 @@ import com.github.ursteiner.todofx.model.DbConnection
 import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.utils.DateUtils
 import org.jetbrains.exposed.v1.core.LowerCase
+import org.jetbrains.exposed.v1.core.Column
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
+import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.count
 import org.jetbrains.exposed.v1.core.greaterEq
 import org.jetbrains.exposed.v1.core.like
+import org.jetbrains.exposed.v1.core.neq
 import org.jetbrains.exposed.v1.core.or
 import org.jetbrains.exposed.v1.core.substring
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
@@ -167,16 +170,25 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         return amoundOfTasks
     }
 
-    override fun getTasksPerMonth(lastXMonths: Int): MutableMap<String, Int> {
-        logger.info("Get Tasks for last $lastXMonths month.")
+    override fun getTasksCreatedPerMonth(lastXMonths: Int): MutableMap<String, Int> {
+        logger.info("Get Tasks created in the last $lastXMonths month.")
+        return getTasksCreatedOrResolvedPerMonth(lastXMonths, Tasks.date as Column<String?>)
+    }
+
+    override fun getTasksResolvedPerMonth(lastXMonths: Int): MutableMap<String, Int> {
+        logger.info("Get Tasks resolved in the last $lastXMonths month.")
+        return getTasksCreatedOrResolvedPerMonth(lastXMonths, Tasks.resolvedDate)
+    }
+
+    private fun getTasksCreatedOrResolvedPerMonth(lastXMonths: Int, dateField: Column<String?>): MutableMap<String, Int> {
         val resultMap = mutableMapOf<String, Int>()
 
         transaction {
             addLogger(StdOutSqlLogger)
-            val yearMonth = Tasks.date.substring(0, 7)
+            val yearMonth = dateField.substring(0, 7)
             Tasks.select(yearMonth, yearMonth.count())
                 .groupBy(yearMonth)
-                .where { yearMonth greaterEq DateUtils.getYearMonth(lastXMonths) }
+                .where { yearMonth neq "" and (yearMonth greaterEq DateUtils.getYearMonth(lastXMonths)) }
                 .forEach {
                     resultMap[it[yearMonth]] = it[yearMonth.count()].toInt()
                 }
