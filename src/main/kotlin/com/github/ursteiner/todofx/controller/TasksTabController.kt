@@ -112,7 +112,7 @@ class TasksTabController : CommonController() {
 
         val selectedCategory = newCategoryComboBox.selectionModel.selectedItem
 
-        val newTask = FXTask(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1, false, "", selectedCategory.name,)
+        val newTask = FXTask(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1, false, "", selectedCategory.name)
         tasks.add(newTask)
         getTaskDatabase().addTask(TaskMapper.mapFxTaskToTask(newTask), selectedCategory.id)
         getTasksBasedOnFilters()

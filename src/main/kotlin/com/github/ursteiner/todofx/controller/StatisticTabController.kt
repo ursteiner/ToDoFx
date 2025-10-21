@@ -108,7 +108,7 @@ class StatisticTabController : CommonController() {
 
     fun addDataToSeries(yearMonth: String, series: Series<String?, Int?>, tasksPerMonth: MutableMap<String, Int>) {
         if (tasksPerMonth.containsKey(yearMonth)) {
-            series.data.add(XYChart.Data<String?, Int?>(yearMonth, tasksPerMonth.get(yearMonth)))
+            series.data.add(XYChart.Data<String?, Int?>(yearMonth, tasksPerMonth[yearMonth]))
         } else {
             series.data.add(XYChart.Data<String?, Int?>(yearMonth, 0))
         }
@@ -123,7 +123,7 @@ class StatisticTabController : CommonController() {
     fun generateDefaultBarChartData(lastXmonths: Int): MutableMap<String, Int> {
         val monthMap = mutableMapOf<String, Int>()
         for (month in 0..lastXmonths) {
-            monthMap.put(DateUtils.getYearMonth(lastXmonths - month), 0)
+            monthMap[DateUtils.getYearMonth(lastXmonths - month)] = 0
         }
 
         return monthMap

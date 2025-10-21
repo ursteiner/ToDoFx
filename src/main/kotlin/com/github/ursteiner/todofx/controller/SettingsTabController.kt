@@ -99,11 +99,7 @@ class SettingsTabController : CommonController() {
 
     @FXML
     fun onCategorySelected() {
-        val selectedCategory = categoriesListView.selectionModel.selectedItem
-        if (selectedCategory == null) {
-            return
-        }
-
+        val selectedCategory = categoriesListView.selectionModel.selectedItem ?: return
         categoryTextField.text = selectedCategory
     }
 
