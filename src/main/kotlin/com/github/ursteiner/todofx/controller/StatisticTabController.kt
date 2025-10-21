@@ -116,7 +116,7 @@ class StatisticTabController : CommonController() {
 
     fun addToolTipToSeries(series: Series<String?, Int?>) {
         series.data.forEach {
-            FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)}")
+            FxUtils.addToolTipToNode(it.node, "${it.xValue}: ${String.format("%.0f", it.yValue)} ${series.name}")
         }
     }
 
