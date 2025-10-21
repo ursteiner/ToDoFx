@@ -13,7 +13,7 @@ class LanguageServiceImplTest {
     @Test
     fun testGetFirstSelectTaskInTableEnglish() {
         assertEquals(
-            "Please first select a task in the table!",
+            "Please first select a Task in the table!",
             testCandidate.getTranslationForKey(
                 TranslationKeys.FIRST_SELECT_TASK_IN_TABLE
             )
