@@ -1,5 +1,6 @@
 package com.github.ursteiner.todofx.controller
 
+import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Category
@@ -70,7 +71,7 @@ class SettingsTabController : CommonController() {
         selectLanguageComboBox.items.clear()
         selectLanguageComboBox.items.add(AvailableLanguages.GERMAN.abbreviation)
         selectLanguageComboBox.items.add(AvailableLanguages.ENGLISH.abbreviation)
-        when (System.getProperty("user.language")) {
+        when (getSettingsDatabase().getSetting(AppSettings.LANGUAGE) ?: System.getProperty("user.language")) {
             AvailableLanguages.GERMAN.abbreviation -> selectLanguageComboBox.selectionModel.select(0)
             AvailableLanguages.ENGLISH.abbreviation -> selectLanguageComboBox.selectionModel.select(1)
         }
@@ -171,7 +172,7 @@ class SettingsTabController : CommonController() {
             AvailableLanguages.GERMAN.abbreviation -> setLanguage(AvailableLanguages.GERMAN)
             AvailableLanguages.ENGLISH.abbreviation -> setLanguage(AvailableLanguages.ENGLISH)
         }
-
+        getSettingsDatabase().updateSetting(AppSettings.LANGUAGE, selectedLanguage)
         initTranslations()
         //Change the language of the parent controller taking care of the tab names
         toDoFxController.initialize(null, null)
