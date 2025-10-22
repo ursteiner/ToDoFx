@@ -146,10 +146,8 @@ class TasksTabController : CommonController() {
     @Suppress("unused")
     @FXML
     private fun onClearSearchButton() {
-        if (searchTextField.text.isNotEmpty()) {
-            searchTextField.text = ""
-            getTasksBasedOnFilters()
-        }
+        searchTextField.text = ""
+        getTasksBasedOnFilters()
     }
 
     @Suppress("unused")
