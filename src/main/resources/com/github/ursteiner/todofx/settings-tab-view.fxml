@@ -29,8 +29,10 @@
             </HBox>
         </VBox>
         <Pane HBox.hgrow="ALWAYS"/>
-        <VBox>
+        <VBox alignment="CENTER_RIGHT">
             <ComboBox fx:id="selectLanguageComboBox" onAction="#onLanguageSelectedComboBox"/>
+            <Pane VBox.vgrow="ALWAYS"/>
+            <Label text="https://github.com/ursteiner/ToDoFx" disable="true"/>
         </VBox>
     </HBox>
 </AnchorPane>
