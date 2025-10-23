@@ -8,7 +8,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.github.ursteiner.todofx.controller.SettingsTabController"
             prefHeight="940.0" prefWidth="920.0">
-    <HBox minWidth="840">
+    <HBox minWidth="900">
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
