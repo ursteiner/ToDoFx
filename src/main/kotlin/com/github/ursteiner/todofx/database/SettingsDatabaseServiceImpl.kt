@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory
 class SettingsDatabaseServiceImpl : SettingsDatabaseService {
 
     private val logger = LoggerFactory.getLogger(SettingsDatabaseServiceImpl::class.java)
+    private val cache = mutableMapOf<String, String?>()
 
     private constructor(dbConnection: DbConnection) {
         logger.info("Set database connection to ${dbConnection.url}")
@@ -38,6 +39,10 @@ class SettingsDatabaseServiceImpl : SettingsDatabaseService {
 
     override fun getSetting(setting: AppSettings): String? {
         logger.info("get setting <${setting.key}>")
+        if(cache.contains(setting.key)) {
+            return cache[setting.key]
+        }
+
         var resultValue: String? = null
 
         transaction {
@@ -51,11 +56,12 @@ class SettingsDatabaseServiceImpl : SettingsDatabaseService {
             }
         }
 
+        cache[setting.key] = resultValue
         return resultValue
     }
 
     private fun addSetting(setting: AppSettings, value: String) {
-        logger.info("add setting <${setting.key}>")
+        logger.info("add setting ${setting.key} = $value")
 
         transaction {
             addLogger(StdOutSqlLogger)
@@ -67,7 +73,9 @@ class SettingsDatabaseServiceImpl : SettingsDatabaseService {
     }
 
     override fun updateSetting(setting: AppSettings, value: String) {
-        logger.info("update setting <${setting.key}>")
+        logger.info("update setting ${setting.key} = $value")
+        cache[setting.key] = value
+
         var updated = 0
 
         transaction {
@@ -76,8 +84,6 @@ class SettingsDatabaseServiceImpl : SettingsDatabaseService {
                 it[Settings.value] = value
             }
         }
-
-        logger.info("$updated setting(s) updated")
 
         if (updated == 0) {
             addSetting(setting, value)

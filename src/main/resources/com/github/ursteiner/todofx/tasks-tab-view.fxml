@@ -46,7 +46,7 @@
             <HBox>
                 <TextField fx:id="searchTextField" onAction="#onSearchButtonClick" HBox.hgrow="ALWAYS"/>
                 <Button fx:id="searchButton" text="🔍 suchen" onAction="#onSearchButtonClick"/>
-                <Button text="🗑" onAction="#onClearSearchButton"/>
+                <Button text="✖" onAction="#onClearSearchButton"/>
             </HBox>
             <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
                 <columns>
