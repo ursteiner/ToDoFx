@@ -13,6 +13,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.classifier>win</javafx.classifier>
 
+        <argLine>
+            --add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+            --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+            --add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED
+        </argLine>
+
         <exposed.version>1.0.0-rc-2</exposed.version>
         <h2.version>2.4.240</h2.version>
         <javafx.version>26-ea+12</javafx.version>
@@ -21,15 +27,16 @@
         <kotlin.version>2.2.20</kotlin.version>
         <kotlinMavenSerialization.version>2.2.20</kotlinMavenSerialization.version>
         <kotlinxJson.version>1.9.0</kotlinxJson.version>
-        <mavenCompilerPlugin.version>3.14.1</mavenCompilerPlugin.version>
         <mockito.version>5.20.0</mockito.version>
         <shade.version>3.6.1</shade.version>
         <slf4j.version>2.0.17</slf4j.version>
-        <surefire.version>3.5.4</surefire.version>
         <testfx.openjfx.version>21.0.2</testfx.openjfx.version>
         <testfx.version>4.0.18</testfx.version>
 
+        <mavenCompilerPlugin.version>3.14.1</mavenCompilerPlugin.version>
         <mavenPlugin.version>2.19.1</mavenPlugin.version>
+        <surefire.version>3.5.4</surefire.version>
+        <jacoco.version>0.8.14</jacoco.version>
 
         <javaVersion>23</javaVersion>
     </properties>
@@ -63,6 +70,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -236,11 +249,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
-                    <argLine>
-                        --add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                        --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                        --add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED
-                    </argLine>
                     <systemPropertyVariables>
                         <testfx.robot>glass</testfx.robot>
                         <testfx.headless>true</testfx.headless>
@@ -269,6 +277,40 @@
                     </ruleSet>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${surefire.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${surefire.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
