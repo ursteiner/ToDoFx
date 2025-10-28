@@ -24,7 +24,7 @@
         <javafx.version>26-ea+13</javafx.version>
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
         <junit.version>6.0.0</junit.version>
-        <kotlin.version>2.2.20</kotlin.version>
+        <kotlin.version>2.2.21</kotlin.version>
         <kotlinMavenSerialization.version>2.2.20</kotlinMavenSerialization.version>
         <kotlinxJson.version>1.9.0</kotlinxJson.version>
         <mockito.version>5.20.0</mockito.version>
