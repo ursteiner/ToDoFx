@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.Tab?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.github.ursteiner.todofx.controller.ToDoFxController">
+<?import javafx.scene.control.*?>
 
-    <TabPane fx:id="tabPane" onMouseClicked="#onTabClicked">
-        <Tab text="Tasks" closable="false">
-            <fx:include fx:id="tasksTabPage" source="tasks-tab-view.fxml"/>
-        </Tab>
-        <Tab text="Statistic" closable="false">
-            <fx:include fx:id="statisticsTabPage" source="statistic-tab-view.fxml"/>
-        </Tab>
-        <Tab text="Export" closable="false">
-            <fx:include fx:id="exportTabPage" source="export-tab-view.fxml"/>
-        </Tab>
-        <Tab text="Settings" closable="false">
-            <fx:include fx:id="settingsTabPage" source="settings-tab-view.fxml"/>
-        </Tab>
-    </TabPane>
-
-</VBox>
+<TabPane fx:id="tabPane" onMouseClicked="#onTabClicked" xmlns="http://javafx.com/javafx/17.0.12"
+         xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.ursteiner.todofx.controller.ToDoFxController">
+    <Tab closable="false" text="Tasks">
+        <fx:include fx:id="tasksTabPage" source="tasks-tab-view.fxml"/>
+    </Tab>
+    <Tab closable="false" text="Statistic">
+        <fx:include fx:id="statisticsTabPage" source="statistic-tab-view.fxml"/>
+    </Tab>
+    <Tab closable="false" text="Export">
+        <fx:include fx:id="exportTabPage" source="export-tab-view.fxml"/>
+    </Tab>
+    <Tab closable="false" text="Settings">
+        <fx:include fx:id="settingsTabPage" source="settings-tab-view.fxml"/>
+    </Tab>
+</TabPane>

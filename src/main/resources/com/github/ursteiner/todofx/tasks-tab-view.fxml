@@ -1,97 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.github.ursteiner.todofx.controller.TasksTabController"
-            prefHeight="700.0" prefWidth="500.0">
-    <HBox>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.ursteiner.todofx.controller.TasksTabController">
+    <HBox spacing="20" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
-        <VBox minWidth="200" maxWidth="200" maxHeight="450">
-            <TitledPane fx:id="newTaskPane" text="New task description:" collapsible="false">
+
+        <VBox minWidth="200" maxWidth="300" HBox.hgrow="NEVER" spacing="10">
+            <TitledPane fx:id="newTaskPane" collapsible="false" text="New task description:">
                 <VBox>
                     <padding>
                         <Insets/>
                     </padding>
-                    <TextArea fx:id="taskNameInput" wrapText="true"/>
+                    <TextArea fx:id="taskNameInput" wrapText="true" VBox.vgrow="ALWAYS"/>
                 </VBox>
             </TitledPane>
-            <HBox>
-                <ComboBox fx:id="newCategoryComboBox"/>
+            <HBox spacing="5">
+                <ComboBox fx:id="newCategoryComboBox" HBox.hgrow="ALWAYS"/>
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Button fx:id="addTaskButton" text="Add task" onAction="#onAddTaskButtonClick"/>
+                <Button fx:id="addTaskButton" onAction="#onAddTaskButtonClick" text="Add task" />
             </HBox>
-            <TitledPane fx:id="editTaskPane" text="Edit task description:" collapsible="false">
+            <TitledPane fx:id="editTaskPane" collapsible="false" text="Edit task description:">
                 <VBox>
                     <padding>
                         <Insets/>
                     </padding>
-                    <TextArea fx:id="taskUpdateArea" wrapText="true" visible="false"/>
+                    <TextArea fx:id="taskUpdateArea" visible="false" wrapText="true" VBox.vgrow="ALWAYS"/>
                 </VBox>
             </TitledPane>
-            <HBox>
-                <ComboBox fx:id="updateCategoryComboBox"/>
+            <HBox spacing="5">
+                <ComboBox fx:id="updateCategoryComboBox" HBox.hgrow="ALWAYS"/>
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Button text="Update task" fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick"
-                        visible="false"/>
+                <Button fx:id="updateTaskButton" onAction="#onUpdateTaskButtonClick" text="Update task" visible="false" />
             </HBox>
         </VBox>
-        <VBox minWidth="10"/>
-        <VBox>
-            <HBox>
+
+        <VBox HBox.hgrow="ALWAYS" spacing="10">
+            <HBox spacing="5">
                 <TextField fx:id="searchTextField" onAction="#onSearchButtonClick" HBox.hgrow="ALWAYS"/>
-                <Button fx:id="searchButton" text="🔍 suchen" onAction="#onSearchButtonClick"/>
-                <Button text="✖" onAction="#onClearSearchButton"/>
+                <Button fx:id="searchButton" onAction="#onSearchButtonClick" text="🔍 suchen" />
+                <Button onAction="#onClearSearchButton" text="✖" />
             </HBox>
-            <TableView fx:id="tableView" minWidth="420" onMouseClicked="#onTaskSelected">
+            <TableView fx:id="tableView" onMouseClicked="#onTaskSelected" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="idColumn" text="Id" minWidth="50">
+                    <TableColumn fx:id="idColumn" minWidth="50" text="Id">
                         <cellValueFactory>
-                            <PropertyValueFactory property="idProperty"/>
+                            <PropertyValueFactory property="idProperty" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="dateColumn" text="Date" minWidth="100">
+                    <TableColumn fx:id="dateColumn" minWidth="100" text="Date">
                         <cellValueFactory>
-                            <PropertyValueFactory property="dateProperty"/>
+                            <PropertyValueFactory property="dateProperty" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="descriptionColumn" text="Description" minWidth="230">
+                    <TableColumn fx:id="descriptionColumn" minWidth="230" text="Description">
                         <cellValueFactory>
-                            <PropertyValueFactory property="nameProperty"/>
+                            <PropertyValueFactory property="nameProperty" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="categoryColumn" text="Category" minWidth="100">
+                    <TableColumn fx:id="categoryColumn" minWidth="100" text="Category">
                         <cellValueFactory>
-                            <PropertyValueFactory property="categoryProperty"/>
+                            <PropertyValueFactory property="categoryProperty" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="doneColumn" text="Done" minWidth="50" style="-fx-alignment:center;">
+                    <TableColumn fx:id="doneColumn" minWidth="50" style="-fx-alignment:center;" text="Done">
                         <cellValueFactory>
-                            <PropertyValueFactory property="isDoneIconProperty"/>
+                            <PropertyValueFactory property="isDoneIconProperty" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn fx:id="resolvedDateColumn" text="Done" minWidth="110">
+                    <TableColumn fx:id="resolvedDateColumn" minWidth="110" text="Done">
                         <cellValueFactory>
-                            <PropertyValueFactory property="resolvedDateProperty"/>
+                            <PropertyValueFactory property="resolvedDateProperty" />
                         </cellValueFactory>
                     </TableColumn>
                 </columns>
             </TableView>
 
-            <HBox alignment="CENTER">
-                <Button fx:id="resolveTaskButton" text="Un/resolve task" onAction="#onCompletedTaskButtonClick"/>
-                <Pane HBox.hgrow="ALWAYS"/>
-                <CheckBox selected="true" text="hide done tasks" onAction="#getTasksBasedOnFilters"
-                          fx:id="hideDoneTasksCheckBox"/>
-                <Pane HBox.hgrow="ALWAYS"/>
-                <Label fx:id="numberOfTasks"/>
-                <Pane HBox.hgrow="ALWAYS"/>
-                <Button fx:id="deleteTaskButton" text="Delete task" onAction="#onDeleteTaskButtonClick"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="resolveTaskButton" onAction="#onCompletedTaskButtonClick" text="Un/resolve task" />
+                <Pane HBox.hgrow="ALWAYS" />
+                <CheckBox fx:id="hideDoneTasksCheckBox" onAction="#getTasksBasedOnFilters" selected="true" text="hide done tasks" />
+                <Pane HBox.hgrow="ALWAYS" />
+                <Label fx:id="numberOfTasks" />
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button fx:id="deleteTaskButton" onAction="#onDeleteTaskButtonClick" text="Delete task" />
             </HBox>
         </VBox>
     </HBox>

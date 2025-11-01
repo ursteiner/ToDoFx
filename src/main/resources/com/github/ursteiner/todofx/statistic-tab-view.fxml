@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.TitledPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.github.ursteiner.todofx.controller.StatisticTabController"
-            prefHeight="520.0" prefWidth="940.0">
-    <HBox alignment="CENTER" maxWidth="940">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.ursteiner.todofx.controller.StatisticTabController">
+    <HBox spacing="20" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            <Insets top="20" bottom="20" left="20" right="20"/>
         </padding>
-        <VBox>
-            <TitledPane fx:id="openResolvedTitledPane" collapsible="false" maxHeight="220">
-                <PieChart fx:id="pieChartOpenResolved" legendVisible="false"/>
+        <VBox HBox.hgrow="ALWAYS" spacing="20">
+            <TitledPane fx:id="openResolvedTitledPane" collapsible="false" VBox.vgrow="ALWAYS"
+                        maxHeight="1.7976931348623157E308">
+                <PieChart fx:id="pieChartOpenResolved" legendVisible="false" VBox.vgrow="ALWAYS"
+                          maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"/>
             </TitledPane>
-
-            <TitledPane fx:id="tasksPerCategoryTitledPane" collapsible="false" maxHeight="220">
-                <PieChart fx:id="pieChartTasksPerCategory" legendVisible="false"/>
+            <TitledPane fx:id="tasksPerCategoryTitledPane" collapsible="false" VBox.vgrow="ALWAYS"
+                        maxHeight="1.7976931348623157E308">
+                <PieChart fx:id="pieChartTasksPerCategory" legendVisible="false" VBox.vgrow="ALWAYS"
+                          maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"/>
             </TitledPane>
         </VBox>
-        <TitledPane fx:id="tasksPerMonthTitledPane" collapsible="false" maxHeight="440">
-            <BarChart fx:id="barChartTasksPerMonth">
+
+        <TitledPane fx:id="tasksPerMonthTitledPane" collapsible="false"
+                    HBox.hgrow="ALWAYS"
+                    maxHeight="1.7976931348623157E308">
+            <BarChart fx:id="barChartTasksPerMonth"
+                      VBox.vgrow="ALWAYS"
+                      maxHeight="1.7976931348623157E308"
+                      maxWidth="1.7976931348623157E308">
                 <xAxis>
                     <CategoryAxis fx:id="xAxis"/>
                 </xAxis>
