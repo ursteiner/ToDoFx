@@ -6,7 +6,7 @@
 
     <groupId>com.github.ursteiner</groupId>
     <artifactId>ToDoFx</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>ToDoFx</name>
 
     <properties>
@@ -37,6 +37,7 @@
         <mavenPlugin.version>2.19.1</mavenPlugin.version>
         <surefire.version>3.5.4</surefire.version>
         <jacoco.version>0.8.14</jacoco.version>
+        <jpackage.version>1.7.1</jpackage.version>
 
         <javaVersion>23</javaVersion>
     </properties>
@@ -165,6 +166,34 @@
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>${jpackage.version}</version>
+                <executions>
+                    <execution>
+                        <id>package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.github.ursteiner.todofx.ToDoFxApplicationKt</mainClass>
+                    <input>${project.build.directory}</input>
+                    <destination>${project.build.directory}/installer</destination>
+                    <name>ToDoFx</name>
+                    <mainJar>ToDoFx-${project.version}-shaded.jar</mainJar>
+                    <type>APP_IMAGE</type>
+                    <!-- Optional: -->
+                    <icon>src/main/resources/appIcon.ico</icon>
+                    <!-- <vendor>Your Company</vendor> -->
+                    <!-- <appVersion>${project.version}</appVersion> -->
+                    <!-- <win-menu>true</win-menu> -->
+                    <!-- <win-shortcut>true</win-shortcut> -->
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
