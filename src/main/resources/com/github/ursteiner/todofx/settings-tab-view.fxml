@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity"
             xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.ursteiner.todofx.controller.SettingsTabController">
     <HBox spacing="20" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
@@ -15,7 +15,7 @@
 
         <VBox HBox.hgrow="ALWAYS" spacing="10">
             <TitledPane fx:id="categoriesTitledPane" collapsible="false" minHeight="300" VBox.vgrow="ALWAYS">
-                <ListView fx:id="categoriesListView" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS"
+                <ListView fx:id="categoriesListView" maxHeight="Infinity" VBox.vgrow="ALWAYS"
                           onMouseClicked="#onCategorySelected"/>
             </TitledPane>
             <HBox spacing="10">

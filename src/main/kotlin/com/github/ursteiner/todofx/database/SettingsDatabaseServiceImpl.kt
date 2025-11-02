@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory
 class SettingsDatabaseServiceImpl : SettingsDatabaseService {
 
     private val logger = LoggerFactory.getLogger(SettingsDatabaseServiceImpl::class.java)
+    //no other thread can make the cache invalid
     private val cache = mutableMapOf<String, String?>()
 
     private constructor(dbConnection: DbConnection) {

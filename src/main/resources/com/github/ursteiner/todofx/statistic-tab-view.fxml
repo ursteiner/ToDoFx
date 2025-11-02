@@ -15,24 +15,24 @@
         </padding>
         <VBox HBox.hgrow="ALWAYS" spacing="20">
             <TitledPane fx:id="openResolvedTitledPane" collapsible="false" VBox.vgrow="ALWAYS"
-                        maxHeight="1.7976931348623157E308">
+                        maxHeight="Infinity">
                 <PieChart fx:id="pieChartOpenResolved" legendVisible="false" VBox.vgrow="ALWAYS"
-                          maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"/>
+                          maxHeight="Infinity" maxWidth="Infinity"/>
             </TitledPane>
             <TitledPane fx:id="tasksPerCategoryTitledPane" collapsible="false" VBox.vgrow="ALWAYS"
-                        maxHeight="1.7976931348623157E308">
+                        maxHeight="Infinity">
                 <PieChart fx:id="pieChartTasksPerCategory" legendVisible="false" VBox.vgrow="ALWAYS"
-                          maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"/>
+                          maxHeight="Infinity" maxWidth="Infinity"/>
             </TitledPane>
         </VBox>
 
         <TitledPane fx:id="tasksPerMonthTitledPane" collapsible="false"
                     HBox.hgrow="ALWAYS"
-                    maxHeight="1.7976931348623157E308">
+                    maxHeight="Infinity">
             <BarChart fx:id="barChartTasksPerMonth"
                       VBox.vgrow="ALWAYS"
-                      maxHeight="1.7976931348623157E308"
-                      maxWidth="1.7976931348623157E308">
+                      maxHeight="Infinity"
+                      maxWidth="Infinity">
                 <xAxis>
                     <CategoryAxis fx:id="xAxis"/>
                 </xAxis>

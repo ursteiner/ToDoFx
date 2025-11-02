@@ -14,8 +14,8 @@
         </padding>
         <TitledPane fx:id="exportPane" collapsible="false"
                     text="Export is stored as 'tasks.csv' to the application folder."
-                    maxHeight="1.7976931348623157E308"
-                    maxWidth="1.7976931348623157E308"
+                    maxHeight="Infinity"
+                    maxWidth="Infinity"
                     HBox.hgrow="ALWAYS">
             <StackPane>
                 <Button fx:id="exportButton"

@@ -55,6 +55,7 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
             it[name] = newTask.name
             it[date] = newTask.date
             it[isDone] = newTask.isDone
+            //is a category set for the task
             if (categoryNumber > 0) {
                 it[categoryId] = categoryNumber
             }

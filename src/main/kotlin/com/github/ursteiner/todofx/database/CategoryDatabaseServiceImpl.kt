@@ -38,19 +38,12 @@ class CategoryDatabaseServiceImpl : CategoryDatabaseService {
             }
     }
 
-    override fun getCategories(): MutableList<Category> {
+    override fun getCategories(): List<Category> = transaction {
         logger.info("Get Categories")
-        val categories = mutableListOf<Category>()
+        addLogger(StdOutSqlLogger)
 
-        transaction {
-            addLogger(StdOutSqlLogger)
-            val databaseCategories = Categories.selectAll().orderBy(Categories.name, SortOrder.ASC)
-
-            databaseCategories.forEach {
-                categories.add(Category(it[Categories.name], it[Categories.id]))
-            }
-        }
-        return categories
+        Categories.selectAll().orderBy(Categories.name, SortOrder.ASC)
+            .map { Category(it[Categories.name], it[Categories.id]) }
     }
 
     override fun addCategory(category: Category) = transaction {

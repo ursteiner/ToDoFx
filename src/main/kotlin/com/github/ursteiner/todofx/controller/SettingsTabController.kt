@@ -79,7 +79,7 @@ class SettingsTabController : CommonController() {
 
     @FXML
     fun onAddCategoryButtonClick() {
-        if (categoryTextField.text == "") {
+        if (categoryTextField.text.isBlank()) {
             return
         }
 
@@ -155,13 +155,9 @@ class SettingsTabController : CommonController() {
     }
 
     fun initCategories() {
-        categoriesObservable.clear()
-
         categories.clear()
         categories.addAll(getCategoryDatabase().getCategories())
-        categories.forEach {
-            categoriesObservable.add(it.name)
-        }
+        categoriesObservable.setAll(categories.map { it.name })
     }
 
     @FXML

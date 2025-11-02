@@ -68,8 +68,8 @@ class StatisticTabController : CommonController() {
     fun buildPieChartTasksPerCategory() {
         val categoriesObservable = FXCollections.observableArrayList<PieChart.Data>()
         val categories = getTaskDatabase().getTasksPerCategory()
-        categories.keys.forEach { key ->
-            categoriesObservable.add(PieChart.Data(key, categories[key]?.toDouble() ?: 0.0))
+        categories.keys.sorted().forEach { key ->
+            categoriesObservable.add(PieChart.Data(key, categories.getOrDefault(key, 0).toDouble()))
         }
 
         pieChartTasksPerCategory.data = categoriesObservable

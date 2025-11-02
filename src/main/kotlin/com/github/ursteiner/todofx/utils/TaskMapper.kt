@@ -5,35 +5,25 @@ import com.github.ursteiner.todofx.model.Task
 
 object TaskMapper {
 
-    fun mapFxTaskToTask(fxTask: FXTask): Task {
-        return Task(
+    fun mapFxTaskToTask(fxTask: FXTask): Task = Task(
             fxTask.getNameProperty(),
             fxTask.getDateProperty(),
             fxTask.getIdProperty(),
             fxTask.getIsDoneProperty(),
             fxTask.getResolvedDateProperty(),
             fxTask.getCategoryProperty()
-        )
-    }
+    )
 
-    fun mapTaskToFxTask(task: Task): FXTask {
-        return FXTask(
+    fun mapTaskToFxTask(task: Task): FXTask = FXTask(
             task.name,
             task.date,
             task.id,
             task.isDone,
             task.resolvedDate,
             task.category
-        )
-    }
+    )
 
-    fun mapTasksToFxTasks(tasks: MutableList<Task>): MutableList<FXTask> {
-        val fxTasks = mutableListOf<FXTask>()
+    fun mapTasksToFxTasks(tasks: List<Task>): List<FXTask> =
+        tasks.map { mapTaskToFxTask(it) }
 
-        tasks.forEach {
-            fxTasks.add(mapTaskToFxTask(it))
-        }
-
-        return fxTasks
-    }
 }

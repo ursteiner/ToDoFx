@@ -1,19 +1,14 @@
 package com.github.ursteiner.todofx.utils
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.GregorianCalendar
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 object DateUtils {
 
-    fun getYearMonth(beforeXMonths: Int): String {
-        val c: Calendar = GregorianCalendar()
-        c.setTime(Date())
-        val sdf = SimpleDateFormat("yyyy-MM")
-        c.add(Calendar.MONTH, -beforeXMonths)
+    private val YEAR_MONTH_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM")
 
-        return sdf.format(c.getTime())
+    fun getYearMonth(beforeXMonths: Int): String {
+        return LocalDate.now().minusMonths(beforeXMonths.toLong()).format(YEAR_MONTH_FORMATTER)
     }
 
 }
