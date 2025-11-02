@@ -167,34 +167,6 @@
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
-                <groupId>org.panteleyev</groupId>
-                <artifactId>jpackage-maven-plugin</artifactId>
-                <version>${jpackage.version}</version>
-                <executions>
-                    <execution>
-                        <id>package</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jpackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>com.github.ursteiner.todofx.ToDoFxApplicationKt</mainClass>
-                    <input>${project.build.directory}</input>
-                    <destination>${project.build.directory}/installer</destination>
-                    <name>ToDoFx</name>
-                    <mainJar>ToDoFx-${project.version}-shaded.jar</mainJar>
-                    <type>APP_IMAGE</type>
-                    <!-- Optional: -->
-                    <icon>src/main/resources/appIcon.ico</icon>
-                    <!-- <vendor>Your Company</vendor> -->
-                    <!-- <appVersion>${project.version}</appVersion> -->
-                    <!-- <win-menu>true</win-menu> -->
-                    <!-- <win-shortcut>true</win-shortcut> -->
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${mavenCompilerPlugin.version}</version>
@@ -272,6 +244,34 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>${jpackage.version}</version>
+                <executions>
+                    <execution>
+                        <id>package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.github.ursteiner.todofx.ToDoFxApplicationKt</mainClass>
+                    <input>${project.build.directory}</input>
+                    <destination>${project.build.directory}/installer</destination>
+                    <name>ToDoFx</name>
+                    <mainJar>ToDoFx-${project.version}-shaded.jar</mainJar>
+                    <type>APP_IMAGE</type>
+                    <!-- Optional: -->
+                    <icon>src/main/resources/appIcon.ico</icon>
+                    <!-- <vendor>Your Company</vendor> -->
+                    <!-- <appVersion>${project.version}</appVersion> -->
+                    <!-- <win-menu>true</win-menu> -->
+                    <!-- <win-shortcut>true</win-shortcut> -->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
