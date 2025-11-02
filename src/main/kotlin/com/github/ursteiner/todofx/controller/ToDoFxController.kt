@@ -2,6 +2,7 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.Tabs
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import javafx.application.HostServices
 import javafx.fxml.FXML
 import javafx.scene.control.TabPane
 import javafx.scene.layout.AnchorPane
@@ -15,6 +16,8 @@ class ToDoFxController : CommonController() {
     lateinit var exportTabPage: AnchorPane
     lateinit var tasksTabPage: AnchorPane
     lateinit var statisticsTabPage: AnchorPane
+
+    lateinit var hostServices: HostServices
 
     @FXML
     private lateinit var tabPane: TabPane
@@ -63,6 +66,7 @@ class ToDoFxController : CommonController() {
             }
 
             Tabs.SETTINGS.index -> {
+                settingsTabPageController.hostServices = hostServices
                 settingsTabPageController.initTranslations()
                 settingsTabPageController.initCategories()
             }

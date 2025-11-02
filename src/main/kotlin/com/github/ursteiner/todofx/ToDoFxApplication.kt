@@ -1,5 +1,6 @@
 package com.github.ursteiner.todofx
 
+import com.github.ursteiner.todofx.controller.ToDoFxController
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -18,6 +19,11 @@ class ToDoFxApplication : Application() {
             minHeight = 520.0
             show()
         }
+
+        //needed to open hyperlinks
+        //forwarded to toDoFxController and then to SettingsTabController
+        val toDoFxController: ToDoFxController = fxmlLoader.getController()
+        toDoFxController.hostServices = hostServices
     }
 }
 

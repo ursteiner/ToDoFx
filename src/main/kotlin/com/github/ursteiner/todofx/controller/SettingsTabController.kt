@@ -5,16 +5,13 @@ import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.view.FxUtils
+import javafx.application.HostServices
+import javafx.application.Platform
 import javafx.beans.property.ListProperty
 import javafx.beans.property.SimpleListProperty
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.scene.control.Alert
-import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
-import javafx.scene.control.ListView
-import javafx.scene.control.TextField
-import javafx.scene.control.TitledPane
+import javafx.scene.control.*
 import org.slf4j.LoggerFactory
 import java.net.URL
 import java.util.*
@@ -23,6 +20,7 @@ import java.util.*
 class SettingsTabController : CommonController() {
 
     private val logger = LoggerFactory.getLogger(SettingsTabController::class.java)
+    lateinit var hostServices: HostServices
 
     @FXML
     private lateinit var categoriesTitledPane: TitledPane
@@ -172,5 +170,12 @@ class SettingsTabController : CommonController() {
         initTranslations()
         //Change the language of the parent controller taking care of the tab names
         toDoFxController.initialize(null, null)
+    }
+
+    @FXML
+    fun openLink() {
+        Platform.runLater({
+            hostServices.showDocument("https://github.com/ursteiner/ToDoFx")
+        })
     }
 }
