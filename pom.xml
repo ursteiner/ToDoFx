@@ -23,7 +23,7 @@
         <h2.version>2.4.240</h2.version>
         <javafx.version>26-ea+13</javafx.version>
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
-        <junit.version>6.0.0</junit.version>
+        <junit.version>6.0.1</junit.version>
         <kotlin.version>2.2.21</kotlin.version>
         <kotlinMavenSerialization.version>2.2.20</kotlinMavenSerialization.version>
         <kotlinxJson.version>1.9.0</kotlinxJson.version>
