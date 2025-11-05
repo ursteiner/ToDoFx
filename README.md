@@ -9,6 +9,10 @@ All tasks are stored in an H2 database in your profile folder using JetBrains Ex
 ```
 tasks.mv.db
 ```
+Once there are some tasks per category in the database, a Naive Bayes Classification can be used to set the best matching category automatically.
+Simply click on the 💡 Button after a model based on existing tasks was created.
+<br>
+
 
 To start the ToDoFx app simply run the main method of <b>ToDoFxApplication</b>.
 

@@ -3,12 +3,14 @@ package com.github.ursteiner.todofx.controller
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.FXTask
+import com.github.ursteiner.todofx.service.NaiveBayesClassification
 import com.github.ursteiner.todofx.utils.TaskMapper
 import com.github.ursteiner.todofx.view.FxUtils
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.*
+import org.slf4j.LoggerFactory
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -82,6 +84,7 @@ class TasksTabController : CommonController() {
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private val isDoneTextIcon = "✔"
     private val tasks = mutableListOf<FXTask>()
+    private val taskClassification = NaiveBayesClassification()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()
@@ -97,6 +100,11 @@ class TasksTabController : CommonController() {
         updateCategoryComboBox.items.clear()
         updateCategoryComboBox.items.add(Category("", -1))
         updateCategoryComboBox.items.addAll(categories)
+
+        val model = getModelDatabase().getModel()
+        if(model != null){
+            taskClassification.importModel(model)
+        }
     }
 
     @Suppress("unused")
@@ -262,6 +270,22 @@ class TasksTabController : CommonController() {
         tableView.items = FXCollections.observableList(tasks)
         tableView.refresh()
         updateAmountOfTasksLabel()
+    }
+
+    @Suppress("unused")
+    @FXML
+    private fun onPredictCategory(){
+        if (taskNameInput.text.isEmpty()) {
+            showDialogMessage(
+                getTranslation(TranslationKeys.TASK),
+                getTranslation(TranslationKeys.FIRST_FILL_IN_A_DESCRIPTION)
+            )
+            return
+        }
+
+        val predictedCategoryName = taskClassification.predict(taskNameInput.text) ?: ""
+        val predicatedCategory = newCategoryComboBox.items.filter { it.name == predictedCategoryName }[0]
+        newCategoryComboBox.selectionModel.select(predicatedCategory)
     }
 
     fun updateAmountOfTasksLabel() {

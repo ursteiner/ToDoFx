@@ -26,14 +26,18 @@
 
             <GridPane maxWidth="Infinity">
                 <columnConstraints>
-                    <ColumnConstraints percentWidth="49"/>
+                    <ColumnConstraints percentWidth="18"/>
                     <ColumnConstraints percentWidth="2"/>
-                    <ColumnConstraints percentWidth="49"/>
+                    <ColumnConstraints percentWidth="54"/>
+                    <ColumnConstraints percentWidth="2"/>
+                    <ColumnConstraints percentWidth="34"/>
                 </columnConstraints>
 
-                <ComboBox fx:id="newCategoryComboBox" HBox.hgrow="ALWAYS" GridPane.columnIndex="0" maxWidth="Infinity"/>
+                <Button onAction="#onPredictCategory" text="💡" HBox.hgrow="ALWAYS"
+                        GridPane.columnIndex="0" maxWidth="Infinity"/>
+                <ComboBox fx:id="newCategoryComboBox" HBox.hgrow="ALWAYS" GridPane.columnIndex="2" maxWidth="Infinity"/>
                 <Button fx:id="addTaskButton" onAction="#onAddTaskButtonClick" text="Add task" HBox.hgrow="ALWAYS"
-                        GridPane.columnIndex="2" maxWidth="Infinity"/>
+                        GridPane.columnIndex="4" maxWidth="Infinity"/>
             </GridPane>
 
             <TitledPane fx:id="editTaskPane" collapsible="false" text="Edit task description:">
@@ -47,9 +51,9 @@
 
             <GridPane maxWidth="Infinity">
                 <columnConstraints>
-                    <ColumnConstraints percentWidth="49"/>
+                    <ColumnConstraints percentWidth="64"/>
                     <ColumnConstraints percentWidth="2"/>
-                    <ColumnConstraints percentWidth="49"/>
+                    <ColumnConstraints percentWidth="34"/>
                 </columnConstraints>
                 <ComboBox fx:id="updateCategoryComboBox" HBox.hgrow="ALWAYS" GridPane.columnIndex="0"
                           maxWidth="Infinity"/>

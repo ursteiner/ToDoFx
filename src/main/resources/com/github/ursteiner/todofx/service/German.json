@@ -38,5 +38,6 @@
   "CATEGORY_IS_ALREADY_AVAILABLE": "Kategorie ist schon vorhanden",
   "COULD_NOT_DELETE_CATEGORY": "Kategorie konnte nicht gelöscht werden",
   "CATEGORY_MIGHT_STILL_BE_IN_USE": "Kategorie ist vermutlich noch in Verwendung",
-  "COMPLETION_DATE": "Erledigungsdatum"
+  "COMPLETION_DATE": "Erledigungsdatum",
+  "GENERATE_NEW_CLASSIFICATION_MODEL" : "Generiere neues Klassifizierungsmodell"
 }

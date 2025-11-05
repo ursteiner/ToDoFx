@@ -4,6 +4,7 @@ import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Category
+import com.github.ursteiner.todofx.service.NaiveBayesClassification
 import com.github.ursteiner.todofx.view.FxUtils
 import javafx.application.HostServices
 import javafx.application.Platform
@@ -41,6 +42,9 @@ class SettingsTabController : CommonController() {
     private lateinit var deleteCategoryButton: Button
 
     @FXML
+    private lateinit var lastModelUpdate: Button
+
+    @FXML
     private lateinit var selectLanguageComboBox: ComboBox<String>
 
     private var listProperty: ListProperty<String> = SimpleListProperty()
@@ -63,6 +67,8 @@ class SettingsTabController : CommonController() {
         addCategoryButton.text = getTranslation(TranslationKeys.ADD_CATEGORY)
         updateCategoryButton.text = getTranslation(TranslationKeys.UPDATE)
         deleteCategoryButton.text = getTranslation(TranslationKeys.DELETE_CATEGORY)
+
+        updateModelLabel()
     }
 
     fun initComboBox() {
@@ -173,9 +179,26 @@ class SettingsTabController : CommonController() {
     }
 
     @FXML
+    fun onRecreateNaiveBayesModel() {
+        val tasks = getTaskDatabase().getTasks(null)
+        val taskClassification = NaiveBayesClassification()
+
+        tasks.forEach {
+            taskClassification.train(it.name, it.category ?: "")
+        }
+
+        getModelDatabase().updateModel(taskClassification.exportModel())
+        updateModelLabel()
+    }
+
+    @FXML
     fun openLink() {
-        Platform.runLater({
+        Platform.runLater {
             hostServices.showDocument("https://github.com/ursteiner/ToDoFx")
-        })
+        }
+    }
+
+    private fun updateModelLabel(){
+        lastModelUpdate.text = getTranslation(TranslationKeys.GENERATE_NEW_CLASSIFICATION_MODEL) + " (" + getModelDatabase().getModelDate()?.substring(0, 10) + ")"
     }
 }
