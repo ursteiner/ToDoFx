@@ -22,7 +22,7 @@ class NaiveBayesModelServiceImpl : NaiveBayesModelService {
         Database.connect(dbConnection.url, dbConnection.driver, dbConnection.user, dbConnection.password)
         transaction {
             addLogger(StdOutSqlLogger)
-            SchemaUtils.create(NaiveBaseModel)
+            SchemaUtils.create(NaiveBayesModel)
         }
     }
 
@@ -39,12 +39,12 @@ class NaiveBayesModelServiceImpl : NaiveBayesModelService {
 
     override fun getModelDate(): String? {
         logger.info("Get model creation date")
-        return getModelValue(NaiveBaseModel.creationDate)
+        return getModelValue(NaiveBayesModel.creationDate)
     }
 
     override fun getModel(): String? {
         logger.info("Get model")
-        return getModelValue(NaiveBaseModel.data)
+        return getModelValue(NaiveBayesModel.data)
     }
 
     private fun getModelValue(column: Column<String>): String? {
@@ -52,7 +52,7 @@ class NaiveBayesModelServiceImpl : NaiveBayesModelService {
 
         transaction {
             addLogger(StdOutSqlLogger)
-            val result = NaiveBaseModel.selectAll()
+            val result = NaiveBayesModel.selectAll()
 
             result.forEach {
                 columnValue = it[column]
@@ -66,8 +66,8 @@ class NaiveBayesModelServiceImpl : NaiveBayesModelService {
         logger.info("Update model")
 
         transaction {
-            NaiveBaseModel.deleteAll()
-            NaiveBaseModel.insert {
+            NaiveBayesModel.deleteAll()
+            NaiveBayesModel.insert {
                 it[data] = model
                 it[creationDate] = java.time.LocalDateTime.now().format(dateTimeFormat)
             }
