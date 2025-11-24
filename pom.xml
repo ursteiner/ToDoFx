@@ -34,7 +34,7 @@
         <testfx.version>4.0.18</testfx.version>
 
         <mavenCompilerPlugin.version>3.14.1</mavenCompilerPlugin.version>
-        <mavenPlugin.version>2.19.1</mavenPlugin.version>
+        <mavenPlugin.version>2.20.1</mavenPlugin.version>
         <surefire.version>3.5.4</surefire.version>
         <jacoco.version>0.8.14</jacoco.version>
         <jpackage.version>1.7.1</jpackage.version>
