@@ -45,3 +45,7 @@ dependency-reduced-pom.xml
 
 ### Log ###
 ToDoFx.log
+/.idea/dataSources/
+/.idea/data_source_mapping.xml
+/.idea/dataSources.local.xml
+/.idea/dataSources.xml

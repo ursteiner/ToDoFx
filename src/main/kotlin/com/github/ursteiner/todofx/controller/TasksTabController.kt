@@ -10,7 +10,6 @@ import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.*
-import org.slf4j.LoggerFactory
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -144,7 +143,7 @@ class TasksTabController : CommonController() {
         tasks.addAll(TaskMapper.mapTasksToFxTasks(foundTasks))
 
         tasks.filter { it.getIsDoneProperty() }
-            .map { it.setIsDoneIconProperty(isDoneTextIcon) }
+            .forEach { it.setIsDoneIconProperty(isDoneTextIcon) }
 
         tableView.items = FXCollections.observableList(tasks)
         tableView.refresh()
@@ -264,7 +263,7 @@ class TasksTabController : CommonController() {
         } else {
             tasks.addAll(TaskMapper.mapTasksToFxTasks(getTaskDatabase().getTasks()))
             tasks.filter { it.getIsDoneProperty() }
-                .map { it.setIsDoneIconProperty(isDoneTextIcon) }
+                .forEach { it.setIsDoneIconProperty(isDoneTextIcon) }
         }
 
         tableView.items = FXCollections.observableList(tasks)

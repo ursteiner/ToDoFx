@@ -1,6 +1,6 @@
 package com.github.ursteiner.todofx.constants
 
-enum class TranslationKeys() {
+enum class TranslationKeys {
     FIRST_SELECT_TASK_IN_TABLE,
     HIDE_DONE_TASKS,
     UPDATE,
