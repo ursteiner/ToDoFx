@@ -97,14 +97,13 @@ class TasksTabController : CommonController() {
 
     fun initializeDropDownsAndTranslations(){
         initTranslations()
+
         val categories = getCategoryDatabase().getCategories()
 
         initializeCategoryComboBox(newCategoryComboBox, categories)
         newCategoryComboBox.selectionModel.selectFirst()
 
         initializeCategoryComboBox(updateCategoryComboBox, categories)
-
-        initTranslations()
     }
 
     private fun initializeCategoryComboBox(comboBox: ComboBox<Category>, categories: List<Category>) {
