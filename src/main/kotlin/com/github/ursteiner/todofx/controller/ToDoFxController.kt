@@ -49,23 +49,23 @@ class ToDoFxController : CommonController() {
             return
         }
 
-        when (tabPane.selectionModel.selectedIndex) {
-            Tabs.TASKS.index -> {
-                tasksTabPageController.initialize(null, null)
+        when (currentTab) {
+            Tabs.TASKS -> {
+                tasksTabPageController.initializeDropDownsAndTranslations()
             }
 
-            Tabs.STATISTICS.index -> {
+            Tabs.STATISTICS -> {
                 statisticsTabPageController.initialize(null, null)
                 statisticsTabPageController.buildPieChartResolvedOpen()
                 statisticsTabPageController.buildBarChartTasksPerMonth()
                 statisticsTabPageController.buildPieChartTasksPerCategory()
             }
 
-            Tabs.EXPORT.index -> {
+            Tabs.EXPORT -> {
                 exportTabPageController.initialize(null, null)
             }
 
-            Tabs.SETTINGS.index -> {
+            Tabs.SETTINGS -> {
                 settingsTabPageController.hostServices = hostServices
                 settingsTabPageController.initTranslations()
                 settingsTabPageController.initCategories()

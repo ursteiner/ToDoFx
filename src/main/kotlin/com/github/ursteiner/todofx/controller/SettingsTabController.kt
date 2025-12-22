@@ -55,7 +55,7 @@ class SettingsTabController : CommonController() {
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()
-        initComboBox()
+        initLanguageComboBox()
 
         categoriesListView.itemsProperty().bind(listProperty)
         listProperty.set(categoriesObservable)
@@ -71,10 +71,11 @@ class SettingsTabController : CommonController() {
         updateModelLabel()
     }
 
-    fun initComboBox() {
-        selectLanguageComboBox.items.clear()
-        selectLanguageComboBox.items.add(AvailableLanguages.GERMAN.abbreviation)
-        selectLanguageComboBox.items.add(AvailableLanguages.ENGLISH.abbreviation)
+    fun initLanguageComboBox() {
+        selectLanguageComboBox.items.setAll(
+            AvailableLanguages.GERMAN.abbreviation,
+            AvailableLanguages.ENGLISH.abbreviation
+        )
         when (getSettingsDatabase().getSetting(AppSettings.LANGUAGE) ?: System.getProperty("user.language")) {
             AvailableLanguages.GERMAN.abbreviation -> selectLanguageComboBox.selectionModel.select(0)
             AvailableLanguages.ENGLISH.abbreviation -> selectLanguageComboBox.selectionModel.select(1)
@@ -199,6 +200,7 @@ class SettingsTabController : CommonController() {
     }
 
     private fun updateModelLabel(){
-        lastModelUpdate.text = getTranslation(TranslationKeys.GENERATE_NEW_CLASSIFICATION_MODEL) + " (" + getModelDatabase().getModelDate()?.substring(0, 10) + ")"
+        lastModelUpdate.text = getTranslation(TranslationKeys.GENERATE_NEW_CLASSIFICATION_MODEL) +
+                " (" + getModelDatabase().getModelDate()?.substring(0, 10) + ")"
     }
 }

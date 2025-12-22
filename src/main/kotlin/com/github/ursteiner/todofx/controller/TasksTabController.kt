@@ -86,24 +86,31 @@ class TasksTabController : CommonController() {
     private val taskClassification = NaiveBayesClassification()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        initTranslations()
         getTasksBasedOnFilters()
-
-        val categories = getCategoryDatabase().getCategories()
-
-        newCategoryComboBox.items.clear()
-        newCategoryComboBox.items.add(Category("", -1))
-        newCategoryComboBox.items.addAll(categories)
-        newCategoryComboBox.selectionModel.selectFirst()
-
-        updateCategoryComboBox.items.clear()
-        updateCategoryComboBox.items.add(Category("", -1))
-        updateCategoryComboBox.items.addAll(categories)
+        initializeDropDownsAndTranslations()
 
         val model = getModelDatabase().getModel()
         if(model != null){
             taskClassification.importModel(model)
         }
+    }
+
+    fun initializeDropDownsAndTranslations(){
+        initTranslations()
+        val categories = getCategoryDatabase().getCategories()
+
+        initializeCategoryComboBox(newCategoryComboBox, categories)
+        newCategoryComboBox.selectionModel.selectFirst()
+
+        initializeCategoryComboBox(updateCategoryComboBox, categories)
+
+        initTranslations()
+    }
+
+    private fun initializeCategoryComboBox(comboBox: ComboBox<Category>, categories: List<Category>) {
+        comboBox.items.clear()
+        comboBox.items.add(Category("", -1))
+        comboBox.items.addAll(categories)
     }
 
     @Suppress("unused")
@@ -283,7 +290,7 @@ class TasksTabController : CommonController() {
         }
 
         val predictedCategoryName = taskClassification.predict(taskNameInput.text) ?: ""
-        val predicatedCategory = newCategoryComboBox.items.filter { it.name == predictedCategoryName }[0]
+        val predicatedCategory = newCategoryComboBox.items.filter { it.name == predictedCategoryName }.firstOrNull()
         newCategoryComboBox.selectionModel.select(predicatedCategory)
     }
 
