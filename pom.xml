@@ -105,24 +105,20 @@
         <dependency>
             <groupId>org.jetbrains.exposed</groupId>
             <artifactId>exposed-core</artifactId>
-            <version>${exposed.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.exposed</groupId>
             <artifactId>exposed-jdbc</artifactId>
-            <version>${exposed.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-serialization-core-jvm</artifactId>
             <version>${kotlinxJson.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-serialization-json-jvm</artifactId>
             <version>${kotlinxJson.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -147,6 +143,7 @@
             <dependency>
                 <groupId>org.jetbrains.exposed</groupId>
                 <artifactId>exposed-core</artifactId>
+                <version>${exposed.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.jetbrains.kotlin</groupId>
@@ -157,6 +154,11 @@
                         <artifactId>kotlin-reflect</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.exposed</groupId>
+                <artifactId>exposed-jdbc</artifactId>
+                <version>${exposed.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
