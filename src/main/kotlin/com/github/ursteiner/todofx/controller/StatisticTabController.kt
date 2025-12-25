@@ -1,8 +1,10 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.utils.DateUtils
 import com.github.ursteiner.todofx.view.FxUtils
+import com.github.ursteiner.todofx.viewModel.TaskViewModel
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.chart.*
@@ -38,6 +40,7 @@ class StatisticTabController : CommonController() {
     @FXML
     private lateinit var xAxis: CategoryAxis
 
+    private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
     private val numberOfPreviousMonths = 12
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
@@ -52,11 +55,11 @@ class StatisticTabController : CommonController() {
         val pieChartData = FXCollections.observableArrayList(
             PieChart.Data(
                 getTranslation(TranslationKeys.OPEN_TASKS),
-                getTaskDatabase().getAmountOfOpenTasks().toDouble()
+                taskViewModel.getAmountOfOpenTasks()
             ),
             PieChart.Data(
                 getTranslation(TranslationKeys.RESOLVED_TASKS),
-                getTaskDatabase().getAmountOfResolvedTasks().toDouble()
+                taskViewModel.getAmountOfResolvedTasks()
             )
         )
         pieChartOpenResolved.data = pieChartData
@@ -67,7 +70,7 @@ class StatisticTabController : CommonController() {
 
     fun buildPieChartTasksPerCategory() {
         val categoriesObservable = FXCollections.observableArrayList<PieChart.Data>()
-        val categories = getTaskDatabase().getTasksPerCategory()
+        val categories = taskViewModel.getTasksPerCategory()
         categories.keys.sorted().forEach { key ->
             categoriesObservable.add(PieChart.Data(key, categories.getOrDefault(key, 0).toDouble()))
         }
@@ -87,8 +90,8 @@ class StatisticTabController : CommonController() {
         newTasksSeries.name = getTranslation(TranslationKeys.TASKS_CREATED)
         resolvedTasksSeries.name = getTranslation(TranslationKeys.TASKS_RESOLVED)
 
-        val newTasksPerMonth = getTaskDatabase().getTasksCreatedPerMonth(numberOfPreviousMonths)
-        val resolvedTasksPerMonth = getTaskDatabase().getTasksResolvedPerMonth(numberOfPreviousMonths)
+        val newTasksPerMonth = taskViewModel.getTasksCreatedPerMonth(numberOfPreviousMonths)
+        val resolvedTasksPerMonth = taskViewModel.getTasksResolvedPerMonth(numberOfPreviousMonths)
 
         //fix 0.5 steps in the y-axis
         yAxis.upperBound = ((newTasksPerMonth.maxByOrNull { it.value }?.value?.toDouble()) ?: 0.0) + 2.0

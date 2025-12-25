@@ -1,6 +1,8 @@
 package com.github.ursteiner.todofx
 
 import com.github.ursteiner.todofx.controller.ToDoFxController
+import com.github.ursteiner.todofx.database.DatabaseProvider
+import com.github.ursteiner.todofx.model.DbConnection
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -28,5 +30,7 @@ class ToDoFxApplication : Application() {
 }
 
 fun main() {
+    val dbConnection = DbConnection("jdbc:h2:file:~/tasks", "org.h2.Driver", "root", "")
+    DatabaseProvider.connect(dbConnection)
     Application.launch(ToDoFxApplication::class.java)
 }

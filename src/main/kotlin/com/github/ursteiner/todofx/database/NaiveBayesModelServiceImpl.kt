@@ -1,9 +1,7 @@
 package com.github.ursteiner.todofx.database
 
-import com.github.ursteiner.todofx.model.DbConnection
 import org.jetbrains.exposed.v1.core.Column
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
-import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.deleteAll
 import org.jetbrains.exposed.v1.jdbc.insert
@@ -17,9 +15,7 @@ class NaiveBayesModelServiceImpl : NaiveBayesModelService {
     private val logger = LoggerFactory.getLogger(NaiveBayesModelServiceImpl::class.java)
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-    private constructor(dbConnection: DbConnection) {
-        logger.info("Set database connection to ${dbConnection.url}")
-        Database.connect(dbConnection.url, dbConnection.driver, dbConnection.user, dbConnection.password)
+    private constructor() {
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(NaiveBayesModel)
@@ -31,9 +27,9 @@ class NaiveBayesModelServiceImpl : NaiveBayesModelService {
         @Volatile
         private var instance: NaiveBayesModelServiceImpl? = null
 
-        fun getInstance(dbConnection: DbConnection) =
+        fun getInstance() =
             instance ?: synchronized(this) {
-                instance ?: NaiveBayesModelServiceImpl(dbConnection).also { instance = it }
+                instance ?: NaiveBayesModelServiceImpl().also { instance = it }
             }
     }
 

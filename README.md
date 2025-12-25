@@ -4,8 +4,8 @@
 [![Java CI with Maven](https://github.com/ursteiner/ToDoFx/actions/workflows/maven.yml/badge.svg)](https://github.com/ursteiner/ToDoFx/actions/workflows/maven.yml)
 
 
-ToDoFx is a simple introductory project using Kotlin and JavaFX to manage your tasks!
-All tasks are stored in an H2 database in your profile folder using JetBrains Exposed.
+ToDoFx is a simple introductory project using **Kotlin** and **JavaFX** to manage your tasks!
+All tasks are stored in an **H2 database** in your profile folder using JetBrains **Exposed**.
 ```
 tasks.mv.db
 ```
@@ -38,14 +38,3 @@ To start the ToDoFx app simply run the main method of <b>ToDoFxApplication</b>.
         </td>
     </tr>
 </table>
-
-Check for dependency updates
-```
-.\mvnw versions:display-dependency-updates
-```
-
-Check for plugin updates
-```
-.\mvnw versions:display-plugin-updates
-```
-

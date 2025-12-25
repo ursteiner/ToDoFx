@@ -1,9 +1,7 @@
 package com.github.ursteiner.todofx.database
 
 import com.github.ursteiner.todofx.model.Category
-import com.github.ursteiner.todofx.model.DbConnection
 import org.jetbrains.exposed.v1.core.SortOrder
-import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
@@ -18,9 +16,7 @@ class CategoryDatabaseServiceImpl : CategoryDatabaseService {
 
     private val logger = LoggerFactory.getLogger(CategoryDatabaseServiceImpl::class.java)
 
-    private constructor(dbConnection: DbConnection) {
-        logger.info("Set database connection to ${dbConnection.url}")
-        Database.connect(dbConnection.url, dbConnection.driver, dbConnection.user, dbConnection.password)
+    private constructor() {
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Categories)
@@ -32,9 +28,9 @@ class CategoryDatabaseServiceImpl : CategoryDatabaseService {
         @Volatile
         private var instance: CategoryDatabaseServiceImpl? = null
 
-        fun getInstance(dbConnection: DbConnection) =
+        fun getInstance() =
             instance ?: synchronized(this) {
-                instance ?: CategoryDatabaseServiceImpl(dbConnection).also { instance = it }
+                instance ?: CategoryDatabaseServiceImpl().also { instance = it }
             }
     }
 

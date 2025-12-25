@@ -1,9 +1,11 @@
 package com.github.ursteiner.todofx.service.integration
 
+import com.github.ursteiner.todofx.database.DatabaseProvider
 import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.model.DbConnection
 import com.github.ursteiner.todofx.model.Task
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
@@ -12,8 +14,7 @@ import java.time.format.DateTimeFormatter
 
 class TaskDatabaseServiceImplTest {
     private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImplTest::class.java)
-    private val databaseConnection = DbConnection("jdbc:h2:mem:testTasks;DB_CLOSE_DELAY=-1;", "org.h2.Driver", "root", "")
-    private val testCandidate = TaskDatabaseServiceImpl.getInstance(databaseConnection)
+    private val testCandidate = TaskDatabaseServiceImpl.getInstance()
 
     @BeforeEach
     fun cleanupTestDatabase() {
@@ -144,5 +145,14 @@ class TaskDatabaseServiceImplTest {
         val databaseResult = testCandidate.getTasksCreatedPerMonth(1)
         assertEquals(1, databaseResult.size, "There should be one entry in the map")
         assertEquals(true, databaseResult.contains(currentYearMonth))
+    }
+
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun setupDatabaseConnection() {
+            val databaseTestConnection = DbConnection("jdbc:h2:mem:testTasks;DB_CLOSE_DELAY=-1;", "org.h2.Driver", "root", "")
+            DatabaseProvider.connect(databaseTestConnection)
+        }
     }
 }

@@ -2,7 +2,11 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import com.github.ursteiner.todofx.database.SettingsDatabaseServiceImpl
+import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.service.CsvExportServiceImpl
+import com.github.ursteiner.todofx.viewModel.SettingsViewModel
+import com.github.ursteiner.todofx.viewModel.TaskViewModel
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.TitledPane
@@ -23,8 +27,12 @@ class ExportTabController : CommonController() {
     @FXML
     private lateinit var exportButton: Button
 
+    private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
+    private var settingsModel: SettingsViewModel = SettingsViewModel(SettingsDatabaseServiceImpl.getInstance())
+
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()
+        settingsModel.loadSettings()
     }
 
     @FXML
@@ -36,7 +44,7 @@ class ExportTabController : CommonController() {
             extensionFilters.add(
                 FileChooser.ExtensionFilter("CSV", "*.csv"),
             )
-            val lastExportPath = getSettingsDatabase().getSetting(AppSettings.LAST_EXPORT_PATH)
+            val lastExportPath = settingsModel.getSetting(AppSettings.LAST_EXPORT_PATH)
             if(lastExportPath != null){
                 initialDirectory = File(lastExportPath)
             }
@@ -45,8 +53,8 @@ class ExportTabController : CommonController() {
         when (val file = fileChooser.showSaveDialog(exportPane.scene.window)) {
             null -> logger.info("CSV Exporter: no file selected")
             else -> {
-                CsvExportServiceImpl(file).exportTasks(getTaskDatabase().getTasks())
-                getSettingsDatabase().updateSetting(AppSettings.LAST_EXPORT_PATH, file.parent)
+                CsvExportServiceImpl(file).exportTasks(taskViewModel.getTaskList())
+                settingsModel.updateSetting(AppSettings.LAST_EXPORT_PATH, file.parent)
             }
         }
     }

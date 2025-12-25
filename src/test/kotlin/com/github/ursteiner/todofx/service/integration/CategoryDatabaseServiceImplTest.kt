@@ -1,17 +1,18 @@
 package com.github.ursteiner.todofx.service.integration
 
 import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
+import com.github.ursteiner.todofx.database.DatabaseProvider
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.DbConnection
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 
 class CategoryDatabaseServiceImplTest {
     private val logger = LoggerFactory.getLogger(CategoryDatabaseServiceImplTest::class.java)
-    private val databaseConnection = DbConnection("jdbc:h2:mem:testTasks;DB_CLOSE_DELAY=-1;", "org.h2.Driver", "root", "")
-    private val testCandidate = CategoryDatabaseServiceImpl.getInstance(databaseConnection)
+    private val testCandidate = CategoryDatabaseServiceImpl.getInstance()
 
     @BeforeEach
     fun cleanupTestDatabase() {
@@ -51,5 +52,14 @@ class CategoryDatabaseServiceImplTest {
         val deletedCategories = testCandidate.deleteCategory(testCategory.id)
 
         assertEquals(1, deletedCategories, "1 Category should have been deleted")
+    }
+
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun setupDatabaseConnection() {
+            val databaseTestConnection = DbConnection("jdbc:h2:mem:testTasks;DB_CLOSE_DELAY=-1;", "org.h2.Driver", "root", "")
+            DatabaseProvider.connect(databaseTestConnection)
+        }
     }
 }

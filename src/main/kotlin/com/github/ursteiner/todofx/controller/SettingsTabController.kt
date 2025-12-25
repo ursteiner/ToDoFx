@@ -3,14 +3,20 @@ package com.github.ursteiner.todofx.controller
 import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
+import com.github.ursteiner.todofx.database.NaiveBayesModelServiceImpl
+import com.github.ursteiner.todofx.database.SettingsDatabaseServiceImpl
+import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.service.NaiveBayesClassification
 import com.github.ursteiner.todofx.view.FxUtils
+import com.github.ursteiner.todofx.viewModel.CategoryViewModel
+import com.github.ursteiner.todofx.viewModel.ClassificationModelView
+import com.github.ursteiner.todofx.viewModel.SettingsViewModel
+import com.github.ursteiner.todofx.viewModel.TaskViewModel
 import javafx.application.HostServices
 import javafx.application.Platform
-import javafx.beans.property.ListProperty
 import javafx.beans.property.SimpleListProperty
-import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import org.slf4j.LoggerFactory
@@ -47,18 +53,19 @@ class SettingsTabController : CommonController() {
     @FXML
     private lateinit var selectLanguageComboBox: ComboBox<String>
 
-    private var listProperty: ListProperty<String> = SimpleListProperty()
-    private var categoriesObservable = FXCollections.observableArrayList<String>()
-    private val categories = mutableListOf<Category>()
-
     lateinit var toDoFxController: ToDoFxController
+    private var categoryViewModel: CategoryViewModel = CategoryViewModel(CategoryDatabaseServiceImpl.getInstance())
+    private var settingsViewModel: SettingsViewModel = SettingsViewModel(SettingsDatabaseServiceImpl.getInstance())
+    private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
+    private var classificationViewModel: ClassificationModelView = ClassificationModelView(NaiveBayesModelServiceImpl.getInstance())
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()
+        settingsViewModel.loadSettings()
         initLanguageComboBox()
 
-        categoriesListView.itemsProperty().bind(listProperty)
-        listProperty.set(categoriesObservable)
+        categoriesListView.itemsProperty().bind(SimpleListProperty(categoryViewModel.categoryNames))
+        categoryViewModel.loadCategories()
     }
 
     override fun initTranslations() {
@@ -76,7 +83,7 @@ class SettingsTabController : CommonController() {
             AvailableLanguages.GERMAN.abbreviation,
             AvailableLanguages.ENGLISH.abbreviation
         )
-        when (getSettingsDatabase().getSetting(AppSettings.LANGUAGE) ?: System.getProperty("user.language")) {
+        when (settingsViewModel.getSetting(AppSettings.LANGUAGE) ?: System.getProperty("user.language")) {
             AvailableLanguages.GERMAN.abbreviation -> selectLanguageComboBox.selectionModel.select(0)
             AvailableLanguages.ENGLISH.abbreviation -> selectLanguageComboBox.selectionModel.select(1)
         }
@@ -88,7 +95,7 @@ class SettingsTabController : CommonController() {
             return
         }
 
-        if (categories.any { it.name == categoryTextField.text }) {
+        if (categoryViewModel.categories.any { it.name == categoryTextField.text }) {
             FxUtils.createMessageDialog(
                 getTranslation(TranslationKeys.DUPLICATE_CATEGORY),
                 "${getTranslation(TranslationKeys.CATEGORY_IS_ALREADY_AVAILABLE)}: ${categoryTextField.text}"
@@ -96,10 +103,7 @@ class SettingsTabController : CommonController() {
             return
         }
 
-        categoriesObservable.add(categoryTextField.text)
-        getCategoryDatabase().addCategory(Category(categoryTextField.text, 0))
-        initCategories()
-        categoriesListView.refresh()
+        categoryViewModel.addCategory(Category(categoryTextField.text, 0))
         categoryTextField.text = ""
     }
 
@@ -120,13 +124,12 @@ class SettingsTabController : CommonController() {
             return
         }
 
-        categories.filter { it.name == selectedCategory }.forEach { category ->
+        categoryViewModel.categories.filter { it.name == selectedCategory }.forEach { category ->
             category.name = categoryTextField.text
-            getCategoryDatabase().updateCategory(category)
+            categoryViewModel.updateCategory(category)
         }
 
         categoryTextField.text = ""
-        initCategories()
     }
 
     @FXML
@@ -141,8 +144,7 @@ class SettingsTabController : CommonController() {
         }
 
         try {
-            categories.filter { it.name == selectedCategory }.forEach { getCategoryDatabase().deleteCategory(it.id) }
-            initCategories()
+            categoryViewModel.categories.filter { it.name == selectedCategory }.forEach { categoryViewModel.deleteCategory(it) }
         } catch (ex: Exception) {
             logger.error("Could not delete category ${ex.message}")
             FxUtils.createMessageDialog(
@@ -159,12 +161,6 @@ class SettingsTabController : CommonController() {
         categoriesListView.selectionModel.select(null)
     }
 
-    fun initCategories() {
-        categories.clear()
-        categories.addAll(getCategoryDatabase().getCategories())
-        categoriesObservable.setAll(categories.map { it.name })
-    }
-
     @FXML
     fun onLanguageSelectedComboBox() {
         val selectedLanguage = selectLanguageComboBox.selectionModel.selectedItem
@@ -173,7 +169,7 @@ class SettingsTabController : CommonController() {
             AvailableLanguages.GERMAN.abbreviation -> setLanguage(AvailableLanguages.GERMAN)
             AvailableLanguages.ENGLISH.abbreviation -> setLanguage(AvailableLanguages.ENGLISH)
         }
-        getSettingsDatabase().updateSetting(AppSettings.LANGUAGE, selectedLanguage)
+        settingsViewModel.updateSetting(AppSettings.LANGUAGE, selectedLanguage)
         initTranslations()
         //Change the language of the parent controller taking care of the tab names
         toDoFxController.initialize(null, null)
@@ -181,14 +177,14 @@ class SettingsTabController : CommonController() {
 
     @FXML
     fun onRecreateNaiveBayesModel() {
-        val tasks = getTaskDatabase().getTasks(null)
+        val tasks = taskViewModel.getTaskList()
         val taskClassification = NaiveBayesClassification()
 
         tasks.forEach {
             taskClassification.train(it.name, it.category ?: "")
         }
 
-        getModelDatabase().updateModel(taskClassification.exportModel())
+        classificationViewModel.updateClassificationModel(taskClassification.exportModel())
         updateModelLabel()
     }
 
@@ -201,6 +197,6 @@ class SettingsTabController : CommonController() {
 
     private fun updateModelLabel(){
         lastModelUpdate.text = getTranslation(TranslationKeys.GENERATE_NEW_CLASSIFICATION_MODEL) +
-                " (" + getModelDatabase().getModelDate()?.substring(0, 10) + ")"
+                " (" + classificationViewModel.getModelDate() + ")"
     }
 }

@@ -1,12 +1,15 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
+import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
+import com.github.ursteiner.todofx.database.NaiveBayesModelServiceImpl
+import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.FXTask
-import com.github.ursteiner.todofx.service.NaiveBayesClassification
-import com.github.ursteiner.todofx.utils.TaskMapper
 import com.github.ursteiner.todofx.view.FxUtils
-import javafx.collections.FXCollections
+import com.github.ursteiner.todofx.viewModel.CategoryViewModel
+import com.github.ursteiner.todofx.viewModel.ClassificationModelView
+import com.github.ursteiner.todofx.viewModel.TaskViewModel
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.*
@@ -81,29 +84,28 @@ class TasksTabController : CommonController() {
     private lateinit var numberOfTasks: Label
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-    private val isDoneTextIcon = "✔"
-    private val tasks = mutableListOf<FXTask>()
-    private val taskClassification = NaiveBayesClassification()
+
+    private val categoryViewModel = CategoryViewModel(CategoryDatabaseServiceImpl.getInstance())
+    private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
+    private var classificationViewModel: ClassificationModelView = ClassificationModelView(NaiveBayesModelServiceImpl.getInstance())
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
+        tableView.items = taskViewModel.tasks
+
         getTasksBasedOnFilters()
         initializeDropDownsAndTranslations()
-
-        val model = getModelDatabase().getModel()
-        if(model != null){
-            taskClassification.importModel(model)
-        }
+        classificationViewModel.loadClassificationModel()
     }
 
     fun initializeDropDownsAndTranslations(){
         initTranslations()
 
-        val categories = getCategoryDatabase().getCategories()
+        categoryViewModel.loadCategories()
 
-        initializeCategoryComboBox(newCategoryComboBox, categories)
+        initializeCategoryComboBox(newCategoryComboBox, categoryViewModel.categories)
         newCategoryComboBox.selectionModel.selectFirst()
 
-        initializeCategoryComboBox(updateCategoryComboBox, categories)
+        initializeCategoryComboBox(updateCategoryComboBox, categoryViewModel.categories)
     }
 
     private fun initializeCategoryComboBox(comboBox: ComboBox<Category>, categories: List<Category>) {
@@ -126,8 +128,7 @@ class TasksTabController : CommonController() {
         val selectedCategory = newCategoryComboBox.selectionModel.selectedItem
 
         val newTask = FXTask(taskNameInput.text, LocalDateTime.now().format(dateTimeFormat), -1, false, "", selectedCategory.name)
-        tasks.add(newTask)
-        getTaskDatabase().addTask(TaskMapper.mapFxTaskToTask(newTask), selectedCategory.id)
+        taskViewModel.addTask(newTask, selectedCategory.id)
         getTasksBasedOnFilters()
         taskNameInput.text = ""
         newCategoryComboBox.selectionModel.selectFirst()
@@ -144,15 +145,7 @@ class TasksTabController : CommonController() {
             return
         }
 
-        tasks.clear()
-        val foundTasks = getTaskDatabase().getSearchedTasks(("%${searchTextField.text}%".lowercase()))
-        tasks.addAll(TaskMapper.mapTasksToFxTasks(foundTasks))
-
-        tasks.filter { it.getIsDoneProperty() }
-            .forEach { it.setIsDoneIconProperty(isDoneTextIcon) }
-
-        tableView.items = FXCollections.observableList(tasks)
-        tableView.refresh()
+        taskViewModel.searchTasks(searchTextField.text)
         updateAmountOfTasksLabel()
     }
 
@@ -182,7 +175,7 @@ class TasksTabController : CommonController() {
         )
 
         if (dialogResult.isPresent && dialogResult.get() == ButtonType.OK) {
-            getTaskDatabase().deleteTask(selectedTask.getIdProperty())
+            taskViewModel.deleteTask(selectedTask)
 
             getTasksBasedOnFilters()
             setVisibilityUpdateTask(false)
@@ -204,7 +197,7 @@ class TasksTabController : CommonController() {
         }
 
         selectedTask.setIsDoneProperty(!selectedTask.getIsDoneProperty())
-        getTaskDatabase().updateTask(TaskMapper.mapFxTaskToTask(selectedTask))
+        taskViewModel.updateTask(selectedTask)
 
         if (hideDoneTasksCheckBox.isSelected) {
             setVisibilityUpdateTask(false)
@@ -226,10 +219,9 @@ class TasksTabController : CommonController() {
         selectedTask.setNameProperty(taskUpdateArea.text)
         selectedTask.setCategoryProperty(selectedCategory.name)
 
-        getTaskDatabase().updateTask(TaskMapper.mapFxTaskToTask(selectedTask), selectedCategory.id)
-
-        setVisibilityUpdateTask(false)
+        taskViewModel.updateTask(selectedTask, selectedCategory.id)
         tableView.refresh()
+        setVisibilityUpdateTask(false)
     }
 
     private fun setVisibilityUpdateTask(isVisible: Boolean) {
@@ -261,19 +253,14 @@ class TasksTabController : CommonController() {
 
     @FXML
     private fun getTasksBasedOnFilters() {
-        tasks.clear()
 
         if (hideDoneTasksCheckBox.isSelected) {
-            tasks.addAll(TaskMapper.mapTasksToFxTasks(getTaskDatabase().getOpenTasks()))
+            taskViewModel.loadOpenTasks()
             setVisibilityUpdateTask(false)
         } else {
-            tasks.addAll(TaskMapper.mapTasksToFxTasks(getTaskDatabase().getTasks()))
-            tasks.filter { it.getIsDoneProperty() }
-                .forEach { it.setIsDoneIconProperty(isDoneTextIcon) }
+            taskViewModel.loadTasks()
         }
 
-        tableView.items = FXCollections.observableList(tasks)
-        tableView.refresh()
         updateAmountOfTasksLabel()
     }
 
@@ -288,16 +275,13 @@ class TasksTabController : CommonController() {
             return
         }
 
-        val predictedCategoryName = taskClassification.predict(taskNameInput.text) ?: ""
-        val predicatedCategory = newCategoryComboBox.items.filter { it.name == predictedCategoryName }.firstOrNull()
+        val predictedCategoryName = classificationViewModel.predictCategory(taskNameInput.text) ?: ""
+        val predicatedCategory = newCategoryComboBox.items.firstOrNull { it.name == predictedCategoryName }
         newCategoryComboBox.selectionModel.select(predicatedCategory)
     }
 
     fun updateAmountOfTasksLabel() {
-        numberOfTasks.text = "${tasks.size}" +
-                " / " +
-                "${getTaskDatabase().getAmountOfOpenTasks() + getTaskDatabase().getAmountOfResolvedTasks()}" +
-                " ${getTranslation(TranslationKeys.TASKS)}"
+        numberOfTasks.text = taskViewModel.getTasksVisibleOfTotalText(getTranslation(TranslationKeys.TASKS))
     }
 
     fun showDialogMessageFirstSelectATask() {

@@ -68,7 +68,6 @@ class ToDoFxController : CommonController() {
             Tabs.SETTINGS -> {
                 settingsTabPageController.hostServices = hostServices
                 settingsTabPageController.initTranslations()
-                settingsTabPageController.initCategories()
             }
         }
 

@@ -1,10 +1,9 @@
 package com.github.ursteiner.todofx.database
 
 import com.github.ursteiner.todofx.constants.AppSettings
-import com.github.ursteiner.todofx.model.DbConnection
+import com.github.ursteiner.todofx.model.Setting
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.eq
-import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
@@ -15,12 +14,8 @@ import org.slf4j.LoggerFactory
 class SettingsDatabaseServiceImpl : SettingsDatabaseService {
 
     private val logger = LoggerFactory.getLogger(SettingsDatabaseServiceImpl::class.java)
-    //no other thread can make the cache invalid
-    private val cache = mutableMapOf<String, String?>()
 
-    private constructor(dbConnection: DbConnection) {
-        logger.info("Set database connection to ${dbConnection.url}")
-        Database.connect(dbConnection.url, dbConnection.driver, dbConnection.user, dbConnection.password)
+    private constructor() {
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(Settings)
@@ -32,33 +27,22 @@ class SettingsDatabaseServiceImpl : SettingsDatabaseService {
         @Volatile
         private var instance: SettingsDatabaseServiceImpl? = null
 
-        fun getInstance(dbConnection: DbConnection) =
+        fun getInstance() =
             instance ?: synchronized(this) {
-                instance ?: SettingsDatabaseServiceImpl(dbConnection).also { instance = it }
+                instance ?: SettingsDatabaseServiceImpl().also { instance = it }
             }
     }
 
-    override fun getSetting(setting: AppSettings): String? {
-        logger.info("get setting <${setting.key}>")
-        if(cache.contains(setting.key)) {
-            return cache[setting.key]
+    override fun getSettings(): List<Setting> = transaction {
+        logger.info("get settings")
+        addLogger(StdOutSqlLogger)
+
+        Settings.selectAll().map {
+            Setting(
+                it[Settings.key],
+                it[Settings.value]
+            )
         }
-
-        var resultValue: String? = null
-
-        transaction {
-            addLogger(StdOutSqlLogger)
-            val result = Settings.selectAll().where {
-                Settings.key eq setting.key
-            }
-
-            result.forEach {
-                resultValue = it[Settings.value]
-            }
-        }
-
-        cache[setting.key] = resultValue
-        return resultValue
     }
 
     private fun addSetting(setting: AppSettings, value: String) {
@@ -75,7 +59,6 @@ class SettingsDatabaseServiceImpl : SettingsDatabaseService {
 
     override fun updateSetting(setting: AppSettings, value: String) {
         logger.info("update setting ${setting.key} = $value")
-        cache[setting.key] = value
 
         var updated = 0
 
