@@ -1,10 +1,9 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
-import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.utils.DateUtils
 import com.github.ursteiner.todofx.view.FxUtils
-import com.github.ursteiner.todofx.viewModel.TaskViewModel
+import com.github.ursteiner.todofx.viewModel.ViewModelProvider
 import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.chart.*
@@ -40,7 +39,7 @@ class StatisticTabController : CommonController() {
     @FXML
     private lateinit var xAxis: CategoryAxis
 
-    private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
+    private val taskViewModel = ViewModelProvider.taskViewModel
     private val numberOfPreviousMonths = 12
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {

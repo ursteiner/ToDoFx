@@ -51,7 +51,7 @@ class ToDoFxController : CommonController() {
 
         when (currentTab) {
             Tabs.TASKS -> {
-                tasksTabPageController.initializeDropDownsAndTranslations()
+                tasksTabPageController.initTranslations()
             }
 
             Tabs.STATISTICS -> {

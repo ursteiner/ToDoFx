@@ -2,11 +2,8 @@ package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.constants.TranslationKeys
-import com.github.ursteiner.todofx.database.SettingsDatabaseServiceImpl
-import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.service.CsvExportServiceImpl
-import com.github.ursteiner.todofx.viewModel.SettingsViewModel
-import com.github.ursteiner.todofx.viewModel.TaskViewModel
+import com.github.ursteiner.todofx.viewModel.ViewModelProvider
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.TitledPane
@@ -27,12 +24,11 @@ class ExportTabController : CommonController() {
     @FXML
     private lateinit var exportButton: Button
 
-    private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
-    private var settingsModel: SettingsViewModel = SettingsViewModel(SettingsDatabaseServiceImpl.getInstance())
+    private val taskViewModel = ViewModelProvider.taskViewModel
+    private val settingsModel = ViewModelProvider.settingsViewModel
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()
-        settingsModel.loadSettings()
     }
 
     @FXML

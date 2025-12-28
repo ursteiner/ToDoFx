@@ -3,17 +3,10 @@ package com.github.ursteiner.todofx.controller
 import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
-import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
-import com.github.ursteiner.todofx.database.NaiveBayesModelServiceImpl
-import com.github.ursteiner.todofx.database.SettingsDatabaseServiceImpl
-import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.service.NaiveBayesClassification
 import com.github.ursteiner.todofx.view.FxUtils
-import com.github.ursteiner.todofx.viewModel.CategoryViewModel
-import com.github.ursteiner.todofx.viewModel.ClassificationViewModel
-import com.github.ursteiner.todofx.viewModel.SettingsViewModel
-import com.github.ursteiner.todofx.viewModel.TaskViewModel
+import com.github.ursteiner.todofx.viewModel.ViewModelProvider
 import javafx.application.HostServices
 import javafx.application.Platform
 import javafx.beans.property.SimpleListProperty
@@ -54,18 +47,16 @@ class SettingsTabController : CommonController() {
     private lateinit var selectLanguageComboBox: ComboBox<String>
 
     lateinit var toDoFxController: ToDoFxController
-    private var categoryViewModel: CategoryViewModel = CategoryViewModel(CategoryDatabaseServiceImpl.getInstance())
-    private var settingsViewModel: SettingsViewModel = SettingsViewModel(SettingsDatabaseServiceImpl.getInstance())
-    private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
-    private var classificationViewModel: ClassificationViewModel = ClassificationViewModel(NaiveBayesModelServiceImpl.getInstance())
+    private val categoryViewModel = ViewModelProvider.categoryViewModel
+    private val settingsViewModel = ViewModelProvider.settingsViewModel
+    private val taskViewModel = ViewModelProvider.taskViewModel
+    private val classificationViewModel = ViewModelProvider.classificationViewModel
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()
-        settingsViewModel.loadSettings()
         initLanguageComboBox()
 
         categoriesListView.itemsProperty().bind(SimpleListProperty(categoryViewModel.categoryNames))
-        categoryViewModel.loadCategories()
     }
 
     override fun initTranslations() {

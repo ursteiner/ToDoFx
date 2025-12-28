@@ -13,10 +13,14 @@ class TaskViewModel(
     private val isDoneTextIcon = "✔"
     val tasks: ObservableList<FXTask> = FXCollections.observableArrayList()
 
-    fun loadTasks() {
-        tasks.setAll(TaskMapper.mapTasksToFxTasks(taskDb.getTasks()))
+    private fun markDoneTasks(){
         tasks.filter { it.getIsDoneProperty() }
             .forEach { it.setIsDoneIconProperty(isDoneTextIcon) }
+    }
+
+    fun loadTasks() {
+        tasks.setAll(TaskMapper.mapTasksToFxTasks(taskDb.getTasks()))
+        markDoneTasks()
     }
 
     fun loadOpenTasks() {
@@ -43,6 +47,7 @@ class TaskViewModel(
 
     fun searchTasks(query: String) {
         tasks.setAll(taskDb.getSearchedTasks("%${query.lowercase()}%").map { TaskMapper.mapTaskToFxTask(it) })
+        markDoneTasks()
     }
 
     fun getTaskList(): MutableList<Task> {

@@ -1,15 +1,10 @@
 package com.github.ursteiner.todofx.controller
 
 import com.github.ursteiner.todofx.constants.TranslationKeys
-import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
-import com.github.ursteiner.todofx.database.NaiveBayesModelServiceImpl
-import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.FXTask
 import com.github.ursteiner.todofx.view.FxUtils
-import com.github.ursteiner.todofx.viewModel.CategoryViewModel
-import com.github.ursteiner.todofx.viewModel.ClassificationViewModel
-import com.github.ursteiner.todofx.viewModel.TaskViewModel
+import com.github.ursteiner.todofx.viewModel.ViewModelProvider
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.*
@@ -85,21 +80,19 @@ class TasksTabController : CommonController() {
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-    private val categoryViewModel = CategoryViewModel(CategoryDatabaseServiceImpl.getInstance())
-    private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
-    private var classificationViewModel: ClassificationViewModel = ClassificationViewModel(NaiveBayesModelServiceImpl.getInstance())
+    private val categoryViewModel = ViewModelProvider.categoryViewModel
+    private val taskViewModel = ViewModelProvider.taskViewModel
+    private val classificationViewModel = ViewModelProvider.classificationViewModel
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         tableView.items = taskViewModel.tasks
+        setVisibilityUpdateTask(false)
 
-        getTasksBasedOnFilters()
-        initializeDropDownsAndTranslations()
-        classificationViewModel.loadClassificationModel()
+        initTranslations()
+        initializeDropDowns()
     }
 
-    fun initializeDropDownsAndTranslations(){
-        initTranslations()
-
+    fun initializeDropDowns(){
         categoryViewModel.loadCategories()
 
         initializeCategoryComboBox(newCategoryComboBox, categoryViewModel.categories)
@@ -146,6 +139,7 @@ class TasksTabController : CommonController() {
         }
 
         taskViewModel.searchTasks(searchTextField.text)
+        hideDoneTasksCheckBox.isSelected = false
         updateAmountOfTasksLabel()
     }
 
@@ -153,6 +147,7 @@ class TasksTabController : CommonController() {
     @FXML
     private fun onClearSearchButton() {
         searchTextField.text = ""
+        hideDoneTasksCheckBox.isSelected = true
         getTasksBasedOnFilters()
     }
 
