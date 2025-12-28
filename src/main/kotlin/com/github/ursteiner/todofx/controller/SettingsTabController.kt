@@ -11,7 +11,7 @@ import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.service.NaiveBayesClassification
 import com.github.ursteiner.todofx.view.FxUtils
 import com.github.ursteiner.todofx.viewModel.CategoryViewModel
-import com.github.ursteiner.todofx.viewModel.ClassificationModelView
+import com.github.ursteiner.todofx.viewModel.ClassificationViewModel
 import com.github.ursteiner.todofx.viewModel.SettingsViewModel
 import com.github.ursteiner.todofx.viewModel.TaskViewModel
 import javafx.application.HostServices
@@ -57,7 +57,7 @@ class SettingsTabController : CommonController() {
     private var categoryViewModel: CategoryViewModel = CategoryViewModel(CategoryDatabaseServiceImpl.getInstance())
     private var settingsViewModel: SettingsViewModel = SettingsViewModel(SettingsDatabaseServiceImpl.getInstance())
     private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
-    private var classificationViewModel: ClassificationModelView = ClassificationModelView(NaiveBayesModelServiceImpl.getInstance())
+    private var classificationViewModel: ClassificationViewModel = ClassificationViewModel(NaiveBayesModelServiceImpl.getInstance())
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         initTranslations()

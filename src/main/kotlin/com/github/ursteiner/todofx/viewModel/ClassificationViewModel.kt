@@ -3,7 +3,7 @@ package com.github.ursteiner.todofx.viewModel
 import com.github.ursteiner.todofx.database.NaiveBayesModelService
 import com.github.ursteiner.todofx.service.NaiveBayesClassification
 
-class ClassificationModelView(
+class ClassificationViewModel(
     private val classificationDb: NaiveBayesModelService
 ) {
     val classification = NaiveBayesClassification()

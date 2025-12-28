@@ -8,7 +8,7 @@ import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.FXTask
 import com.github.ursteiner.todofx.view.FxUtils
 import com.github.ursteiner.todofx.viewModel.CategoryViewModel
-import com.github.ursteiner.todofx.viewModel.ClassificationModelView
+import com.github.ursteiner.todofx.viewModel.ClassificationViewModel
 import com.github.ursteiner.todofx.viewModel.TaskViewModel
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -87,7 +87,7 @@ class TasksTabController : CommonController() {
 
     private val categoryViewModel = CategoryViewModel(CategoryDatabaseServiceImpl.getInstance())
     private var taskViewModel: TaskViewModel = TaskViewModel(TaskDatabaseServiceImpl.getInstance())
-    private var classificationViewModel: ClassificationModelView = ClassificationModelView(NaiveBayesModelServiceImpl.getInstance())
+    private var classificationViewModel: ClassificationViewModel = ClassificationViewModel(NaiveBayesModelServiceImpl.getInstance())
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         tableView.items = taskViewModel.tasks
