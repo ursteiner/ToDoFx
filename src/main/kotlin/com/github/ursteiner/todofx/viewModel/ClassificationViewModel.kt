@@ -1,6 +1,7 @@
 package com.github.ursteiner.todofx.viewModel
 
 import com.github.ursteiner.todofx.database.NaiveBayesModelService
+import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.service.NaiveBayesClassification
 
 class ClassificationViewModel(
@@ -25,5 +26,15 @@ class ClassificationViewModel(
 
     fun getModelDate(): String? {
         return classificationDb.getModelDate()?.substring(0, 10)
+    }
+
+    fun trainNewModel(tasks: MutableList<Task>) {
+        val taskClassification = NaiveBayesClassification()
+
+        tasks.forEach {
+            taskClassification.train(it.name, it.category ?: "")
+        }
+
+        updateClassificationModel(taskClassification.exportModel())
     }
 }

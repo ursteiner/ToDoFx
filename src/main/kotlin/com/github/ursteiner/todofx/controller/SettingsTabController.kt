@@ -4,7 +4,6 @@ import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.constants.AvailableLanguages
 import com.github.ursteiner.todofx.constants.TranslationKeys
 import com.github.ursteiner.todofx.model.Category
-import com.github.ursteiner.todofx.service.NaiveBayesClassification
 import com.github.ursteiner.todofx.view.FxUtils
 import com.github.ursteiner.todofx.viewModel.ViewModelProvider
 import javafx.application.HostServices
@@ -149,7 +148,7 @@ class SettingsTabController : CommonController() {
     @FXML
     fun onClearSelectedCategoryButtonClick() {
         categoryTextField.text = ""
-        categoriesListView.selectionModel.select(null)
+        categoriesListView.selectionModel.clearSelection()
     }
 
     @FXML
@@ -168,14 +167,7 @@ class SettingsTabController : CommonController() {
 
     @FXML
     fun onRecreateNaiveBayesModel() {
-        val tasks = taskViewModel.getTaskList()
-        val taskClassification = NaiveBayesClassification()
-
-        tasks.forEach {
-            taskClassification.train(it.name, it.category ?: "")
-        }
-
-        classificationViewModel.updateClassificationModel(taskClassification.exportModel())
+        classificationViewModel.trainNewModel(taskViewModel.getTaskList())
         updateModelLabel()
     }
 
