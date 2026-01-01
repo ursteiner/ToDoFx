@@ -1,6 +1,6 @@
 package com.github.ursteiner.todofx.viewModel
 
-import com.github.ursteiner.todofx.database.CategoryDatabaseService
+import com.github.ursteiner.todofx.database.CategoryRepository
 import com.github.ursteiner.todofx.model.Category
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -11,12 +11,12 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 
 class CategoryViewModelTest {
-    private lateinit var categoryDb: CategoryDatabaseService
+    private lateinit var categoryDb: CategoryRepository
     private lateinit var viewModel: CategoryViewModel
 
     @BeforeEach
     fun setUp() {
-        categoryDb = mock(CategoryDatabaseService::class.java)
+        categoryDb = mock(CategoryRepository::class.java)
         viewModel = CategoryViewModel(categoryDb)
     }
 

@@ -1,12 +1,12 @@
 package com.github.ursteiner.todofx.viewModel
 
-import com.github.ursteiner.todofx.database.CategoryDatabaseService
+import com.github.ursteiner.todofx.database.CategoryRepository
 import com.github.ursteiner.todofx.model.Category
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 
 class CategoryViewModel(
-    private val categoryDb: CategoryDatabaseService
+    private val categoryDb: CategoryRepository
 ) {
 
     val categories: ObservableList<Category> = FXCollections.observableArrayList()

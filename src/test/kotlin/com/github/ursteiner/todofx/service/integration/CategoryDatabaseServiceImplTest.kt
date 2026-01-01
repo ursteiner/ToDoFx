@@ -1,6 +1,6 @@
 package com.github.ursteiner.todofx.service.integration
 
-import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
+import com.github.ursteiner.todofx.database.CategoryRepositoryImpl
 import com.github.ursteiner.todofx.database.DatabaseProvider
 import com.github.ursteiner.todofx.model.Category
 import com.github.ursteiner.todofx.model.DbConnection
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 
 class CategoryDatabaseServiceImplTest {
     private val logger = LoggerFactory.getLogger(CategoryDatabaseServiceImplTest::class.java)
-    private val testCandidate = CategoryDatabaseServiceImpl.getInstance()
+    private val testCandidate = CategoryRepositoryImpl()
 
     @BeforeEach
     fun cleanupTestDatabase() {

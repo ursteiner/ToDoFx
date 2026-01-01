@@ -1,22 +1,22 @@
 package com.github.ursteiner.todofx.viewModel
 
-import com.github.ursteiner.todofx.database.CategoryDatabaseServiceImpl
-import com.github.ursteiner.todofx.database.NaiveBayesModelServiceImpl
-import com.github.ursteiner.todofx.database.SettingsDatabaseServiceImpl
-import com.github.ursteiner.todofx.database.TaskDatabaseServiceImpl
+import com.github.ursteiner.todofx.database.CategoryRepositoryImpl
+import com.github.ursteiner.todofx.database.NaiveBayesRepositoryImpl
+import com.github.ursteiner.todofx.database.SettingsRepositoryImpl
+import com.github.ursteiner.todofx.database.TaskRepositoryImpl
 
 object ViewModelProvider {
     val taskViewModel by lazy {
-        TaskViewModel(TaskDatabaseServiceImpl.getInstance()).apply { loadOpenTasks() }
+        TaskViewModel(TaskRepositoryImpl()).apply { loadOpenTasks() }
     }
     val categoryViewModel by lazy {
-        CategoryViewModel(CategoryDatabaseServiceImpl.getInstance()).apply { loadCategories() }
+        CategoryViewModel(CategoryRepositoryImpl()).apply { loadCategories() }
     }
     val classificationViewModel by lazy {
-        ClassificationViewModel(NaiveBayesModelServiceImpl.getInstance()).apply { loadClassificationModel() }
+        ClassificationViewModel(NaiveBayesRepositoryImpl()).apply { loadClassificationModel() }
     }
     val settingsViewModel by lazy {
-        SettingsViewModel(SettingsDatabaseServiceImpl.getInstance()).apply { loadSettings() }
+        SettingsViewModel(SettingsRepositoryImpl()).apply { loadSettings() }
     }
 
 }

@@ -2,12 +2,12 @@ package com.github.ursteiner.todofx.viewModel
 
 import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.model.Setting
-import com.github.ursteiner.todofx.database.SettingsDatabaseService
+import com.github.ursteiner.todofx.database.SettingsRepository
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 
 class SettingsViewModel(
-    private val settingsDb: SettingsDatabaseService
+    private val settingsDb: SettingsRepository
 ) {
 
     val settings: ObservableList<Setting> = FXCollections.observableArrayList()

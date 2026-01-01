@@ -1,6 +1,6 @@
 package com.github.ursteiner.todofx.viewModel
 
-import com.github.ursteiner.todofx.database.TaskDatabaseService
+import com.github.ursteiner.todofx.database.TaskRepository
 import com.github.ursteiner.todofx.model.FXTask
 import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.utils.TaskMapper
@@ -8,7 +8,7 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 
 class TaskViewModel(
-    private val taskDb: TaskDatabaseService
+    private val taskDb: TaskRepository
 ) {
     private val isDoneTextIcon = "✔"
     val tasks: ObservableList<FXTask> = FXCollections.observableArrayList()
@@ -69,15 +69,15 @@ class TaskViewModel(
         return taskDb.getAmountOfResolvedTasks().toDouble()
     }
 
-    fun getTasksPerCategory(): MutableMap<String, Int> {
+    fun getTasksPerCategory(): Map<String, Int> {
         return taskDb.getTasksPerCategory()
     }
 
-    fun getTasksCreatedPerMonth(lastXMonths: Int): MutableMap<String, Int> {
+    fun getTasksCreatedPerMonth(lastXMonths: Int): Map<String, Int> {
         return taskDb.getTasksCreatedPerMonth(lastXMonths)
     }
 
-    fun getTasksResolvedPerMonth(lastXMonths: Int): MutableMap<String, Int> {
+    fun getTasksResolvedPerMonth(lastXMonths: Int): Map<String, Int> {
         return taskDb.getTasksResolvedPerMonth(lastXMonths)
     }
 }

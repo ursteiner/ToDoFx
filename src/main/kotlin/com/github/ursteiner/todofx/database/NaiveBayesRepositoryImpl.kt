@@ -1,7 +1,6 @@
 package com.github.ursteiner.todofx.database
 
 import org.jetbrains.exposed.v1.core.Column
-import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.deleteAll
 import org.jetbrains.exposed.v1.jdbc.insert
@@ -10,27 +9,15 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.slf4j.LoggerFactory
 import java.time.format.DateTimeFormatter
 
-class NaiveBayesModelServiceImpl : NaiveBayesModelService {
+class NaiveBayesRepositoryImpl : NaiveBayesRepository {
 
-    private val logger = LoggerFactory.getLogger(NaiveBayesModelServiceImpl::class.java)
+    private val logger = LoggerFactory.getLogger(NaiveBayesRepositoryImpl::class.java)
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-    private constructor() {
+    init {
         transaction {
-            addLogger(StdOutSqlLogger)
-            SchemaUtils.create(NaiveBayesModel)
+           SchemaUtils.create(NaiveBayesModel)
         }
-    }
-
-    companion object {
-
-        @Volatile
-        private var instance: NaiveBayesModelServiceImpl? = null
-
-        fun getInstance() =
-            instance ?: synchronized(this) {
-                instance ?: NaiveBayesModelServiceImpl().also { instance = it }
-            }
     }
 
     override fun getModelDate(): String? {
@@ -47,7 +34,6 @@ class NaiveBayesModelServiceImpl : NaiveBayesModelService {
         var columnValue: String? = null
 
         transaction {
-            addLogger(StdOutSqlLogger)
             val result = NaiveBayesModel.selectAll()
 
             result.forEach {

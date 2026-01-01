@@ -108,7 +108,7 @@ class StatisticTabController : CommonController() {
         addToolTipToSeries(resolvedTasksSeries)
     }
 
-    fun addDataToSeries(yearMonth: String, series: Series<String?, Int?>, tasksPerMonth: MutableMap<String, Int>) {
+    fun addDataToSeries(yearMonth: String, series: Series<String?, Int?>, tasksPerMonth: Map<String, Int>) {
         if (tasksPerMonth.containsKey(yearMonth)) {
             series.data.add(XYChart.Data<String?, Int?>(yearMonth, tasksPerMonth[yearMonth]))
         } else {

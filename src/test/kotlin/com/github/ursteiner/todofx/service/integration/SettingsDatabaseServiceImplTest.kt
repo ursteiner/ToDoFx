@@ -3,13 +3,13 @@ package com.github.ursteiner.todofx.service.integration
 import com.github.ursteiner.todofx.constants.AppSettings
 import com.github.ursteiner.todofx.database.DatabaseProvider
 import org.junit.jupiter.api.Assertions.*
-import com.github.ursteiner.todofx.database.SettingsDatabaseServiceImpl
+import com.github.ursteiner.todofx.database.SettingsRepositoryImpl
 import com.github.ursteiner.todofx.model.DbConnection
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 class SettingsDatabaseServiceImplTest {
-    private val testCandidate = SettingsDatabaseServiceImpl.getInstance()
+    private val testCandidate = SettingsRepositoryImpl()
 
     @Test
     fun testStoreAndRetrieveSetting(){

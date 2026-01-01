@@ -86,22 +86,23 @@ class TasksTabController : CommonController() {
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
         tableView.items = taskViewModel.tasks
-        setVisibilityUpdateTask(false)
+        setUpdateTaskVisibility(false)
 
         initTranslations()
-        initializeDropDowns()
+        initDropDowns()
+        updateAmountOfTasksLabel()
     }
 
-    fun initializeDropDowns(){
+    fun initDropDowns(){
         categoryViewModel.loadCategories()
 
-        initializeCategoryComboBox(newCategoryComboBox, categoryViewModel.categories)
+        initCategoryComboBox(newCategoryComboBox, categoryViewModel.categories)
         newCategoryComboBox.selectionModel.selectFirst()
 
-        initializeCategoryComboBox(updateCategoryComboBox, categoryViewModel.categories)
+        initCategoryComboBox(updateCategoryComboBox, categoryViewModel.categories)
     }
 
-    private fun initializeCategoryComboBox(comboBox: ComboBox<Category>, categories: List<Category>) {
+    private fun initCategoryComboBox(comboBox: ComboBox<Category>, categories: List<Category>) {
         comboBox.items.clear()
         comboBox.items.add(Category("", -1))
         comboBox.items.addAll(categories)
@@ -173,7 +174,7 @@ class TasksTabController : CommonController() {
             taskViewModel.deleteTask(selectedTask)
 
             getTasksBasedOnFilters()
-            setVisibilityUpdateTask(false)
+            setUpdateTaskVisibility(false)
         }
     }
 
@@ -195,7 +196,7 @@ class TasksTabController : CommonController() {
         taskViewModel.updateTask(selectedTask)
 
         if (hideDoneTasksCheckBox.isSelected) {
-            setVisibilityUpdateTask(false)
+            setUpdateTaskVisibility(false)
         }
 
         getTasksBasedOnFilters()
@@ -216,10 +217,10 @@ class TasksTabController : CommonController() {
 
         taskViewModel.updateTask(selectedTask, selectedCategory.id)
         tableView.refresh()
-        setVisibilityUpdateTask(false)
+        setUpdateTaskVisibility(false)
     }
 
-    private fun setVisibilityUpdateTask(isVisible: Boolean) {
+    private fun setUpdateTaskVisibility(isVisible: Boolean) {
         taskUpdateArea.isVisible = isVisible
         updateTaskButton.isVisible = isVisible
         editTaskPane.isVisible = isVisible
@@ -243,7 +244,7 @@ class TasksTabController : CommonController() {
             }
         }
 
-        setVisibilityUpdateTask(true)
+        setUpdateTaskVisibility(true)
     }
 
     @FXML
@@ -251,7 +252,7 @@ class TasksTabController : CommonController() {
 
         if (hideDoneTasksCheckBox.isSelected) {
             taskViewModel.loadOpenTasks()
-            setVisibilityUpdateTask(false)
+            setUpdateTaskVisibility(false)
         } else {
             taskViewModel.loadTasks()
         }

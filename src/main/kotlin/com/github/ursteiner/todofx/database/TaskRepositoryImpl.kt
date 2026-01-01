@@ -6,7 +6,6 @@ import org.jetbrains.exposed.v1.core.LowerCase
 import org.jetbrains.exposed.v1.core.Column
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.core.eq
-import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.count
 import org.jetbrains.exposed.v1.core.greaterEq
@@ -23,30 +22,17 @@ import org.jetbrains.exposed.v1.jdbc.update
 import org.slf4j.LoggerFactory
 
 
-class TaskDatabaseServiceImpl : TaskDatabaseService {
-    private val logger = LoggerFactory.getLogger(TaskDatabaseServiceImpl::class.java)
+class TaskRepositoryImpl : TaskRepository {
+    private val logger = LoggerFactory.getLogger(TaskRepositoryImpl::class.java)
 
-    private constructor() {
+    init {
         transaction {
-            addLogger(StdOutSqlLogger)
             SchemaUtils.create(Tasks)
         }
     }
 
-    companion object {
-
-        @Volatile
-        private var instance: TaskDatabaseServiceImpl? = null
-
-        fun getInstance() =
-            instance ?: synchronized(this) {
-                instance ?: TaskDatabaseServiceImpl().also { instance = it }
-            }
-    }
-
     override fun addTask(newTask: Task, categoryNumber: Int) = transaction {
         logger.info("Task added: ${newTask.name}")
-        addLogger(StdOutSqlLogger)
         val taskId = Tasks.insert {
             it[name] = newTask.name
             it[date] = newTask.date
@@ -60,20 +46,19 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         newTask.id = taskId
     }
 
-    override fun getResolvedTasks(): MutableList<Task> {
+    override fun getResolvedTasks(): List<Task> {
         return getTasks(true)
     }
 
-    override fun getOpenTasks(): MutableList<Task> {
+    override fun getOpenTasks(): List<Task> {
         return getTasks(false)
     }
 
-    override fun getTasks(resolved: Boolean?): MutableList<Task> {
+    override fun getTasks(resolved: Boolean?): List<Task> {
         logger.info("Get Tasks resolved: $resolved")
         val tasks = mutableListOf<Task>()
 
         transaction {
-            addLogger(StdOutSqlLogger)
             val databaseTasks = when (resolved) {
                 null -> (Tasks leftJoin Categories).selectAll()
                 else -> (Tasks leftJoin Categories).selectAll().where { Tasks.isDone eq resolved }
@@ -94,12 +79,11 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         return tasks
     }
 
-    override fun getSearchedTasks(search: String): MutableList<Task> {
+    override fun getSearchedTasks(search: String): List<Task> {
         logger.info("Search tasks: $search")
         val tasks = mutableListOf<Task>()
 
         transaction {
-            addLogger(StdOutSqlLogger)
             val databaseTasks = (Tasks leftJoin Categories).selectAll().where {
                 LowerCase(Tasks.name) like search or (LowerCase(Categories.name) like search)
             }
@@ -125,7 +109,6 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         var deletedTasks = 0
 
         transaction {
-            addLogger(StdOutSqlLogger)
             deletedTasks = Tasks.deleteWhere { Tasks.id eq taskId }
         }
         return deletedTasks
@@ -136,7 +119,6 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         var updatedTasks = 0
 
         transaction {
-            addLogger(StdOutSqlLogger)
             updatedTasks = Tasks.update({ Tasks.id eq task.id }) {
                 it[isDone] = task.isDone
                 it[name] = task.name
@@ -161,28 +143,26 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         logger.info("Get amount of Tasks (resolved = $resolved)")
         var amoundOfTasks: Long = 0
         transaction {
-            addLogger(StdOutSqlLogger)
             amoundOfTasks = Tasks.selectAll().where { Tasks.isDone eq resolved }.count()
         }
         return amoundOfTasks
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun getTasksCreatedPerMonth(lastXMonths: Int): MutableMap<String, Int> {
+    override fun getTasksCreatedPerMonth(lastXMonths: Int): Map<String, Int> {
         logger.info("Get Tasks created in the last $lastXMonths month.")
         return getTasksCreatedOrResolvedPerMonth(lastXMonths, Tasks.date as Column<String?>)
     }
 
-    override fun getTasksResolvedPerMonth(lastXMonths: Int): MutableMap<String, Int> {
+    override fun getTasksResolvedPerMonth(lastXMonths: Int): Map<String, Int> {
         logger.info("Get Tasks resolved in the last $lastXMonths month.")
         return getTasksCreatedOrResolvedPerMonth(lastXMonths, Tasks.resolvedDate)
     }
 
-    private fun getTasksCreatedOrResolvedPerMonth(lastXMonths: Int, dateField: Column<String?>): MutableMap<String, Int> {
+    private fun getTasksCreatedOrResolvedPerMonth(lastXMonths: Int, dateField: Column<String?>): Map<String, Int> {
         val resultMap = mutableMapOf<String, Int>()
 
         transaction {
-            addLogger(StdOutSqlLogger)
             val yearMonth = dateField.substring(0, 7)
             Tasks.select(yearMonth, yearMonth.count())
                 .groupBy(yearMonth)
@@ -195,12 +175,11 @@ class TaskDatabaseServiceImpl : TaskDatabaseService {
         return resultMap
     }
 
-    override fun getTasksPerCategory(): MutableMap<String, Int> {
+    override fun getTasksPerCategory(): Map<String, Int> {
         logger.info("Get Tasks per category.")
         val resultMap = mutableMapOf<String, Int>()
 
         transaction {
-            addLogger(StdOutSqlLogger)
             (Categories innerJoin Tasks).select(Categories.name, Categories.name.count())
                 .groupBy(Categories.name)
                 .forEach {

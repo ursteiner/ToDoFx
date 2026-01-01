@@ -1,7 +1,7 @@
 package com.github.ursteiner.todofx.service.integration
 
 import com.github.ursteiner.todofx.database.DatabaseProvider
-import com.github.ursteiner.todofx.database.NaiveBayesModelServiceImpl
+import com.github.ursteiner.todofx.database.NaiveBayesRepositoryImpl
 import com.github.ursteiner.todofx.model.DbConnection
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 class NaiveBayesModelServiceImplTest {
 
-    private val testCandidate = NaiveBayesModelServiceImpl.getInstance()
+    private val testCandidate = NaiveBayesRepositoryImpl()
 
     @Test
     fun shouldReturnNullWhenNoModelInDB() {

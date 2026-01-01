@@ -1,11 +1,11 @@
 package com.github.ursteiner.todofx.viewModel
 
-import com.github.ursteiner.todofx.database.NaiveBayesModelService
+import com.github.ursteiner.todofx.database.NaiveBayesRepository
 import com.github.ursteiner.todofx.model.Task
 import com.github.ursteiner.todofx.service.NaiveBayesClassification
 
 class ClassificationViewModel(
-    private val classificationDb: NaiveBayesModelService
+    private val classificationDb: NaiveBayesRepository
 ) {
     val classification = NaiveBayesClassification()
 

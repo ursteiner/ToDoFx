@@ -1,7 +1,7 @@
 package com.github.ursteiner.todofx.viewModel
 
 import com.github.ursteiner.todofx.constants.AppSettings
-import com.github.ursteiner.todofx.database.SettingsDatabaseService
+import com.github.ursteiner.todofx.database.SettingsRepository
 import com.github.ursteiner.todofx.model.Setting
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -13,12 +13,12 @@ import org.mockito.Mockito.`when`
 
 class SettingsViewModelTest {
 
-    private lateinit var settingsDb: SettingsDatabaseService
+    private lateinit var settingsDb: SettingsRepository
     private lateinit var viewModel: SettingsViewModel
 
     @BeforeEach
     fun setUp() {
-        settingsDb = mock(SettingsDatabaseService::class.java)
+        settingsDb = mock(SettingsRepository::class.java)
         viewModel = SettingsViewModel(settingsDb)
     }
 
