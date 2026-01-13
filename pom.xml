@@ -37,7 +37,7 @@
         <mavenPlugin.version>2.20.1</mavenPlugin.version>
         <surefire.version>3.5.4</surefire.version>
         <jacoco.version>0.8.14</jacoco.version>
-        <jpackage.version>1.7.1</jpackage.version>
+        <jpackage.version>1.7.3</jpackage.version>
 
         <javaVersion>23</javaVersion>
     </properties>
