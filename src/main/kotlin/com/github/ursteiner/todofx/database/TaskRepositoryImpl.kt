@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory
 
 class TaskRepositoryImpl : TaskRepository {
     private val logger = LoggerFactory.getLogger(TaskRepositoryImpl::class.java)
+    private val PERFORMANCE_LOG_PREFIX = "Performance: "
 
     init {
         transaction {
@@ -81,6 +82,7 @@ class TaskRepositoryImpl : TaskRepository {
 
     override fun getSearchedTasks(search: String): List<Task> {
         logger.info("Search tasks: $search")
+        val start = System.currentTimeMillis()
         val tasks = mutableListOf<Task>()
 
         transaction {
@@ -101,6 +103,7 @@ class TaskRepositoryImpl : TaskRepository {
                 )
             }
         }
+        logger.info("$PERFORMANCE_LOG_PREFIX Search took ${System.currentTimeMillis() - start} ms")
         return tasks
     }
 
