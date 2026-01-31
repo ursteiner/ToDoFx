@@ -7,6 +7,7 @@ import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.slf4j.LoggerFactory
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class NaiveBayesRepositoryImpl : NaiveBayesRepository {
@@ -51,7 +52,7 @@ class NaiveBayesRepositoryImpl : NaiveBayesRepository {
             NaiveBayesModel.deleteAll()
             NaiveBayesModel.insert {
                 it[data] = model
-                it[creationDate] = java.time.LocalDateTime.now().format(dateTimeFormat)
+                it[creationDate] = LocalDateTime.now().format(dateTimeFormat)
             }
         }
     }
