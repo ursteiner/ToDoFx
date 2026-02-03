@@ -34,7 +34,7 @@
         <testfx.openjfx.version>21.0.2</testfx.openjfx.version>
         <testfx.version>4.0.18</testfx.version>
 
-        <mavenCompilerPlugin.version>3.14.1</mavenCompilerPlugin.version>
+        <mavenCompilerPlugin.version>3.15.0</mavenCompilerPlugin.version>
         <mavenDependencyPlugin.version>3.9.0</mavenDependencyPlugin.version>
         <mavenPlugin.version>2.21.0</mavenPlugin.version>
         <surefire.version>3.5.4</surefire.version>
