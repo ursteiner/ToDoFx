@@ -19,7 +19,7 @@
             --add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED
         </argLine>
 
-        <annotations.version>26.0.2-1</annotations.version>
+        <annotations.version>26.1.0</annotations.version>
         <exposed.version>1.0.0</exposed.version>
         <hamcrest.version>2.1</hamcrest.version>
         <h2.version>2.4.240</h2.version>
