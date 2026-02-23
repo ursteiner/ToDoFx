@@ -37,7 +37,7 @@
         <mavenCompilerPlugin.version>3.15.0</mavenCompilerPlugin.version>
         <mavenDependencyPlugin.version>3.10.0</mavenDependencyPlugin.version>
         <mavenPlugin.version>2.21.0</mavenPlugin.version>
-        <surefire.version>3.5.4</surefire.version>
+        <surefire.version>3.5.5</surefire.version>
         <jacoco.version>0.8.14</jacoco.version>
         <jpackage.version>1.7.3</jpackage.version>
 
