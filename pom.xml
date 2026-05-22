@@ -24,7 +24,7 @@
         <h2.version>2.4.240</h2.version>
         <javafx.version>26.0.1</javafx.version>
         <javafxMavenPlugin.version>0.0.8</javafxMavenPlugin.version>
-        <junit.version>6.0.3</junit.version>
+        <junit.version>6.1.0</junit.version>
         <kotlin.version>2.3.20</kotlin.version>
         <kotlinxJson.version>1.11.0</kotlinxJson.version>
         <mockito.version>5.23.0</mockito.version>
