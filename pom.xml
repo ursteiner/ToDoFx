@@ -19,7 +19,7 @@
         </argLine>
 
         <annotations.version>26.1.0</annotations.version>
-        <exposed.version>1.4.0</exposed.version>
+        <exposed.version>1.5.0</exposed.version>
         <hamcrest.version>3.0</hamcrest.version>
         <h2.version>2.4.240</h2.version>
         <javafx.version>26.0.2</javafx.version>
@@ -35,6 +35,7 @@
         <testfx.version>4.0.18</testfx.version>
 
         <mavenCompilerPlugin.version>3.15.0</mavenCompilerPlugin.version>
+        <mavenAntrunPlugin.version>3.1.0</mavenAntrunPlugin.version>
         <mavenDependencyPlugin.version>3.11.0</mavenDependencyPlugin.version>
         <mavenPlugin.version>2.21.0</mavenPlugin.version>
         <surefire.version>3.5.6</surefire.version>
@@ -75,6 +76,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -270,6 +277,25 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${mavenAntrunPlugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>delete-existing-app-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete dir="${project.build.directory}/installer/ToDoFx" failonerror="false"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
                 <version>${jpackage.version}</version>
@@ -302,6 +328,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
+                    <useModulePath>false</useModulePath>
                     <systemPropertyVariables>
                         <testfx.robot>glass</testfx.robot>
                         <testfx.headless>true</testfx.headless>
