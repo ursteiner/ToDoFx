@@ -38,7 +38,7 @@
         <mavenAntrunPlugin.version>3.2.0</mavenAntrunPlugin.version>
         <mavenDependencyPlugin.version>3.11.0</mavenDependencyPlugin.version>
         <mavenPlugin.version>2.21.0</mavenPlugin.version>
-        <surefire.version>3.5.6</surefire.version>
+        <surefire.version>3.6.0</surefire.version>
         <jacoco.version>0.8.15</jacoco.version>
         <jpackage.version>1.8.0</jpackage.version>
 
