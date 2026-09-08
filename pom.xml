@@ -34,7 +34,7 @@
         <testfx.openjfx.version>21.0.2</testfx.openjfx.version>
         <testfx.version>4.0.18</testfx.version>
 
-        <mavenCompilerPlugin.version>3.15.0</mavenCompilerPlugin.version>
+        <mavenCompilerPlugin.version>3.16.0</mavenCompilerPlugin.version>
         <mavenAntrunPlugin.version>3.2.0</mavenAntrunPlugin.version>
         <mavenDependencyPlugin.version>3.11.0</mavenDependencyPlugin.version>
         <mavenPlugin.version>2.21.0</mavenPlugin.version>
