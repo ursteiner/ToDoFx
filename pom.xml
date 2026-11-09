@@ -316,7 +316,6 @@
                     <mainJar>ToDoFx-${project.version}-shaded.jar</mainJar>
                     <type>APP_IMAGE</type>
                     <!-- Optional: -->
-                    <icon>src/main/resources/appIcon.ico</icon>
                     <!-- <vendor>Your Company</vendor> -->
                     <!-- <appVersion>${project.version}</appVersion> -->
                     <!-- <win-menu>true</win-menu> -->
